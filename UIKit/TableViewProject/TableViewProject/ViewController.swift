@@ -17,8 +17,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = editButtonItem
         tableView = UITableView(frame: view.bounds, style: .insetGrouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MyCustomCell.self, forCellReuseIdentifier: "\(MyCustomCell.self)")
+
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -49,6 +50,11 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        return 45
+    }
 }
 
 extension ViewController: UITableViewDataSource {
@@ -57,10 +63,17 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//        cell.textLabel?.text = "\(indexPath.row + 1)"
-        cell.textLabel?.text = characters[indexPath.row]
-        cell.showsReorderControl = true
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+////        cell.textLabel?.text = "\(indexPath.row + 1)"
+//        cell.textLabel?.text = characters[indexPath.row]
+//        cell.showsReorderControl = true
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(MyCustomCell.self)", for: indexPath) as? MyCustomCell else {
+            fatalError()
+        }
+        
+        cell.configure(name: characters[indexPath.row])
+        
         return cell
     }
 }
