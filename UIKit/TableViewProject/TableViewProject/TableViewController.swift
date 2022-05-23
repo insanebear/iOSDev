@@ -14,17 +14,12 @@ class TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let tableView = view as? UITableView {
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        }
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped(_:)))
+        navigationItem.rightBarButtonItem = editButtonItem
     }
     
-    @objc func editButtonTapped(_ sender: UIBarButtonItem) {
-        let mode = tableView.isEditing
-        tableView.setEditing(!mode, animated: true)
-    }
+    // MARK: - Delegate
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let movedChar = characters.remove(at: sourceIndexPath.row)
@@ -34,6 +29,12 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
     }
+
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    // MARK: - DataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characters.count
