@@ -18,9 +18,14 @@ class EditorTableViewController: UITableViewController {
     
     var saveButton: UIBarButtonItem!
     
+    var isAddingNewEmoji = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        saveButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveData(_:)))
+        navigationItem.rightBarButtonItem = saveButton
         setupView() // using STATIC cells to represent forms
+        updateSaveButtonState()
     }
     
     init(emoji: Emoji?) {
@@ -36,9 +41,11 @@ class EditorTableViewController: UITableViewController {
         
         // TextField
         self.emojiTextField = UITextField()
+        self.emojiTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.emojiTextField.translatesAutoresizingMaskIntoConstraints = false
         
         self.descriptionTextField = UITextField()
+        self.descriptionTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.descriptionTextField.translatesAutoresizingMaskIntoConstraints = false
         
         // Cell for TextField
@@ -73,6 +80,32 @@ class EditorTableViewController: UITableViewController {
         ])
     }
     
+    func updateSaveButtonState() {
+        let emojiText = emojiTextField.text ?? ""
+        let descriptionText = emojiTextField.text ?? ""
+        saveButton.isEnabled = !emojiText.isEmpty && !descriptionText.isEmpty
+    }
+    
+    @objc func saveData(_ sender: UIBarButtonItem) {
+        print(Emoji.sampleEmojis)
+        if isAddingNewEmoji {
+            if let emojiText = emojiTextField.text,
+               let descriptionText = descriptionTextField.text {
+                
+                let newEmoji = Emoji(emoji: emojiText, description: descriptionText)
+                Emoji.sampleEmojis.append(newEmoji)
+            }
+        }
+        print(Emoji.sampleEmojis)
+        dismiss(animated: true) {
+            NotificationCenter.default.post(name: .didDismissEditorViewController, object: nil)
+        }
+    }
+    
+    @objc func textFieldDidChange(_ sender: UITextField) {
+        updateSaveButtonState()
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -104,4 +137,8 @@ class EditorTableViewController: UITableViewController {
             fatalError("Unknown section")
         }
     }
+}
+
+extension Notification.Name {
+    static let didDismissEditorViewController = Notification.Name("didDismissEditorViewController")
 }

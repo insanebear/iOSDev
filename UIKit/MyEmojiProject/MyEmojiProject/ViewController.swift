@@ -17,11 +17,15 @@ class ViewController: UITableViewController {
         
         // register a tableView cell
         tableView.register(MyEmojiCell.self, forCellReuseIdentifier: "\(MyEmojiCell.self)")
+        
+        // add an notification observer to recognize the editor dismissal
+        NotificationCenter.default.addObserver(self, selector: #selector(didDismissEditorViewController(_:)), name: .didDismissEditorViewController, object: nil)
     }
     
     @objc func addEmoji(_ sender: UIBarButtonItem) {
         let editorVC = EditorTableViewController(emoji: nil)
         editorVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelAdd(_:)))
+        editorVC.isAddingNewEmoji = true
         
         let navVC = UINavigationController(rootViewController: editorVC)
 
@@ -31,6 +35,12 @@ class ViewController: UITableViewController {
     
     @objc func didCancelAdd(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
+    }
+    
+    @objc func didDismissEditorViewController(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Delegate
