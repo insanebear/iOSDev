@@ -11,10 +11,26 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = editButtonItem
+        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmoji(_:)))
+        navigationItem.rightBarButtonItem = addButtonItem
+        navigationItem.leftBarButtonItem = editButtonItem
         
         // register a tableView cell
         tableView.register(MyEmojiCell.self, forCellReuseIdentifier: "\(MyEmojiCell.self)")
+    }
+    
+    @objc func addEmoji(_ sender: UIBarButtonItem) {
+        let editorVC = EditorTableViewController(emoji: nil)
+        editorVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelAdd(_:)))
+        
+        let navVC = UINavigationController(rootViewController: editorVC)
+
+        // present EditorTableViewController modally as a navigation view
+        present(navVC, animated: true)
+    }
+    
+    @objc func didCancelAdd(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
     }
 
     // MARK: - Delegate
@@ -25,7 +41,7 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
+        return .none
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
