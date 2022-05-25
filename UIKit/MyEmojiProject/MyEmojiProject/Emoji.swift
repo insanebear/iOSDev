@@ -7,9 +7,19 @@
 
 import Foundation
 
-struct Emoji {
+struct Emoji: Equatable, Identifiable {
+    var id: String = UUID().uuidString
     var emoji: String
     var description: String
+}
+
+extension Array where Element == Emoji {
+    func indexOfEmoji(with id: Emoji.ID) -> Self.Index {
+        guard let index = firstIndex(where: { $0.id == id }) else {
+            fatalError()
+        }
+        return index
+    }
 }
 
 extension Emoji {

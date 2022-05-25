@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Emoji List View Controller-->
         <scene sceneID="BDR-PY-lDE">
             <objects>
-                <tableViewController id="Kse-p8-cPF" customClass="ViewController" customModule="MyEmojiProject" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Kse-p8-cPF" customClass="EmojiListViewController" customModule="MyEmojiProject" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="o1s-zo-l4w">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

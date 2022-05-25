@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class EmojiListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +22,8 @@ class ViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didDismissEditorViewController(_:)), name: .didDismissEditorViewController, object: nil)
     }
     
-    @objc func addEmoji(_ sender: UIBarButtonItem) {
-        let editorVC = EditorTableViewController(emoji: nil)
-        editorVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelAdd(_:)))
-        editorVC.isAddingNewEmoji = true
+    func showEditor(emoji: Emoji?) {
+        let editorVC = EditorTableViewController(emoji: emoji)
         
         let navVC = UINavigationController(rootViewController: editorVC)
 
@@ -33,8 +31,8 @@ class ViewController: UITableViewController {
         present(navVC, animated: true)
     }
     
-    @objc func didCancelAdd(_ sender: UIBarButtonItem) {
-        dismiss(animated: true)
+    @objc func addEmoji(_ sender: UIBarButtonItem) {
+        showEditor(emoji: nil)
     }
     
     @objc func didDismissEditorViewController(_ notification: Notification) {
@@ -85,6 +83,10 @@ class ViewController: UITableViewController {
         
         return cell
     }
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedEmoji = Emoji.sampleEmojis[indexPath.row]
+        showEditor(emoji: selectedEmoji)
+    }
 }
 

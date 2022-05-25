@@ -16,25 +16,34 @@ class EditorTableViewController: UITableViewController {
     var descriptionCell: UITableViewCell!
     var descriptionTextField: UITextField!
     
-    var saveButton: UIBarButtonItem!
-    
-    var isAddingNewEmoji = false
+    var doneButton: UIBarButtonItem!
+    var cancelButton: UIBarButtonItem!
+
+    private var isAddingNewEmoji = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        saveButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveData(_:)))
-        navigationItem.rightBarButtonItem = saveButton
+        doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didDoneTapped(_:)))
+        cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelTapped(_:)))
+        
+        navigationItem.rightBarButtonItem = doneButton
+        navigationItem.leftBarButtonItem = cancelButton
         setupView() // using STATIC cells to represent forms
         updateSaveButtonState()
     }
     
     init(emoji: Emoji?) {
         self.emoji = emoji
+        self.isAddingNewEmoji = emoji == nil ? true : false
         super.init(style: .grouped)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didCancelTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
     }
     
     func setupView() {
@@ -83,20 +92,29 @@ class EditorTableViewController: UITableViewController {
     func updateSaveButtonState() {
         let emojiText = emojiTextField.text ?? ""
         let descriptionText = emojiTextField.text ?? ""
-        saveButton.isEnabled = !emojiText.isEmpty && !descriptionText.isEmpty
+        doneButton.isEnabled = !emojiText.isEmpty && !descriptionText.isEmpty
     }
     
-    @objc func saveData(_ sender: UIBarButtonItem) {
-        print(Emoji.sampleEmojis)
-        if isAddingNewEmoji {
-            if let emojiText = emojiTextField.text,
-               let descriptionText = descriptionTextField.text {
-                
+    @objc func didDoneTapped(_ sender: UIBarButtonItem) {
+        if let emojiText = emojiTextField.text,
+           let descriptionText = descriptionTextField.text {
+            
+            if isAddingNewEmoji {
                 let newEmoji = Emoji(emoji: emojiText, description: descriptionText)
                 Emoji.sampleEmojis.append(newEmoji)
+            } else {
+                guard var emoji = emoji else {
+                    return
+                }
+
+                emoji.emoji = emojiText
+                emoji.description = descriptionText
+                
+                let index = Emoji.sampleEmojis.indexOfEmoji(with: emoji.id)
+                Emoji.sampleEmojis[index] = emoji
             }
         }
-        print(Emoji.sampleEmojis)
+
         dismiss(animated: true) {
             NotificationCenter.default.post(name: .didDismissEditorViewController, object: nil)
         }
