@@ -63,7 +63,9 @@ class ViewController: UIViewController {
     private func generateFlowLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: view.frame.width, height: view.frame.height/5)
+        layout.itemSize = CGSize(width: view.frame.width/3-2, height: view.frame.height/5)
+        layout.minimumLineSpacing = 2
+        layout.minimumInteritemSpacing = 1
         
         return layout
     }
