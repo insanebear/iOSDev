@@ -13,9 +13,18 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     
     var dataSource: DataSource!
     
-    enum Section: String {
+    static let headerElementKind = "header-element-kind"
+    
+    enum Section: Int {
         case first
         case second
+        
+        var name: String {
+            switch self {
+            case .first: return "First section"
+            case .second: return "Second section"
+            }
+        }
     }
 
     init() {
@@ -29,18 +38,15 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Register cell classes
-        self.collectionView!.register(TextCell.self, forCellWithReuseIdentifier: "\(TextCell.self)")
-        
         // Configure data source
         configureDatasource()
         
         // Update initial snapshot
         updateSnapshot()
-
+        
         // Set data source as collection view's data source
         collectionView.dataSource = self.dataSource
-
+        
     }
     
     static func generateCompositionalLayout() -> UICollectionViewLayout {
@@ -55,24 +61,45 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        // Keeping space for section header in layout
+        let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize, elementKind: CompositionalLayoutCollectionViewController.headerElementKind, alignment: .top)
+        section.boundarySupplementaryItems = [titleSupplementary]
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-
+    
     // MARK: DataSource
     
     func configureDatasource() {
+        // Register cell classes
+        self.collectionView.register(TextCell.self, forCellWithReuseIdentifier: "\(TextCell.self)")
+
         // Set diffable data source
         dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
                 fatalError()
             }
-
+            
             // Configure the cell (set value)
             cell.configure(item: itemIdentifier)
-
+            
             return cell
         })
+        
+        // Register supplementary header
+        let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderReusableView> (elementKind: CompositionalLayoutCollectionViewController.headerElementKind) {(supplementaryView, string, indexPath) in
+            
+            supplementaryView.label.text = "\(String(describing: Section(rawValue: indexPath.section)?.name ?? ""))"
+            supplementaryView.backgroundColor = .lightGray
+            supplementaryView.layer.borderColor = UIColor.black.cgColor
+            supplementaryView.layer.borderWidth = 1.0
+        }
+        
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+        }
     }
     
     func updateSnapshot() {
@@ -83,13 +110,12 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
         
         dataSource.apply(snapshot, animatingDifferences: false) // apply snapshot to data source
     }
-
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return 100
