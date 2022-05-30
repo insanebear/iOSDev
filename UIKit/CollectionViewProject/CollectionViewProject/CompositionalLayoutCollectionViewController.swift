@@ -32,25 +32,11 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
         // Register cell classes
         self.collectionView!.register(TextCell.self, forCellWithReuseIdentifier: "\(TextCell.self)")
         
-        // Set diffable data source
-        dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
-                fatalError()
-            }
-
-            // Configure the cell (set value)
-            cell.configure(item: itemIdentifier)
-
-            return cell
-        })
+        // Configure data source
+        configureDatasource()
         
         // Update initial snapshot
-        var snapshot = Snapshot()
-        snapshot.appendSections([Section.first, Section.second])
-        snapshot.appendItems(Array(0..<31), toSection: Section.first)
-        snapshot.appendItems(Array(31..<61), toSection: Section.second)
-        
-        dataSource.apply(snapshot, animatingDifferences: false) // apply snapshot to data source
+        updateSnapshot()
 
         // Set data source as collection view's data source
         collectionView.dataSource = self.dataSource
@@ -74,6 +60,29 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     }
 
     // MARK: DataSource
+    
+    func configureDatasource() {
+        // Set diffable data source
+        dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
+                fatalError()
+            }
+
+            // Configure the cell (set value)
+            cell.configure(item: itemIdentifier)
+
+            return cell
+        })
+    }
+    
+    func updateSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([Section.first, Section.second])
+        snapshot.appendItems(Array(0..<31), toSection: Section.first)
+        snapshot.appendItems(Array(31..<61), toSection: Section.second)
+        
+        dataSource.apply(snapshot, animatingDifferences: false) // apply snapshot to data source
+    }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
