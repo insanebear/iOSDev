@@ -53,8 +53,7 @@ class ViewController: UIViewController {
         navVC.pushViewController(vc, animated: true)
     }
     @objc private func showCompositionalLayoutCollectionView(_ sender: UIButton) {
-        let layout = generateCompositionalLayout()
-        let vc = CompositionalLayoutCollectionViewController(collectionViewLayout: layout)
+        let vc = CompositionalLayoutCollectionViewController()
         guard let navVC = navigationController else {
             fatalError("No navigation vc")
         }
@@ -70,22 +69,5 @@ class ViewController: UIViewController {
         
         return layout
     }
-    
-    private func generateCompositionalLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.2),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(0.2))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }
-    
 }
 
