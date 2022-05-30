@@ -17,6 +17,10 @@ class TextCell: UICollectionViewCell {
         label.textColor = .black
         label.sizeToFit()
         label.textAlignment = .center
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 1
+        self.backgroundColor = .systemGreen
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(label)
         
@@ -31,5 +35,8 @@ class TextCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    func configure(item: Int) {
+        label.text = "\(item)"
+    }
 }

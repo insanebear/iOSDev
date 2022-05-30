@@ -8,6 +8,15 @@
 import UIKit
 
 class CompositionalLayoutCollectionViewController: UICollectionViewController {
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, Int>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Int>
+    
+    var dataSource: DataSource!
+    
+    enum Section: String {
+        case first
+        case second
+    }
 
     init() {
         super.init(collectionViewLayout: CompositionalLayoutCollectionViewController.generateCompositionalLayout())
@@ -22,6 +31,29 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
         
         // Register cell classes
         self.collectionView!.register(TextCell.self, forCellWithReuseIdentifier: "\(TextCell.self)")
+        
+        // Set diffable data source
+        dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
+                fatalError()
+            }
+
+            // Configure the cell (set value)
+            cell.configure(item: itemIdentifier)
+
+            return cell
+        })
+        
+        // Update initial snapshot
+        var snapshot = Snapshot()
+        snapshot.appendSections([Section.first, Section.second])
+        snapshot.appendItems(Array(0..<31), toSection: Section.first)
+        snapshot.appendItems(Array(31..<61), toSection: Section.second)
+        
+        dataSource.apply(snapshot, animatingDifferences: false) // apply snapshot to data source
+
+        // Set data source as collection view's data source
+        collectionView.dataSource = self.dataSource
 
     }
     
@@ -52,19 +84,5 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return 100
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
-            fatalError()
-        }
-
-        // Configure the cell
-        cell.label.text = "\(indexPath.row+1)"
-        cell.backgroundColor = .systemGreen
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 1
-
-        return cell
     }
 }
