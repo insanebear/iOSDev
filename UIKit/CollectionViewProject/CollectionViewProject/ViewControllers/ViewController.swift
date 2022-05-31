@@ -26,8 +26,17 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private lazy var button3: UIButton = {
+        let button = UIButton()
+        button.setTitle("Song list", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action: #selector(showSongListCollectionView(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [button1, button2])
+        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,6 +61,7 @@ class ViewController: UIViewController {
         }
         navVC.pushViewController(vc, animated: true)
     }
+    
     @objc private func showCompositionalLayoutCollectionView(_ sender: UIButton) {
         let vc = CompositionalLayoutCollectionViewController()
         guard let navVC = navigationController else {
@@ -60,6 +70,14 @@ class ViewController: UIViewController {
         navVC.pushViewController(vc, animated: true)
     }
     
+    @objc private func showSongListCollectionView(_ sender: UIButton) {
+        let vc = SongListViewController()
+        guard let navVC = navigationController else {
+            fatalError("No navigation vc")
+        }
+        navVC.pushViewController(vc, animated: true)
+    }
+
     private func generateFlowLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
