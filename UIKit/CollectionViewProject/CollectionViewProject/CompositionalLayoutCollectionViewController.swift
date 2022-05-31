@@ -14,7 +14,8 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     var dataSource: DataSource!
     
     static let headerElementKind = "header-element-kind"
-    
+    static let footerElementKind = "footer-element-kind"
+
     enum Section: Int {
         case first
         case second
@@ -61,10 +62,12 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        // Keeping space for section header in layout
-        let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
-        let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize, elementKind: CompositionalLayoutCollectionViewController.headerElementKind, alignment: .top)
-        section.boundarySupplementaryItems = [titleSupplementary]
+        // Keeping space for section header footer in layout
+        let supplementarySize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let headerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: CompositionalLayoutCollectionViewController.headerElementKind, alignment: .top)
+        let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: CompositionalLayoutCollectionViewController.footerElementKind, alignment: .bottom)
+
+        section.boundarySupplementaryItems = [headerSupplementary, footerSupplementary]
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -75,7 +78,20 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
     func configureDatasource() {
         // Register cell classes
         self.collectionView.register(TextCell.self, forCellWithReuseIdentifier: "\(TextCell.self)")
-
+        
+        // Register supplementary header
+        let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderReusableView> (elementKind: CompositionalLayoutCollectionViewController.headerElementKind) {(supplementaryView, string, indexPath) in
+            
+            supplementaryView.label.text = "\(String(describing: Section(rawValue: indexPath.section)?.name ?? ""))"
+            supplementaryView.backgroundColor = .lightGray
+            supplementaryView.layer.borderColor = UIColor.black.cgColor
+            supplementaryView.layer.borderWidth = 1.0
+        }
+        
+        let footerRegistration = UICollectionView.SupplementaryRegistration<FooterReusableView> (elementKind: CompositionalLayoutCollectionViewController.footerElementKind) { supplementaryView,elementKind,indexPath in
+            
+        }
+        
         // Set diffable data source
         dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TextCell.self)", for: indexPath) as? TextCell else {
@@ -88,17 +104,11 @@ class CompositionalLayoutCollectionViewController: UICollectionViewController {
             return cell
         })
         
-        // Register supplementary header
-        let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderReusableView> (elementKind: CompositionalLayoutCollectionViewController.headerElementKind) {(supplementaryView, string, indexPath) in
-            
-            supplementaryView.label.text = "\(String(describing: Section(rawValue: indexPath.section)?.name ?? ""))"
-            supplementaryView.backgroundColor = .lightGray
-            supplementaryView.layer.borderColor = UIColor.black.cgColor
-            supplementaryView.layer.borderWidth = 1.0
-        }
-        
         dataSource.supplementaryViewProvider = { (view, kind, index) in
-            return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            if kind == CompositionalLayoutCollectionViewController.headerElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            }
+            return self.collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: index)
         }
     }
     
