@@ -47,6 +47,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B915D3628459CD300FE46E1 /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				7B915D302843810100FE46E1 /* TextCell.swift */,
+				7B915D322845078300FE46E1 /* HeaderReusableView.swift */,
+				7B915D34284583BF00FE46E1 /* FooterReusableView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		7B915D3728459CE600FE46E1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7B92DF6F283E350600C3324B /* ViewController.swift */,
+				7B92DF7F283E59A100C3324B /* FlowLayoutCollectionViewController.swift */,
+				7B92DF81283E59DA00C3324B /* CompositionalLayoutCollectionViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		7B92DF5F283E350600C3324B = {
 			isa = PBXGroup;
 			children = (
@@ -66,14 +86,10 @@
 		7B92DF6A283E350600C3324B /* CollectionViewProject */ = {
 			isa = PBXGroup;
 			children = (
-				7B92DF7F283E59A100C3324B /* FlowLayoutCollectionViewController.swift */,
-				7B92DF81283E59DA00C3324B /* CompositionalLayoutCollectionViewController.swift */,
 				7B92DF6B283E350600C3324B /* AppDelegate.swift */,
 				7B92DF6D283E350600C3324B /* SceneDelegate.swift */,
-				7B92DF6F283E350600C3324B /* ViewController.swift */,
-				7B915D302843810100FE46E1 /* TextCell.swift */,
-				7B915D322845078300FE46E1 /* HeaderReusableView.swift */,
-				7B915D34284583BF00FE46E1 /* FooterReusableView.swift */,
+				7B915D3728459CE600FE46E1 /* ViewControllers */,
+				7B915D3628459CD300FE46E1 /* ContentView */,
 				7B92DF71283E350600C3324B /* Main.storyboard */,
 				7B92DF74283E350800C3324B /* Assets.xcassets */,
 				7B92DF76283E350800C3324B /* LaunchScreen.storyboard */,
