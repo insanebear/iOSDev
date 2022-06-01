@@ -61,7 +61,7 @@ class SongListViewController: UICollectionViewController {
             }
         
             // Configure the cell
-            cell.configure(song: self.searchResults[indexPath.row])
+            cell.configure(song: itemIdentifier)
         
             return cell
         })
