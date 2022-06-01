@@ -8,6 +8,11 @@
 import UIKit
 
 class SongListViewController: UICollectionViewController {
+    typealias DataSource = UICollectionViewDiffableDataSource<Int, Song>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Song>
+    
+    var dataSource: DataSource!
+    
     var searchResults: [Song] = []
     
     init() {
@@ -20,19 +25,10 @@ class SongListViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.register(SongCell.self, forCellWithReuseIdentifier: "\(SongCell.self)")
-        searchSong()
-    }
-    
-    func searchSong() {
-        let musicQuery = MusicQuery()
+        configureDatasource()
+        collectionView.dataSource = self.dataSource
         
-        musicQuery.searchMusic(searchTerm: "Younha") { songs in
-            DispatchQueue.main.async {
-                self.searchResults = songs
-                self.collectionView.reloadData()
-            }
-        }
+        searchSong(searchTerm: "Younha")
     }
     
     static func generateLayout() -> UICollectionViewLayout {
@@ -52,27 +48,44 @@ class SongListViewController: UICollectionViewController {
     }
 
     // MARK: DataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+    
+    func configureDatasource() {
+        // Register cell classes
+        collectionView.register(SongCell.self, forCellWithReuseIdentifier: "\(SongCell.self)")
+        
+        // Set diffable data source
+        dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SongCell.self)", for: indexPath) as? SongCell else {
+                fatalError("Cannot find SongCell")
+            }
+        
+            // Configure the cell
+            cell.configure(song: self.searchResults[indexPath.row])
+        
+            return cell
+        })
     }
-
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return self.searchResults.count
+    
+    func updateSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(self.searchResults, toSection: 0)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
+}
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(SongCell.self)", for: indexPath) as? SongCell else {
-            fatalError("Cannot find TextCell")
+extension SongListViewController {
+    // MARK: Search
+    func searchSong(searchTerm: String) {
+        let musicQuery = MusicQuery()
+        
+        musicQuery.searchMusic(searchTerm: searchTerm) { songs in
+            DispatchQueue.main.async {
+                self.searchResults = songs
+                self.updateSnapshot()
+            }
         }
-    
-        // Configure the cell
-        cell.configure(song: searchResults[indexPath.row])
-    
-        return cell
     }
-
 }

@@ -11,7 +11,7 @@ struct SearchResponse: Codable {
   var results: [Song]
 }
 
-struct Song: Codable, Identifiable {
+struct Song: Codable, Identifiable, Hashable {
     let id: Int
     let trackName: String
     let artistName: String
