@@ -68,7 +68,6 @@ class SongListViewController: UICollectionViewController {
         collectionView.register(SongCell.self, forCellWithReuseIdentifier: "\(SongCell.self)")
         
         // Register footer supplementary view
-        // FIXME: Stop animating when fetching is done
         let indicatorRegistration = UICollectionView.SupplementaryRegistration<LoadingCell> (elementKind: SongListViewController.loadingElementKind) { supplementaryView, elementKind, indexPath in
             
             if self.isLoading {
@@ -103,6 +102,8 @@ class SongListViewController: UICollectionViewController {
         
         dataSource.apply(snapshot, animatingDifferences: false)
     }
+    
+    // MARK: Delegate
     
     override func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == SongListViewController.loadingElementKind {
@@ -155,6 +156,7 @@ extension SongListViewController {
                     DispatchQueue.main.async {
                         self.isLoading = false
                         self.updateSnapshot()
+                        self.collectionView.reloadData()
                     }
                 }
             }
