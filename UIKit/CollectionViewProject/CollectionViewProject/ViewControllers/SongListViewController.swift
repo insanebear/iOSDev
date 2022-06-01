@@ -8,6 +8,7 @@
 import UIKit
 
 class SongListViewController: UICollectionViewController {
+    var searchResults: [Song] = []
     
     init() {
         super.init(collectionViewLayout: SongListViewController.generateLayout())
@@ -20,6 +21,18 @@ class SongListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(SongCell.self, forCellWithReuseIdentifier: "\(SongCell.self)")
+        searchSong()
+    }
+    
+    func searchSong() {
+        let musicQuery = MusicQuery()
+        
+        musicQuery.searchMusic(searchTerm: "Younha") { songs in
+            DispatchQueue.main.async {
+                self.searchResults = songs
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     static func generateLayout() -> UICollectionViewLayout {
@@ -48,7 +61,7 @@ class SongListViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return Song.songList.count
+        return self.searchResults.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -57,7 +70,7 @@ class SongListViewController: UICollectionViewController {
         }
     
         // Configure the cell
-        cell.configure(song: Song.songList[indexPath.row])
+        cell.configure(song: searchResults[indexPath.row])
     
         return cell
     }

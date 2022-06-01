@@ -7,23 +7,18 @@
 
 import Foundation
 
-struct Song {
-    var title: String
-    var artist: String
+struct SearchResponse: Codable {
+  var results: [Song]
 }
 
-#if DEBUG
-extension Song {
-    static let songList: [Song] = [
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "CCCCC", artist: "DDDDDD"),
-        Song(title: "EEEEE", artist: "EEEEEE"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-        Song(title: "AAAAAA", artist: "BBBBBB"),
-    ]
+struct Song: Codable, Identifiable {
+    let id: Int
+    let trackName: String
+    let artistName: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "trackId"
+        case trackName
+        case artistName
+    }
 }
-#endif

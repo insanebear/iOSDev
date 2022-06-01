@@ -54,7 +54,7 @@ class SongCell: UICollectionViewCell {
     }
     
     func configure(song: Song) {
-        titleLabel.text = "\(song.title)"
-        artistLabel.text = "\(song.artist)"
+        titleLabel.text = "\(song.trackName)"
+        artistLabel.text = "\(song.artistName)"
     }
 }
