@@ -11,10 +11,14 @@ class SongListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Song>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Song>
     
+    static let loadingElementKind = "loading-element-kind"
+    
     var dataSource: DataSource!
+    var isLoading = false
     
     var searchResults: [Song] = []
-    
+    var songList: [Song] = []
+
     init() {
         super.init(collectionViewLayout: SongListViewController.generateLayout())
     }
@@ -25,10 +29,14 @@ class SongListViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Search songs and fill out the search results first
+        searchSong(searchTerm: "Younha")
+        
+        loadMoreData()
         configureDatasource()
         collectionView.dataSource = self.dataSource
         
-        searchSong(searchTerm: "Younha")
     }
     
     static func generateLayout() -> UICollectionViewLayout {
@@ -42,6 +50,12 @@ class SongListViewController: UICollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
+        // indicator footer
+        let supplementarySize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let indicatorSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: SongListViewController.loadingElementKind, alignment: .bottom)
+        
+        section.boundarySupplementaryItems = [indicatorSupplementary]
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
@@ -52,6 +66,17 @@ class SongListViewController: UICollectionViewController {
     func configureDatasource() {
         // Register cell classes
         collectionView.register(SongCell.self, forCellWithReuseIdentifier: "\(SongCell.self)")
+        
+        // Register footer supplementary view
+        // FIXME: Stop animating when fetching is done
+        let indicatorRegistration = UICollectionView.SupplementaryRegistration<LoadingCell> (elementKind: SongListViewController.loadingElementKind) { supplementaryView, elementKind, indexPath in
+            
+            if self.isLoading {
+                supplementaryView.indicator.startAnimating()
+            } else {
+                supplementaryView.indicator.stopAnimating()
+            }
+        }
         
         // Set diffable data source
         dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
@@ -65,14 +90,33 @@ class SongListViewController: UICollectionViewController {
         
             return cell
         })
+        
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: indicatorRegistration, for: index)
+        }
     }
     
     func updateSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
-        snapshot.appendItems(self.searchResults, toSection: 0)
+        snapshot.appendItems(self.songList, toSection: 0)
         
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == SongListViewController.loadingElementKind {
+            guard let view = view as? LoadingCell else {
+                fatalError()
+            }
+            view.indicator.stopAnimating()
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == self.songList.count - 10 && !self.isLoading {
+            loadMoreData()
+        }
     }
 }
 
@@ -82,9 +126,31 @@ extension SongListViewController {
         let musicQuery = MusicQuery()
         
         musicQuery.searchMusic(searchTerm: searchTerm) { songs in
-            DispatchQueue.main.async {
-                self.searchResults = songs
-                self.updateSnapshot()
+            self.searchResults = songs
+        }
+    }
+    
+    func loadMoreData() {
+        if !self.isLoading {
+            self.isLoading = true
+            DispatchQueue.global().async {
+                sleep(1)
+                
+                let start = self.songList.count
+                let end = start + 30
+                
+                if end < self.searchResults.count {
+                    self.songList.append(contentsOf: (start...end).map { self.searchResults[$0] })
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                        self.updateSnapshot()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                        self.updateSnapshot()
+                    }
+                }
             }
         }
     }

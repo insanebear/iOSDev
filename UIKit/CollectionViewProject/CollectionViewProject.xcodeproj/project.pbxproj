@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B0114862846F50500CC399F /* MusicQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0114852846F50500CC399F /* MusicQuery.swift */; };
+		7B01148A28474D9200CC399F /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01148928474D9200CC399F /* LoadingCell.swift */; };
 		7B915D312843810100FE46E1 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D302843810100FE46E1 /* TextCell.swift */; };
 		7B915D332845078300FE46E1 /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D322845078300FE46E1 /* HeaderReusableView.swift */; };
 		7B915D35284583BF00FE46E1 /* FooterReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D34284583BF00FE46E1 /* FooterReusableView.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		7B0114852846F50500CC399F /* MusicQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicQuery.swift; sourceTree = "<group>"; };
+		7B01148928474D9200CC399F /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		7B915D302843810100FE46E1 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		7B915D322845078300FE46E1 /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
 		7B915D34284583BF00FE46E1 /* FooterReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterReusableView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				7B915D322845078300FE46E1 /* HeaderReusableView.swift */,
 				7B915D34284583BF00FE46E1 /* FooterReusableView.swift */,
 				7B915D3D2846479E00FE46E1 /* SongCell.swift */,
+				7B01148928474D9200CC399F /* LoadingCell.swift */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				7B92DF70283E350600C3324B /* ViewController.swift in Sources */,
 				7B915D3B284646AE00FE46E1 /* Song.swift in Sources */,
 				7B92DF82283E59DA00C3324B /* CompositionalLayoutCollectionViewController.swift in Sources */,
+				7B01148A28474D9200CC399F /* LoadingCell.swift in Sources */,
 				7B915D332845078300FE46E1 /* HeaderReusableView.swift in Sources */,
 				7B92DF6C283E350600C3324B /* AppDelegate.swift in Sources */,
 				7B915D312843810100FE46E1 /* TextCell.swift in Sources */,
