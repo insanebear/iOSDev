@@ -15,10 +15,12 @@ struct Song: Codable, Identifiable, Hashable {
     let id: Int
     let trackName: String
     let artistName: String
+    let artworkUrl100: String
     
     enum CodingKeys: String, CodingKey {
         case id = "trackId"
         case trackName
         case artistName
+        case artworkUrl100
     }
 }

@@ -118,6 +118,12 @@ class SongListViewController: UICollectionViewController {
             loadMoreData()
         }
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = SongDetailViewController(song: songList[indexPath.row])
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension SongListViewController {
@@ -134,7 +140,7 @@ extension SongListViewController {
         if !self.isLoading {
             self.isLoading = true
             DispatchQueue.global().async {
-                sleep(1)
+                sleep(2)
                 
                 let start = self.songList.count
                 let end = start + 30
