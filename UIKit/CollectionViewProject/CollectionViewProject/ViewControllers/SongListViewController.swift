@@ -85,7 +85,7 @@ class SongListViewController: UICollectionViewController {
             }
         
             // Configure the cell
-            cell.configure(song: itemIdentifier)
+            cell.configure(song: itemIdentifier, number: indexPath.row)
         
             return cell
         })
@@ -105,18 +105,15 @@ class SongListViewController: UICollectionViewController {
     
     // MARK: Delegate
     
-    override func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        if elementKind == SongListViewController.loadingElementKind {
-            guard let view = view as? LoadingCell else {
-                fatalError()
-            }
-            view.indicator.stopAnimating()
-        }
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+
         if indexPath.row == self.songList.count - 10 && !self.isLoading {
-            loadMoreData()
+            // indexPath.row which is 10 before the last of the songList is about to display,
+            // and if currently not isLoading,
+            
+            if self.searchResults.count != self.songList.count { // if there's data to fetch
+                loadMoreData()
+            }
         }
     }
     
@@ -128,8 +125,15 @@ class SongListViewController: UICollectionViewController {
 }
 
 extension SongListViewController {
-    // MARK: Search
+    
+    // MARK: Search & Fetch results
+    
     func searchSong(searchTerm: String) {
+        // !!!: iTunes search API doesn't support 'page' parameter in GET
+        // Not able to remember where data previoulsy fetched.
+        // This should be handled differently when using another API with partial fetching data.
+        // Currently, self.searchResults acts like cached memory. self.songList fetches data by 30.
+        
         let musicQuery = MusicQuery()
         
         musicQuery.searchMusic(searchTerm: searchTerm) { songs in
@@ -140,24 +144,26 @@ extension SongListViewController {
     func loadMoreData() {
         if !self.isLoading {
             self.isLoading = true
+
             DispatchQueue.global().async {
                 sleep(2)
-                
+
                 let start = self.songList.count
-                let end = start + 30
+                var end = start + 29
                 
-                if end < self.searchResults.count {
-                    self.songList.append(contentsOf: (start...end).map { self.searchResults[$0] })
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                        self.updateSnapshot()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                        self.updateSnapshot()
-                        self.collectionView.reloadData()
-                    }
+                if end > self.searchResults.count {
+                    end = self.searchResults.count-1
+                }
+                
+                self.songList.append(contentsOf: (start...end).map {
+                    // fetch start...end search results from searchResults array
+                    return self.searchResults[$0]
+                })
+                
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.updateSnapshot()
+                    self.collectionView.reloadData() // to update the loading animation
                 }
             }
         }

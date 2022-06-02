@@ -10,6 +10,15 @@ import UIKit
 class SongCell: UICollectionViewCell {
     static let reuseIdentifier = "songCell"
     
+    private var cellNumber: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.sizeToFit()
+        
+        return label
+    } ()
+    
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -30,7 +39,7 @@ class SongCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, artistLabel])
+        let stackView = UIStackView(arrangedSubviews: [cellNumber, titleLabel, artistLabel])
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.sizeToFit()
@@ -53,7 +62,8 @@ class SongCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(song: Song) {
+    func configure(song: Song, number: Int) {
+        cellNumber.text = "\(number)"
         titleLabel.text = "\(song.trackName)"
         artistLabel.text = "\(song.artistName)"
     }
