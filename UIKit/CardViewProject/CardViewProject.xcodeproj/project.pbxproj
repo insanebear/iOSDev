@@ -14,6 +14,8 @@
 		7B5D61DD284EC03C00B41D8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B5D61DC284EC03C00B41D8B /* Assets.xcassets */; };
 		7B5D61E0284EC03C00B41D8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B5D61DE284EC03C00B41D8B /* LaunchScreen.storyboard */; };
 		7B5D61E8284EC0F300B41D8B /* SimpleCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61E7284EC0F300B41D8B /* SimpleCardViewController.swift */; };
+		7B5D61EA284ED96100B41D8B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61E9284ED96100B41D8B /* CardView.swift */; };
+		7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61EE284EDCBF00B41D8B /* MyData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		7B5D61DF284EC03C00B41D8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B5D61E1284EC03C00B41D8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B5D61E7284EC0F300B41D8B /* SimpleCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCardViewController.swift; sourceTree = "<group>"; };
+		7B5D61E9284ED96100B41D8B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		7B5D61EE284EDCBF00B41D8B /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,8 @@
 		7B5D61D2284EC03900B41D8B /* CardViewProject */ = {
 			isa = PBXGroup;
 			children = (
+				7B5D61F0284EDCC500B41D8B /* Model */,
+				7B5D61EB284ED96600B41D8B /* ContentView */,
 				7B5D61E7284EC0F300B41D8B /* SimpleCardViewController.swift */,
 				7B5D61D3284EC03900B41D8B /* AppDelegate.swift */,
 				7B5D61D5284EC03900B41D8B /* SceneDelegate.swift */,
@@ -68,6 +74,22 @@
 				7B5D61E1284EC03C00B41D8B /* Info.plist */,
 			);
 			path = CardViewProject;
+			sourceTree = "<group>";
+		};
+		7B5D61EB284ED96600B41D8B /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				7B5D61E9284ED96100B41D8B /* CardView.swift */,
+			);
+			path = ContentView;
+			sourceTree = "<group>";
+		};
+		7B5D61F0284EDCC500B41D8B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B5D61EE284EDCBF00B41D8B /* MyData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +167,8 @@
 				7B5D61D8284EC03900B41D8B /* ViewController.swift in Sources */,
 				7B5D61D4284EC03900B41D8B /* AppDelegate.swift in Sources */,
 				7B5D61D6284EC03900B41D8B /* SceneDelegate.swift in Sources */,
+				7B5D61EA284ED96100B41D8B /* CardView.swift in Sources */,
+				7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
