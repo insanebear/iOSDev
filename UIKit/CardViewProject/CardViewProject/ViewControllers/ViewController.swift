@@ -16,9 +16,17 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(showSimpleCardViewContoller(_:)), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var button2: UIButton = {
+        let button = UIButton()
+        button.setTitle("Card Collection View", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action: #selector(showCardCollectionViewContoller(_:)), for: .touchUpInside)
+        return button
+    }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [button1])
+        let stackView = UIStackView(arrangedSubviews: [button1, button2])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +45,14 @@ class ViewController: UIViewController {
     
     @objc private func showSimpleCardViewContoller(_ sender: UIButton) {
         let vc = SimpleCardViewController()
+        guard let navVC = navigationController else {
+            fatalError("No navigation vc")
+        }
+        navVC.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func showCardCollectionViewContoller(_ sender: UIButton) {
+        let vc = CardCollectionViewController(collectionViewLayout: UICollectionViewLayout())
         guard let navVC = navigationController else {
             fatalError("No navigation vc")
         }

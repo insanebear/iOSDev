@@ -19,7 +19,6 @@ class SimpleCardViewController: UIViewController {
                          title: data.title,
                          subtitle: data.author,
                          memo: data.memo)
-        card.translatesAutoresizingMaskIntoConstraints = false
 
         self.view.addSubview(card)
 

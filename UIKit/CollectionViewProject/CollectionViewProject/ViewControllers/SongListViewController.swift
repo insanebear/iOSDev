@@ -155,6 +155,7 @@ extension SongListViewController {
                     end = self.searchResults.count-1
                 }
                 
+                // FIXME: Occasional bound issue
                 self.songList.append(contentsOf: (start...end).map {
                     // fetch start...end search results from searchResults array
                     return self.searchResults[$0]

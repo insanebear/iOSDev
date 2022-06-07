@@ -60,8 +60,24 @@ class CardView: UIView {
         
         initialSetup()
         setupAlignment()
+        setupCardSize()
     }
     
+    // initializer which doesn't need width and height
+    convenience init(filmType: FilmType = .gradient,
+                     filmColor: UIColor = .black,
+                     overlayOpacity: CGFloat = 0.5) {
+        
+        self.init(frame: .zero)
+        
+        filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
+                            filmType.getColoredFilm(color: filmColor).1]
+        overlayLayer.backgroundColor = UIColor.black.withAlphaComponent(overlayOpacity).cgColor
+        
+        initialSetup()
+        setupAlignment()
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -102,6 +118,8 @@ class CardView: UIView {
         cardDetailInfoView.translatesAutoresizingMaskIntoConstraints = false
         cardDetailInfoView.isHidden = true
         self.addSubview(cardDetailInfoView)
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func setContents(image: UIImage?, title: String, subtitle: String, memo: String) {
@@ -144,7 +162,11 @@ extension CardView {
             cardBasicInfoView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             cardDetailInfoView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             cardDetailInfoView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
+        ])
+    }
+    
+    func setupCardSize() {
+        NSLayoutConstraint.activate([
             self.widthAnchor.constraint(equalToConstant: self.width),
             self.heightAnchor.constraint(equalToConstant: self.height)
         ])
