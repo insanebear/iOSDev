@@ -12,9 +12,13 @@ class SimpleCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        let data = MyData.myDataList[0]
         
         let card = CardView(width: 200, ratio: 1.5, filmColor: .orange)
-        card.setContents(image: MyData.myDataList[0].image)
+        card.setContents(image: data.image,
+                         title: data.title,
+                         subtitle: data.author,
+                         memo: data.memo)
         card.translatesAutoresizingMaskIntoConstraints = false
 
         self.view.addSubview(card)

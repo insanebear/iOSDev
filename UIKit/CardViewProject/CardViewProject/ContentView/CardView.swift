@@ -32,6 +32,9 @@ class CardView: UIView {
         return imageView
     } ()
     
+    var cardBasicInfoView: CardBasicInfoView!
+    var cardDetailInfoView: CardDetailInfoView!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -88,10 +91,23 @@ class CardView: UIView {
         // Setup layer on cardImageView
         cardImageView.layer.insertSublayer(filmLayer, at: 0)
         cardImageView.layer.insertSublayer(overlayLayer, at: 1)
+        
+        // Setup cardBasicInfoView
+        cardBasicInfoView = CardBasicInfoView()
+        cardBasicInfoView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(cardBasicInfoView)
+        
+        // Setup cardDetailInfoView - Hidden at first
+        cardDetailInfoView = CardDetailInfoView()
+        cardDetailInfoView.translatesAutoresizingMaskIntoConstraints = false
+        cardDetailInfoView.isHidden = true
+        self.addSubview(cardDetailInfoView)
     }
     
-    func setContents(image: UIImage?) {
+    func setContents(image: UIImage?, title: String, subtitle: String, memo: String) {
         self.cardImageView.image = image
+        self.cardBasicInfoView.setContents(title: title, subTitle: subtitle)
+        self.cardDetailInfoView.setContents(content: memo)
     }
     
     @objc func handleTapCardView(_ sender: UIGestureRecognizer) {
@@ -99,10 +115,14 @@ class CardView: UIView {
         CATransaction.setDisableActions(true)
         
         if showOverlay {
+            cardBasicInfoView.isHidden = false
+            cardDetailInfoView.isHidden = true
             overlayLayer.isHidden = true
             filmLayer.isHidden = false
             showOverlay = false
         } else {
+            cardBasicInfoView.isHidden = true
+            cardDetailInfoView.isHidden = false
             overlayLayer.isHidden = false
             filmLayer.isHidden = true
             showOverlay = true
@@ -119,6 +139,11 @@ extension CardView {
             cardImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             cardImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             cardImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            cardBasicInfoView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            cardBasicInfoView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            cardDetailInfoView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            cardDetailInfoView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
             self.widthAnchor.constraint(equalToConstant: self.width),
             self.heightAnchor.constraint(equalToConstant: self.height)

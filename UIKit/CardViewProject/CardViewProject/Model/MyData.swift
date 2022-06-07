@@ -9,19 +9,23 @@ import UIKit
 
 class MyData {
     let image: UIImage?
-    let text: String
+    let title: String
+    let author: String
+    let memo: String
     
-    init(imageName: String, text: String) {
+    init(imageName: String, title: String, author: String, memo: String) {
         self.image = UIImage(named: imageName)
-        self.text = text
+        self.title = title
+        self.author = author
+        self.memo = memo
     }
 }
 
 #if DEBUG
 extension MyData {
     static let myDataList: [MyData] = [
-        MyData(imageName: "image1", text: "Image1"),
-        MyData(imageName: "image2", text: "Image2"),
+        MyData(imageName: "image1", title: "Image1", author: "Jayde", memo: "서울숲"),
+        MyData(imageName: "image2", title: "Image2", author: "Jayde", memo: "서울숲"),
     ]
 }
 #endif

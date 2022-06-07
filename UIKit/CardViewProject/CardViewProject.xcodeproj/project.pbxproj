@@ -17,6 +17,7 @@
 		7B5D61EA284ED96100B41D8B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61E9284ED96100B41D8B /* CardView.swift */; };
 		7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61EE284EDCBF00B41D8B /* MyData.swift */; };
 		7B5D61F2284EEA4A00B41D8B /* CardView+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61F1284EEA4A00B41D8B /* CardView+Enum.swift */; };
+		7B5D61F4284F18C400B41D8B /* CardView+TextViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61F3284F18C400B41D8B /* CardView+TextViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		7B5D61E9284ED96100B41D8B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		7B5D61EE284EDCBF00B41D8B /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
 		7B5D61F1284EEA4A00B41D8B /* CardView+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardView+Enum.swift"; sourceTree = "<group>"; };
+		7B5D61F3284F18C400B41D8B /* CardView+TextViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardView+TextViews.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				7B5D61E9284ED96100B41D8B /* CardView.swift */,
 				7B5D61F1284EEA4A00B41D8B /* CardView+Enum.swift */,
+				7B5D61F3284F18C400B41D8B /* CardView+TextViews.swift */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 				7B5D61D6284EC03900B41D8B /* SceneDelegate.swift in Sources */,
 				7B5D61EA284ED96100B41D8B /* CardView.swift in Sources */,
 				7B5D61F2284EEA4A00B41D8B /* CardView+Enum.swift in Sources */,
+				7B5D61F4284F18C400B41D8B /* CardView+TextViews.swift in Sources */,
 				7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
