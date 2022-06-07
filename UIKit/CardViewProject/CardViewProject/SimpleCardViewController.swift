@@ -13,7 +13,8 @@ class SimpleCardViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
-        let card = CardView(frame: .zero)
+        let card = CardView(width: 200, ratio: 1.5, filmColor: .orange)
+        card.setContents(image: MyData.myDataList[0].image)
         card.translatesAutoresizingMaskIntoConstraints = false
 
         self.view.addSubview(card)
@@ -21,8 +22,6 @@ class SimpleCardViewController: UIViewController {
         NSLayoutConstraint.activate([
             card.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             card.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            card.widthAnchor.constraint(equalToConstant: 200),
-            card.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
 }
