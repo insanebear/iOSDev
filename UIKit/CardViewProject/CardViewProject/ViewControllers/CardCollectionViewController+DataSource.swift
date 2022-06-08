@@ -10,8 +10,9 @@ import UIKit
 extension CardCollectionViewController {
     func configureDatasource() {
         // Register cell classes
-        self.collectionView.register(CardViewCell.self, forCellWithReuseIdentifier: "\(CardViewCell.self)")
-        
+        self.collectionView.register(CardViewListCell.self, forCellWithReuseIdentifier: "\(CardViewListCell.self)")
+        self.collectionView.register(CardViewPageCell.self, forCellWithReuseIdentifier: "\(CardViewPageCell.self)")
+
         // Register supplementary header
         let headerRegistration = UICollectionView.SupplementaryRegistration<CardCollectionViewHeaderView>(elementKind: CardCollectionViewController.headerElementKind) { supplementaryView, elementKind, indexPath in
             supplementaryView.label.text = Section(rawValue: indexPath.section)?.name
@@ -19,19 +20,23 @@ extension CardCollectionViewController {
         
         // Set diffable data source
         dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CardViewCell.self)", for: indexPath) as? CardViewCell else {
-                return UICollectionViewCell()
+            var cell = UICollectionViewCell()
+            switch indexPath.section {
+            case Section.horizontalScrollList.rawValue:
+                if let listCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CardViewListCell.self)", for: indexPath) as? CardViewListCell {
+                    let data = MyData.myDataList[indexPath.row]
+                    listCell.configure(data: data)
+                    cell = listCell
+                }
+            case Section.horizontalPageList.rawValue:
+                if let pageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CardViewPageCell.self)", for: indexPath) as? CardViewPageCell {
+                    let data = MyData.myDataList2[indexPath.row]
+                    pageCell.configure(data: data)
+                    cell = pageCell
+                }
+            default:
+                cell = UICollectionViewCell()
             }
-        
-            // Configure the cell
-            if indexPath.section == Section.horizontalScrollList.rawValue {
-                let data = MyData.myDataList[indexPath.row]
-                cell.configure(data: data)
-            } else {
-                let data = MyData.myDataList2[indexPath.row]
-                cell.configure(data: data)
-            }
-        
             return cell
         })
         
