@@ -18,20 +18,17 @@ class CardCollectionViewController: UICollectionViewController {
     }
     
     func generateLayout() -> UICollectionViewLayout {
-        // ???: should .absolute() be used for groupSize?
-        // Fractional dimensions make weird spacing.
-        
         let width: CGFloat = 200
         let height = width * 1.5
+        
+        let size = NSCollectionLayoutSize(widthDimension: .absolute(width),
+                                         heightDimension: .absolute(height))
 
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(width),
-                                              heightDimension: .absolute(height))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+        let item = NSCollectionLayoutItem(layoutSize: size)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(400),
-                                               heightDimension: .fractionalHeight(0.5))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
                                                        subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
