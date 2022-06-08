@@ -12,7 +12,7 @@ class CardViewCell: UICollectionViewCell {
     
     // This cardView size depends on a cell size.
     // The cell size depends on collection view compositional layout.
-    let cardView = CardView(filmType: .gradient,
+    private let cardView = CardView(filmType: .gradient,
                             filmColor: .systemGreen,
                             overlayOpacity: 0.5)
     

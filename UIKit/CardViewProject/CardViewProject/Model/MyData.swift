@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyData {
+struct MyData: Hashable {
     let image: UIImage?
     let title: String
     let author: String
@@ -32,6 +32,16 @@ extension MyData {
         MyData(imageName: "image2", title: "Image6", author: "Jayde", memo: "서울숲"),
         MyData(imageName: "image1", title: "Image7", author: "Jayde", memo: "서울숲"),
         MyData(imageName: "image2", title: "Image8", author: "Jayde", memo: "서울숲"),
+    ]
+    static let myDataList2: [MyData] = [
+        MyData(imageName: "image3", title: "Image1", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image4", title: "Image2", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image3", title: "Image3", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image4", title: "Image4", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image3", title: "Image5", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image4", title: "Image6", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image3", title: "Image7", author: "Jayde", memo: "공원"),
+        MyData(imageName: "image4", title: "Image8", author: "Jayde", memo: "공원"),
     ]
 }
 #endif
