@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import Combine
 
 class CardCollectionViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, MyData>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, MyData>
     
     static let headerElementKind = "header-element-kind"
+    static let footerElementKind = "footer-element-kind"
+    
+    let pagingInfoSubject = PassthroughSubject<PagingInfo, Never>()
     
     enum Section: Int, Hashable, CaseIterable {
         case horizontalScrollList
@@ -44,13 +48,14 @@ class CardCollectionViewController: UICollectionViewController {
             
             switch sectionIndex {
             case .horizontalScrollList:
-                section = self.generateSectionLayout(width: 200,
-                                                     ratio: 1.5,
-                                                     scrollBehavior: .continuous)
+                section = self.generateHorizontalScrollListLayout(width: 200,
+                                                                  ratio: 1.5,
+                                                                  scrollBehavior: .continuous)
             case .horizontalPageList:
-                section = self.generateSectionLayout(width: 200,
-                                                     ratio: 1,
-                                                     scrollBehavior: .groupPagingCentered)
+                section = self.generateHorizontalPageListLayout(width: layoutEnvironment.container.effectiveContentSize.width,
+                                                                ratio: 0.75,
+                                                                scrollBehavior: .groupPagingCentered,
+                                                                sectionIndex: sectionIndex.rawValue)
             }
             return section
         }
@@ -60,28 +65,53 @@ class CardCollectionViewController: UICollectionViewController {
         return layout
     }
     
-    func generateSectionLayout(width: CGFloat, ratio: CGFloat, scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
+    func generateHorizontalScrollListLayout(width: CGFloat, ratio: CGFloat, scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .absolute(width),
                                           heightDimension: .absolute(width * ratio))
-    
+        
         let item = NSCollectionLayoutItem(layoutSize: size)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
-
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
                                                        subitems: [item])
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = scrollBehavior
-        
         // header space
         let supplementarySize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                        heightDimension: .estimated(50))
         let headerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: CardCollectionViewController.headerElementKind, alignment: .top)
         
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = scrollBehavior
         section.boundarySupplementaryItems = [headerSupplementary]
         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
         
         return section
     }
+    
+    func generateHorizontalPageListLayout(width: CGFloat, ratio: CGFloat, scrollBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior, sectionIndex: Int) -> NSCollectionLayoutSection {
+        let size = NSCollectionLayoutSize(widthDimension: .absolute(width),
+                                          heightDimension: .absolute(width * ratio))
         
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
+                                                       subitems: [item])
+        
+        // Supplementary spaces
+        let supplementarySize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .estimated(50))
+        let headerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: CardCollectionViewController.headerElementKind, alignment: .top)
+        let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: supplementarySize, elementKind: CardCollectionViewController.footerElementKind, alignment: .bottom)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = scrollBehavior
+        section.boundarySupplementaryItems = [headerSupplementary, footerSupplementary]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+        section.visibleItemsInvalidationHandler = { (items, offset, environment) -> Void in
+            let currentPage = Int(offset.x / size.widthDimension.dimension)
+            self.pagingInfoSubject.send(PagingInfo(sectionIndex: sectionIndex, currentPage: currentPage))
+        }
+        
+        return section
+    }
 }

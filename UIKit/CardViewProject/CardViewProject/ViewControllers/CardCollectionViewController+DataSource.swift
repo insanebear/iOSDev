@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 extension CardCollectionViewController {
     func configureDatasource() {
@@ -13,11 +14,14 @@ extension CardCollectionViewController {
         self.collectionView.register(CardViewListCell.self, forCellWithReuseIdentifier: "\(CardViewListCell.self)")
         self.collectionView.register(CardViewPageCell.self, forCellWithReuseIdentifier: "\(CardViewPageCell.self)")
 
-        // Register supplementary header
+        // Register supplementaries
         let headerRegistration = UICollectionView.SupplementaryRegistration<CardCollectionViewHeaderView>(elementKind: CardCollectionViewController.headerElementKind) { supplementaryView, elementKind, indexPath in
             supplementaryView.label.text = Section(rawValue: indexPath.section)?.name
         }
-        
+        let footerRegistration = UICollectionView.SupplementaryRegistration<CardCollectionViewFooterView>(elementKind: CardCollectionViewController.footerElementKind) { supplementaryView, elementKind, indexPath in
+            supplementaryView.pageControl.numberOfPages = MyData.myDataList.count
+        }
+
         // Set diffable data source
         dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             var cell = UICollectionViewCell()
@@ -41,7 +45,18 @@ extension CardCollectionViewController {
         })
         
         dataSource.supplementaryViewProvider = { (view, kind, index) in
-            return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            
+            if kind == CardCollectionViewController.headerElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            }
+            
+            // if kind is CardCollectionViewController.headerElementKind
+            let pageIndicatorFooter = self.collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: index)
+            let cardCount = MyData.myDataList.count // total items in section
+            pageIndicatorFooter.configure(with: cardCount)
+            pageIndicatorFooter.subscribeTo(subject: self.pagingInfoSubject, for: index.section)
+            
+            return pageIndicatorFooter
         }
     }
     
@@ -60,7 +75,6 @@ extension CardCollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return MyData.myDataList.count
     }
 }
