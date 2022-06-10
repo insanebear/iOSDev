@@ -44,17 +44,20 @@ extension CardCollectionViewController {
             return cell
         })
         
-        dataSource.supplementaryViewProvider = { (view, kind, index) in
+        dataSource.supplementaryViewProvider = { (supplementaryView, elementKind, indexPath) in
             
-            if kind == CardCollectionViewController.headerElementKind {
-                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            if elementKind == CardCollectionViewController.headerElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
             }
             
-            // if kind is CardCollectionViewController.headerElementKind
-            let pageIndicatorFooter = self.collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: index)
-            let cardCount = MyData.myDataList.count // total items in section
-            pageIndicatorFooter.configure(with: cardCount)
-            pageIndicatorFooter.subscribeTo(subject: self.pagingInfoSubject, for: index.section)
+            // if elementKind is CardCollectionViewController.footerElementKind
+            let pageIndicatorFooter = self.collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
+            
+            if let section = Section(rawValue: indexPath.section) {
+                let cardCount = self.dataSource.snapshot().numberOfItems(inSection: section) // total items in section
+                pageIndicatorFooter.configure(with: cardCount)
+                pageIndicatorFooter.subscribeTo(subject: self.pagingInfoSubject, for: indexPath.section)
+            }
             
             return pageIndicatorFooter
         }
@@ -73,8 +76,8 @@ extension CardCollectionViewController {
         return Section.allCases.count
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return MyData.myDataList.count
+        guard let section = Section(rawValue: section) else { return 0 }
+        return self.dataSource.snapshot().numberOfItems(inSection: section)
     }
 }
