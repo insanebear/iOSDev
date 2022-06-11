@@ -6,25 +6,42 @@
 //
 
 import UIKit
+import MapKit
 
 class MapSearchResultViewController: UIViewController {
     
     var searchBar: UISearchBar!
     var tableView: UITableView!
     
+    var searchCompleter = MKLocalSearchCompleter()
+    var searchResultCompletions: [MKLocalSearchCompletion] = []
+//    var searchResults: [MKMapItem] = []
+    var mapView: MKMapView? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "검색"
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        searchCompleter.delegate = self
         
         setupSearchBar()
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchBar.becomeFirstResponder()
+    }
+    
     func setupSearchBar() {
         searchBar = UISearchBar()
         
+        searchBar.delegate = self
         searchBar.placeholder = "검색어를 입력하세요"
         searchBar.searchBarStyle = .minimal
         searchBar.isTranslucent = true
@@ -54,16 +71,62 @@ class MapSearchResultViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+//    func updateSearchResults() {
+//        guard let mapView = mapView else {
+//            return
+//        }
+//        let request = MKLocalSearch.Request()
+//        request.naturalLanguageQuery = searchBar.text
+//
+//        request.region = mapView.region
+//
+//        let search = MKLocalSearch(request: request)
+//        search.start { response, error in
+//            guard let response = response else {
+//                return
+//            }
+//            self.searchResults = response.mapItems
+//            self.tableView.reloadData()
+//        }
+//    }
+}
+
+extension MapSearchResultViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.queryFragment = searchText
+//        if searchText == "" {
+//            self.searchResults = []
+//            self.tableView.reloadData()
+//        } else {
+//            updateSearchResults()
+//        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
 
 extension MapSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+//        searchResults.count
+        searchResultCompletions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "\(indexPath.row)"
+//        let searchedItem = searchResults[indexPath.row]
+//        cell.textLabel?.text = searchedItem.name
+        let searchedItem = searchResultCompletions[indexPath.row]
+        cell.textLabel?.text = searchedItem.title
         return cell
+    }
+}
+
+extension MapSearchResultViewController: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResultCompletions = completer.results
+        tableView.reloadData()
     }
 }

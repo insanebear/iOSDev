@@ -126,6 +126,7 @@ extension MapViewController: UISearchBarDelegate {
         
         self.navigationItem.backButtonTitle = "Map" // indicates MapViewController
         self.navigationItem.backButtonDisplayMode = .minimal // shows on MapSearchResultViewController for MapViewController
+        searchResultListViewController.mapView = self.mapView
         
         searchBar.resignFirstResponder()
         self.navigationController?.pushViewController(searchResultListViewController, animated: true)
