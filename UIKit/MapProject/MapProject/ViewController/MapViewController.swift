@@ -11,26 +11,36 @@ import MapKit
 class MapViewController: UIViewController {
     // ???: Warning failed to parse font key token here. Cannot find the reason yet.
     
-    let mapView = MKMapView()
-    let initCoordinate = CLLocationCoordinate2D(latitude: 37.5366, longitude: 126.9771)
+    var mapView: MKMapView!
     let myLocations: [MyLocation] = LocationStore().myLocations
+    
+    let defaultCoordinate = CLLocationCoordinate2D(latitude: 37.5366, longitude: 126.9771)
+    var currentUserLocation: CLLocation?
+    
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupMap()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
-        // Add annotations
-        addPin(coordinate: initCoordinate)
-        mapView.addAnnotations(myLocations)
+        // check authorization status to get a user location
+        checkPermission()
+        
+        setupMap()
     }
     
     func setupMap(){
+        mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.delegate = self
+        mapView.showsUserLocation = true
+
+        mapView.setCenter(coordinate: defaultCoordinate) // if there's no location permission, use default coordinate.
+        mapView.addAnnotations(myLocations)
+
         self.view.addSubview(mapView)
-        
-        // Set a center when the map is initially loaded
-        mapView.setCenter(coordinate: initCoordinate, regionRadius: 1000)
         
         NSLayoutConstraint.activate([
             mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -38,6 +48,22 @@ class MapViewController: UIViewController {
             mapView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
             mapView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor)
         ])
+    }
+    
+    func checkPermission() {
+        switch locationManager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            // if a proper permission has been given, start location service
+            locationManager.startUpdatingLocation()
+        case .notDetermined:
+            // if permission request has never been asked, ask for it
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            // else, move to the phone Settings
+            // actually, there should be a dialog noticing that it's gonna move to Settings, but skipped in here.
+            // TODO: Can open the app settings in the phone Settings?
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
     }
     
     func addPin(coordinate: CLLocationCoordinate2D) {
