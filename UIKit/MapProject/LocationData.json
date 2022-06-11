@@ -1,0 +1,58 @@
+[
+    {
+        "name": "롯데월드",
+        "latitude": 37.51220874522728,
+        "longitude": 127.09822908736776,
+        "image": "image1",
+        "description": "롯데월드 놀이공원"
+    },
+    {
+        "name": "AK Plaza",
+        "latitude": 37.38563764635244,
+        "longitude": 127.12312191637882,
+        "image": "image2",
+        "description": "서현역에 위치한 백화점"
+    },
+    {
+        "name": "롯데백화점 수내점",
+        "latitude": 37.378429154241495,
+        "longitude": 127.11431359757971,
+        "image": "image3",
+        "description": "수내역에 위치한 백화점"
+    },
+    {
+        "name": "올림픽공원",
+        "latitude": 37.521803224901184,
+        "longitude": 127.12155391240037,
+        "image": "image4",
+        "description": "송파구에 위치한 공원 및 공연장"
+    },
+    {
+      "name": "남산",
+      "latitude": 37.554120894204004,
+      "longitude": 126.98124666773857,
+      "image": "image1",
+      "description": "서울 랜드마크"
+    },
+    {
+      "name": "탄허기념 불교박물관",
+      "latitude": 37.479151534383654,
+      "longitude": 127.1029975129221,
+      "image": "image2",
+      "description": "현대적으로 단장한 전통 사찰. 기념 박물관"
+    },
+    {
+        "name": "한국과학기술원",
+        "latitude": 36.372749287990864,
+        "longitude": 127.36176603851798,
+        "image": "image3",
+        "description": "대전에 위치한 교육기관"
+    },
+    {
+        "name": "제주 국제공항",
+        "latitude": 33.51041348076148,
+        "longitude": 126.49138558399349,
+        "image": "image4",
+        "description": "제주에 위치한 국제공항"
+    }
+]
