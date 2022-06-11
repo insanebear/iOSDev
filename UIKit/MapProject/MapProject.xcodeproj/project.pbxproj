@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7B01D83828547EB700444F94 /* MapViewController+LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */; };
+		7B67C4B22854BD7C00B9EB6C /* MapSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */; };
 		7BA0DB5D2854177000606382 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB5C2854177000606382 /* AppDelegate.swift */; };
 		7BA0DB5F2854177000606382 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB5E2854177000606382 /* SceneDelegate.swift */; };
 		7BA0DB612854177000606382 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB602854177000606382 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+LocationManager.swift"; sourceTree = "<group>"; };
+		7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchResultViewController.swift; sourceTree = "<group>"; };
 		7BA0DB592854177000606382 /* MapProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0DB5C2854177000606382 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BA0DB5E2854177000606382 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				7BA0DB602854177000606382 /* ViewController.swift */,
 				7BA0DB71285419F500606382 /* MapViewController.swift */,
 				7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */,
+				7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B67C4B22854BD7C00B9EB6C /* MapSearchResultViewController.swift in Sources */,
 				7BA0DB612854177000606382 /* ViewController.swift in Sources */,
 				7BA0DB5D2854177000606382 /* AppDelegate.swift in Sources */,
 				7BA0DB792854376900606382 /* MyLocation.swift in Sources */,
