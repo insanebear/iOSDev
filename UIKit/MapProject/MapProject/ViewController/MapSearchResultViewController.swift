@@ -13,8 +13,8 @@ class MapSearchResultViewController: UIViewController {
     var searchBar: UISearchBar!
     var tableView: UITableView!
     
-    var searchCompleter = MKLocalSearchCompleter()
-    var searchResultCompletions: [MKLocalSearchCompletion] = []
+    var searchCompleter = MKLocalSearchCompleter() // For auto completing query search
+    var searchResultCompletions: [MKLocalSearchCompletion] = [] // Result array for Completer search
     var mapView: MKMapView? = nil
     
     override func viewDidLoad() {
@@ -73,36 +73,6 @@ class MapSearchResultViewController: UIViewController {
     }
 }
 
-extension MapSearchResultViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if let region = mapView?.region {
-            searchCompleter.region = region
-        }
-        searchCompleter.queryFragment = searchText
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-}
-
-extension MapSearchResultViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let completion = searchResultCompletions[indexPath.row]
-        let request = MKLocalSearch.Request(completion: completion)
-        let search = MKLocalSearch(request: request)
-        search.start { response, error in
-            guard let mapItem = response?.mapItems[0] else {
-                return
-            }
-            let vc = MapDetailViewController(mapItem: mapItem)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
 extension MapSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         searchResultCompletions.count
@@ -113,12 +83,5 @@ extension MapSearchResultViewController: UITableViewDataSource {
         let searchedItem = searchResultCompletions[indexPath.row]
         cell.textLabel?.text = searchedItem.title
         return cell
-    }
-}
-
-extension MapSearchResultViewController: MKLocalSearchCompleterDelegate {
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResultCompletions = completer.results
-        tableView.reloadData()
     }
 }

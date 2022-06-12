@@ -10,6 +10,7 @@
 		7B01D83828547EB700444F94 /* MapViewController+LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */; };
 		7B67C4B22854BD7C00B9EB6C /* MapSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */; };
 		7B67C4B42854F5A300B9EB6C /* MapDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B67C4B32854F5A300B9EB6C /* MapDetailViewController.swift */; };
+		7B67C4B6285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B67C4B5285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift */; };
 		7BA0DB5D2854177000606382 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB5C2854177000606382 /* AppDelegate.swift */; };
 		7BA0DB5F2854177000606382 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB5E2854177000606382 /* SceneDelegate.swift */; };
 		7BA0DB612854177000606382 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB602854177000606382 /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 		7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewController+LocationManager.swift"; sourceTree = "<group>"; };
 		7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSearchResultViewController.swift; sourceTree = "<group>"; };
 		7B67C4B32854F5A300B9EB6C /* MapDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailViewController.swift; sourceTree = "<group>"; };
+		7B67C4B5285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapSearchResultViewController+Delegate.swift"; sourceTree = "<group>"; };
 		7BA0DB592854177000606382 /* MapProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0DB5C2854177000606382 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BA0DB5E2854177000606382 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				7BA0DB71285419F500606382 /* MapViewController.swift */,
 				7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */,
 				7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */,
+				7B67C4B5285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift */,
 				7B67C4B32854F5A300B9EB6C /* MapDetailViewController.swift */,
 			);
 			path = ViewController;
@@ -182,6 +185,7 @@
 				7B67C4B42854F5A300B9EB6C /* MapDetailViewController.swift in Sources */,
 				7B67C4B22854BD7C00B9EB6C /* MapSearchResultViewController.swift in Sources */,
 				7BA0DB612854177000606382 /* ViewController.swift in Sources */,
+				7B67C4B6285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift in Sources */,
 				7BA0DB5D2854177000606382 /* AppDelegate.swift in Sources */,
 				7BA0DB792854376900606382 /* MyLocation.swift in Sources */,
 				7BA0DB7D28543C3800606382 /* LocationStore.swift in Sources */,
