@@ -15,7 +15,6 @@ class MapSearchResultViewController: UIViewController {
     
     var searchCompleter = MKLocalSearchCompleter()
     var searchResultCompletions: [MKLocalSearchCompletion] = []
-//    var searchResults: [MKMapItem] = []
     var mapView: MKMapView? = nil
     
     override func viewDidLoad() {
@@ -58,6 +57,7 @@ class MapSearchResultViewController: UIViewController {
     func setupTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         
@@ -71,36 +71,14 @@ class MapSearchResultViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-//    func updateSearchResults() {
-//        guard let mapView = mapView else {
-//            return
-//        }
-//        let request = MKLocalSearch.Request()
-//        request.naturalLanguageQuery = searchBar.text
-//
-//        request.region = mapView.region
-//
-//        let search = MKLocalSearch(request: request)
-//        search.start { response, error in
-//            guard let response = response else {
-//                return
-//            }
-//            self.searchResults = response.mapItems
-//            self.tableView.reloadData()
-//        }
-//    }
 }
 
 extension MapSearchResultViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let region = mapView?.region {
+            searchCompleter.region = region
+        }
         searchCompleter.queryFragment = searchText
-//        if searchText == "" {
-//            self.searchResults = []
-//            self.tableView.reloadData()
-//        } else {
-//            updateSearchResults()
-//        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -108,16 +86,30 @@ extension MapSearchResultViewController: UISearchBarDelegate {
     }
 }
 
+extension MapSearchResultViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let completion = searchResultCompletions[indexPath.row]
+        let request = MKLocalSearch.Request(completion: completion)
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            guard let mapItem = response?.mapItems[0] else {
+                return
+            }
+            let vc = MapDetailViewController(mapItem: mapItem)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
 extension MapSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        searchResults.count
         searchResultCompletions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//        let searchedItem = searchResults[indexPath.row]
-//        cell.textLabel?.text = searchedItem.name
         let searchedItem = searchResultCompletions[indexPath.row]
         cell.textLabel?.text = searchedItem.title
         return cell
