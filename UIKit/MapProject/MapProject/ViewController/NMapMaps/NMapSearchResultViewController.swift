@@ -52,6 +52,7 @@ class NMapSearchResultViewController: UIViewController {
     func setupTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         
@@ -76,23 +77,5 @@ extension NMapSearchResultViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = self.searchResults[indexPath.row].name
         return cell
-    }
-}
-
-extension NMapSearchResultViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        
-        // call Local API with searchBar.text
-        guard let searchQuery = searchBar.text else {
-            return
-        }
-        
-        localQuery.searchData(query: searchQuery) { searchResults in
-            DispatchQueue.main.async {
-                self.searchResults = searchResults
-                self.tableView.reloadData()
-            }
-        }
     }
 }
