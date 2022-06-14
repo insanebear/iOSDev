@@ -11,6 +11,9 @@ class NMapSearchResultViewController: UIViewController {
     var searchBar: UISearchBar!
     var tableView: UITableView!
     
+    let localQuery = LocalQuery()
+    var searchResults: [LocalData] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "검색"
@@ -66,12 +69,12 @@ class NMapSearchResultViewController: UIViewController {
 
 extension NMapSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+        self.searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "\(indexPath.row)"
+        cell.textLabel?.text = self.searchResults[indexPath.row].name
         return cell
     }
 }
@@ -79,5 +82,17 @@ extension NMapSearchResultViewController: UITableViewDataSource {
 extension NMapSearchResultViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        
+        // call Local API with searchBar.text
+        guard let searchQuery = searchBar.text else {
+            return
+        }
+        
+        localQuery.searchData(query: searchQuery) { searchResults in
+            DispatchQueue.main.async {
+                self.searchResults = searchResults
+                self.tableView.reloadData()
+            }
+        }
     }
 }
