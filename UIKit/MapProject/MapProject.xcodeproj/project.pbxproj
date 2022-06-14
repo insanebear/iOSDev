@@ -23,6 +23,7 @@
 		7BA0DB7B28543AC100606382 /* LocationData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0DB7A28543AC100606382 /* LocationData.json */; };
 		7BA0DB7D28543C3800606382 /* LocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB7C28543C3800606382 /* LocationStore.swift */; };
 		7BA41DAC2858083D00581F93 /* NMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA41DAB2858083D00581F93 /* NMapViewController.swift */; };
+		7BA41DB1285826E900581F93 /* NMapSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA41DB0285826E900581F93 /* NMapSearchResultViewController.swift */; };
 		EB4EF9B789FA399B432E5E9B /* Pods_MapProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF7217C500D79C7DABDC9E /* Pods_MapProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		7BA0DB7A28543AC100606382 /* LocationData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LocationData.json; sourceTree = SOURCE_ROOT; };
 		7BA0DB7C28543C3800606382 /* LocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStore.swift; sourceTree = "<group>"; };
 		7BA41DAB2858083D00581F93 /* NMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMapViewController.swift; sourceTree = "<group>"; };
+		7BA41DB0285826E900581F93 /* NMapSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMapSearchResultViewController.swift; sourceTree = "<group>"; };
 		D2DF7217C500D79C7DABDC9E /* Pods_MapProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				7BA41DAB2858083D00581F93 /* NMapViewController.swift */,
+				7BA41DB0285826E900581F93 /* NMapSearchResultViewController.swift */,
 			);
 			path = NMapMaps;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				7B67C4B22854BD7C00B9EB6C /* MapSearchResultViewController.swift in Sources */,
 				7BA0DB612854177000606382 /* ViewController.swift in Sources */,
 				7B67C4B6285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift in Sources */,
+				7BA41DB1285826E900581F93 /* NMapSearchResultViewController.swift in Sources */,
 				7BA0DB5D2854177000606382 /* AppDelegate.swift in Sources */,
 				7BA0DB792854376900606382 /* MyLocation.swift in Sources */,
 				7BA0DB7D28543C3800606382 /* LocationStore.swift in Sources */,
