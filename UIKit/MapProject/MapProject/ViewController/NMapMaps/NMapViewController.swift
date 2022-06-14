@@ -10,8 +10,10 @@ import NMapsMap
 
 class NMapViewController: UIViewController {
     
-    var mapView: NMFMapView!
+    var nMapView: NMFNaverMapView!
     var searchBar: UISearchBar!
+    
+    let DEFAULT_CAMERA_POSITION = NMGLatLng(lat: 37.5666102, lng: 126.9783881)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,17 +28,40 @@ class NMapViewController: UIViewController {
     }
     
     func setupMap() {
-        mapView = NMFMapView(frame: self.view.frame)
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(mapView)
+        nMapView = NMFNaverMapView(frame: self.view.frame)
+        nMapView.translatesAutoresizingMaskIntoConstraints = false
+        nMapView.showLocationButton = true
+        nMapView.showZoomControls = false
+        self.view.addSubview(nMapView)
         
         NSLayoutConstraint.activate([
             // ???: mapView topAnchor cannot be attached to other than self.view anchors. It crashes.
-            mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor),
-            mapView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
+            nMapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            nMapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            nMapView.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor),
+            nMapView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
         ])
+        
+        nMapView.mapView.moveCamera(
+            NMFCameraUpdate(position:
+                                NMFCameraPosition(DEFAULT_CAMERA_POSITION,
+                                                                               zoom: 14,
+                                                                               tilt: 0,
+                                                                               heading: 0))
+        )
+        
+        let userLocationMark = nMapView.mapView.locationOverlay
+        userLocationMark.circleOutlineWidth = 0
+        userLocationMark.location = NMFCameraPosition(
+            DEFAULT_CAMERA_POSITION,
+            zoom: 14,
+            tilt: 0,
+            heading: 0
+        ).target ///
+        userLocationMark.hidden = false
+        userLocationMark.icon = NMFOverlayImage(name: "imgLocationDirection", in: Bundle.naverMapFramework())
+        userLocationMark.circleColor = .lightGray
+        
     }
     
     func setupSearchBar() {
