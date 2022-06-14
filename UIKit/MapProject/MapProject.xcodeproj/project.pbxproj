@@ -22,6 +22,7 @@
 		7BA0DB792854376900606382 /* MyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB782854376900606382 /* MyLocation.swift */; };
 		7BA0DB7B28543AC100606382 /* LocationData.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0DB7A28543AC100606382 /* LocationData.json */; };
 		7BA0DB7D28543C3800606382 /* LocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB7C28543C3800606382 /* LocationStore.swift */; };
+		7BA41DAC2858083D00581F93 /* NMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA41DAB2858083D00581F93 /* NMapViewController.swift */; };
 		EB4EF9B789FA399B432E5E9B /* Pods_MapProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DF7217C500D79C7DABDC9E /* Pods_MapProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		7BA0DB782854376900606382 /* MyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocation.swift; sourceTree = "<group>"; };
 		7BA0DB7A28543AC100606382 /* LocationData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LocationData.json; sourceTree = SOURCE_ROOT; };
 		7BA0DB7C28543C3800606382 /* LocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStore.swift; sourceTree = "<group>"; };
+		7BA41DAB2858083D00581F93 /* NMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NMapViewController.swift; sourceTree = "<group>"; };
 		D2DF7217C500D79C7DABDC9E /* Pods_MapProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,7 +68,6 @@
 				5480869AEA22620D182E6FF8 /* Pods-MapProject.debug.xcconfig */,
 				20D3EB190770AE3A64D7D166 /* Pods-MapProject.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -108,11 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA0DB602854177000606382 /* ViewController.swift */,
-				7BA0DB71285419F500606382 /* MapViewController.swift */,
-				7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */,
-				7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */,
-				7B67C4B5285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift */,
-				7B67C4B32854F5A300B9EB6C /* MapDetailViewController.swift */,
+				7BA41DAD2858084600581F93 /* MapKit */,
+				7BA41DAE2858084F00581F93 /* NMapMaps */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -125,6 +123,26 @@
 				7BA0DB7C28543C3800606382 /* LocationStore.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7BA41DAD2858084600581F93 /* MapKit */ = {
+			isa = PBXGroup;
+			children = (
+				7BA0DB71285419F500606382 /* MapViewController.swift */,
+				7B01D83728547EB700444F94 /* MapViewController+LocationManager.swift */,
+				7B67C4B12854BD7C00B9EB6C /* MapSearchResultViewController.swift */,
+				7B67C4B5285584DA00B9EB6C /* MapSearchResultViewController+Delegate.swift */,
+				7B67C4B32854F5A300B9EB6C /* MapDetailViewController.swift */,
+			);
+			path = MapKit;
+			sourceTree = "<group>";
+		};
+		7BA41DAE2858084F00581F93 /* NMapMaps */ = {
+			isa = PBXGroup;
+			children = (
+				7BA41DAB2858083D00581F93 /* NMapViewController.swift */,
+			);
+			path = NMapMaps;
 			sourceTree = "<group>";
 		};
 		D7B6AA70BB26F975BCFB2C71 /* Frameworks */ = {
@@ -261,6 +279,7 @@
 				7BA0DB5F2854177000606382 /* SceneDelegate.swift in Sources */,
 				7BA0DB7528541AC100606382 /* TabItem.swift in Sources */,
 				7B01D83828547EB700444F94 /* MapViewController+LocationManager.swift in Sources */,
+				7BA41DAC2858083D00581F93 /* NMapViewController.swift in Sources */,
 				7BA0DB72285419F500606382 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,7 +357,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -393,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

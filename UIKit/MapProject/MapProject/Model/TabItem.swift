@@ -9,11 +9,14 @@ import UIKit
 
 enum TabItem: String, CaseIterable {
     case mapKit = "MapKit"
-    
+    case nMapMaps = "NMapMaps"
+
     var viewController: UIViewController {
         switch self {
         case .mapKit:
             return MapViewController()
+        case .nMapMaps:
+            return NMapViewController()
         }
     }
     
@@ -21,6 +24,8 @@ enum TabItem: String, CaseIterable {
         switch self {
         case .mapKit:
             return UIImage(systemName: "map")!
+        case .nMapMaps:
+            return UIImage(systemName: "map.circle")!
         }
     }
     
@@ -28,6 +33,8 @@ enum TabItem: String, CaseIterable {
         switch self {
         case .mapKit:
             return UIImage(systemName: "map.fill")!
+        case .nMapMaps:
+            return UIImage(systemName: "map.circle.fill")!
         }
     }
     

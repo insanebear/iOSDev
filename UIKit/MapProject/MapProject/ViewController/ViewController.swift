@@ -15,7 +15,7 @@ class ViewController: UITabBarController {
     }
     
     func loadViewControllers() {
-        let tabItems: [TabItem] = [.mapKit]
+        let tabItems: [TabItem] = [.mapKit, .nMapMaps]
         var controllers: [UIViewController] = []
         
         // create each view controller for a tab
