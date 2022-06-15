@@ -10,11 +10,9 @@ import UIKit
 class CardView: UIView {
     private var width: CGFloat = 0
     private var height: CGFloat = 0
-    private var initialCenter: CGPoint = .zero
     
     private var isTappable: Bool = false // TODO: add to the init
     private var showOverlay: Bool = false
-    private var isSwipeable: Bool = false
     
     private let filmLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
@@ -50,15 +48,13 @@ class CardView: UIView {
                      filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
                      overlayOpacity: CGFloat = 0.5,
-                     isTappable: Bool = true,
-                     isSwipeable: Bool = false) {
+                     isTappable: Bool = true) {
         
         self.init(frame: .zero)
         
         self.width = width
         self.height = width * ratio
         self.isTappable = isTappable
-        self.isSwipeable = isSwipeable
         
         filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
                             filmType.getColoredFilm(color: filmColor).1]
@@ -73,12 +69,10 @@ class CardView: UIView {
     convenience init(filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
                      overlayOpacity: CGFloat = 0.5,
-                     isTappable: Bool = true,
-                     isSwipeable: Bool = false) {
+                     isTappable: Bool = true) {
         
         self.init(frame: .zero)
         self.isTappable = isTappable
-        self.isSwipeable = isSwipeable
         
         filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
                             filmType.getColoredFilm(color: filmColor).1]
@@ -104,13 +98,6 @@ class CardView: UIView {
             // Tab Gesture
             UITapGestureRecognizer(target: self, action: #selector(self.didTapCardView(_:)))
         )
-        
-        if isSwipeable {
-            self.addGestureRecognizer(
-                // Pan Gesture for card swiping action
-                UIPanGestureRecognizer(target: self, action: #selector(didDragCardView(_:)))
-            )
-        }
         
         // Setup card shape
         self.layer.cornerRadius = 10
@@ -164,65 +151,6 @@ class CardView: UIView {
             showOverlay = true
         }
     }
-    
-    @objc func didDragCardView(_ sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            initialCenter = self.center
-            
-        case .changed:
-            let translation = sender.translation(in: self.superview)
-            
-            self.center = CGPoint(x: initialCenter.x + translation.x,
-                                  y: initialCenter.y + translation.y)
-            
-            UIView.animate(withDuration: 0.2) {
-                let direction = translation.x > 0 ? 1.0 : -1.0
-                self.rotate(angle: (.pi/10) * direction)
-            }
-            
-        case .ended, .cancelled:
-            // TODO: Split the left and right action
-            
-            let translation = sender.translation(in: self.superview)
-            let superViewWidth = self.superview!.frame.width
-            
-            // Moving threshold for preventing unwanted user behavior
-            let threshold = (initialCenter.x - superViewWidth / 4,
-                             initialCenter.x + superViewWidth / 4)
-            let newX = initialCenter.x + translation.x // x of a new center
-            
-            let isValid = newX < threshold.0 || newX > threshold.1 ? true : false
-            if isValid {
-                UIView.animate(withDuration: 0.2, animations: {
-                    // Move the card outside of the current view range
-                    if newX > superViewWidth / 2 {
-                        self.center = CGPoint(x: superViewWidth + self.width,
-                                              y: self.initialCenter.y)
-                    } else {
-                        self.center = CGPoint(x: 0 - self.width,
-                                              y: self.initialCenter.y)
-                    }
-                }, completion: { _ in
-                    // Remove the card swiped out
-                    self.removeFromSuperview()
-                })
-            } else {
-                // if swipe-action is not valid, return the original status
-                UIView.animate(withDuration: 0.5,
-                               delay: 0,
-                               usingSpringWithDamping: 0.7,
-                               initialSpringVelocity: 0.7,
-                               options: [.curveEaseOut]) {
-                    self.center = self.superview!.center
-                    self.rotate(angle: 0)
-                }
-            }
-            
-        default:
-            break
-        }
-    }
 }
 
 // MARK: - Alignments
@@ -247,12 +175,5 @@ extension CardView {
             self.widthAnchor.constraint(equalToConstant: self.width),
             self.heightAnchor.constraint(equalToConstant: self.height)
         ])
-    }
-}
-
-// MARK: - UIView extension
-extension UIView {
-    func rotate(angle: CGFloat) {
-        self.transform = CGAffineTransform(rotationAngle: angle)
     }
 }

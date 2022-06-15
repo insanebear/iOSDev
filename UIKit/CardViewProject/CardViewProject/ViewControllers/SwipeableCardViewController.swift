@@ -8,6 +8,8 @@
 import UIKit
 
 class SwipeableCardViewController: UIViewController {
+    private var initialCenter: CGPoint = .zero
+    
     var cardList: [CardView] = []
     
     override func viewDidLoad() {
@@ -32,17 +34,92 @@ class SwipeableCardViewController: UIViewController {
     
     func createCards() {
         for data in MyData.myDataList {
-            let card = CardView(width: 250, ratio: 1.5, isSwipeable: true)
+            let card = CardView(width: 250, ratio: 1.5)
             card.setContents(image: data.image,
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)
-            cardList.append(card)
+            
+            // Pan Gesture for card swiping action
+            card.addGestureRecognizer(
+                UIPanGestureRecognizer(target: self, action: #selector(didDragCardView(_:)))
+            )
+            
             self.view.addSubview(card)
             NSLayoutConstraint.activate([
                 card.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
                 card.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
             ])
         }
+    }
+    
+    @objc func didDragCardView(_ sender: UIPanGestureRecognizer) {
+        guard let senderView = sender.view else {
+            return
+        }
+        
+        switch sender.state {
+        case .began:
+            initialCenter = senderView.center
+            
+        case .changed:
+            let translation = sender.translation(in: self.view)
+            
+            senderView.center = CGPoint(x: initialCenter.x + translation.x,
+                                  y: initialCenter.y + translation.y)
+            
+            UIView.animate(withDuration: 0.2) {
+                let direction = translation.x > 0 ? 1.0 : -1.0
+                senderView.rotate(angle: (.pi/10) * direction)
+            }
+            
+        case .ended, .cancelled:
+            // TODO: Split the left and right action
+            
+            let translation = sender.translation(in: self.view)
+            let width = self.view.frame.width
+            
+            // Moving threshold for preventing unwanted user behavior
+            let threshold = (initialCenter.x - width / 4,
+                             initialCenter.x + width / 4)
+            let newX = initialCenter.x + translation.x // x of a new center
+            
+            let isValid = newX < threshold.0 || newX > threshold.1 ? true : false
+            if isValid {
+                UIView.animate(withDuration: 0.2, animations: {
+                    // Move the card outside of the current view range
+                    if newX > width / 2 {
+                        senderView.center = CGPoint(x: width + senderView.frame.width,
+                                              y: self.initialCenter.y)
+                    } else {
+                        senderView.center = CGPoint(x: 0 - senderView.frame.width,
+                                              y: self.initialCenter.y)
+                    }
+                }, completion: { _ in
+                    // Remove the card swiped out
+                    senderView.removeFromSuperview()
+                })
+            } else {
+                // if swipe-action is not valid, return the original status
+                UIView.animate(withDuration: 0.5,
+                               delay: 0,
+                               usingSpringWithDamping: 0.7,
+                               initialSpringVelocity: 0.7,
+                               options: [.curveEaseOut]) {
+                    senderView.center = senderView.superview!.center
+                    senderView.rotate(angle: 0)
+                }
+            }
+            
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - UIView extension
+extension UIView {
+    func rotate(angle: CGFloat) {
+        self.transform = CGAffineTransform(rotationAngle: angle)
     }
 }
