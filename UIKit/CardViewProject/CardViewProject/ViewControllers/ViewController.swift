@@ -32,9 +32,17 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(showCardPageViewContoller(_:)), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var button4: UIButton = {
+        let button = UIButton()
+        button.setTitle("Swipeable Card View", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action: #selector(showSwipeableCardViewController(_:)), for: .touchUpInside)
+        return button
+    }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3])
+        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3, button4])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +77,14 @@ class ViewController: UIViewController {
     
     @objc private func showCardPageViewContoller(_ sender: UIButton) {
         let vc = CardPageViewController()
+        guard let navVC = navigationController else {
+            fatalError("No navigation vc")
+        }
+        navVC.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func showSwipeableCardViewController(_ sender: UIButton) {
+        let vc = SwipeableCardViewController()
         guard let navVC = navigationController else {
             fatalError("No navigation vc")
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B2AF1C7285969A200475887 /* SwipeableCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AF1C6285969A200475887 /* SwipeableCardViewController.swift */; };
 		7B5D61D4284EC03900B41D8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61D3284EC03900B41D8B /* AppDelegate.swift */; };
 		7B5D61D6284EC03900B41D8B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61D5284EC03900B41D8B /* SceneDelegate.swift */; };
 		7B5D61D8284EC03900B41D8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61D7284EC03900B41D8B /* ViewController.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B2AF1C6285969A200475887 /* SwipeableCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewController.swift; sourceTree = "<group>"; };
 		7B5D61D0284EC03900B41D8B /* CardViewProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardViewProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B5D61D3284EC03900B41D8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B5D61D5284EC03900B41D8B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,11 +123,12 @@
 		7B5D61F5284F277900B41D8B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				7B5D61E7284EC0F300B41D8B /* SimpleCardViewController.swift */,
 				7B5D61D7284EC03900B41D8B /* ViewController.swift */,
+				7B5D61E7284EC0F300B41D8B /* SimpleCardViewController.swift */,
 				7B5D61F6284F27AA00B41D8B /* CardCollectionViewController.swift */,
 				7B5D61FA28504BA800B41D8B /* CardCollectionViewController+DataSource.swift */,
 				7BA0DB1B2851EA9800606382 /* CardPageViewController.swift */,
+				7B2AF1C6285969A200475887 /* SwipeableCardViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				7B5D61F4284F18C400B41D8B /* CardView+TextViews.swift in Sources */,
 				7BA0DB272852E2EC00606382 /* PagingInfo.swift in Sources */,
 				7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */,
+				7B2AF1C7285969A200475887 /* SwipeableCardViewController.swift in Sources */,
 				7BA0DB1E2851EACD00606382 /* CardScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
