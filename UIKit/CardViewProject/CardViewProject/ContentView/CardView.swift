@@ -50,12 +50,14 @@ class CardView: UIView {
                      filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
                      overlayOpacity: CGFloat = 0.5,
+                     isTappable: Bool = true,
                      isSwipeable: Bool = false) {
         
         self.init(frame: .zero)
         
         self.width = width
         self.height = width * ratio
+        self.isTappable = isTappable
         self.isSwipeable = isSwipeable
         
         filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
@@ -71,9 +73,11 @@ class CardView: UIView {
     convenience init(filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
                      overlayOpacity: CGFloat = 0.5,
+                     isTappable: Bool = true,
                      isSwipeable: Bool = false) {
         
         self.init(frame: .zero)
+        self.isTappable = isTappable
         self.isSwipeable = isSwipeable
         
         filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
@@ -98,13 +102,13 @@ class CardView: UIView {
         self.isUserInteractionEnabled = true
         self.addGestureRecognizer(
             // Tab Gesture
-            UITapGestureRecognizer(target: self, action: #selector(self.handleTapCardView(_:)))
+            UITapGestureRecognizer(target: self, action: #selector(self.didTapCardView(_:)))
         )
         
         if isSwipeable {
             self.addGestureRecognizer(
                 // Pan Gesture for card swiping action
-                UIPanGestureRecognizer(target: self, action: #selector(handleDragCardView(_:)))
+                UIPanGestureRecognizer(target: self, action: #selector(didDragCardView(_:)))
             )
         }
         
@@ -142,7 +146,7 @@ class CardView: UIView {
         self.cardDetailInfoView.setContents(content: memo)
     }
     
-    @objc func handleTapCardView(_ sender: UIGestureRecognizer) {
+    @objc func didTapCardView(_ sender: UIGestureRecognizer) {
         // disable switching animation
         CATransaction.setDisableActions(true)
         
@@ -161,7 +165,7 @@ class CardView: UIView {
         }
     }
     
-    @objc func handleDragCardView(_ sender: UIPanGestureRecognizer) {
+    @objc func didDragCardView(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
             initialCenter = self.center
