@@ -26,7 +26,6 @@ class SwipeableCardViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
-        self.view.addSubview(button)
         // for a range check
         let square = UIView()
         square.backgroundColor = .red
@@ -34,6 +33,8 @@ class SwipeableCardViewController: UIViewController {
         self.view.addSubview(square)
         
         createCards()
+
+        self.view.addSubview(button)
         
         NSLayoutConstraint.activate([
             square.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -79,7 +80,7 @@ class SwipeableCardViewController: UIViewController {
             let translation = sender.translation(in: self.view)
             
             senderView.center = CGPoint(x: initialCenter.x + translation.x,
-                                  y: initialCenter.y + translation.y)
+                                        y: initialCenter.y + translation.y)
             
             UIView.animate(withDuration: 0.2) {
                 let direction = translation.x > 0 ? 1.0 : -1.0
@@ -87,8 +88,6 @@ class SwipeableCardViewController: UIViewController {
             }
             
         case .ended, .cancelled:
-            // TODO: Split the left and right action
-            
             let translation = sender.translation(in: self.view)
             let width = self.view.frame.width
             
@@ -102,21 +101,24 @@ class SwipeableCardViewController: UIViewController {
                 UIView.animate(withDuration: 0.2, animations: {
                     // Move the card outside of the current view range
                     if newX > width / 2 {
+                        // YES
                         senderView.center = CGPoint(x: width + senderView.frame.width,
-                                              y: self.initialCenter.y)
+                                                    y: self.initialCenter.y)
+                        // Add the data to the result array
+                        if let view = senderView as? CardView,
+                           let data = view.data as? MyData {
+                            self.selectedItem.append(data)
+                        }
                     } else {
+                        // NO
                         senderView.center = CGPoint(x: 0 - senderView.frame.width,
-                                              y: self.initialCenter.y)
+                                                    y: self.initialCenter.y)
                     }
                 }, completion: { _ in
                     // Remove the card swiped out
                     senderView.removeFromSuperview()
                 })
                 
-                if let view = senderView as? CardView,
-                    let data = view.data as? MyData {
-                    selectedItem.append(data)
-                }
             } else {
                 // if swipe-action is not valid, return the original status
                 UIView.animate(withDuration: 0.5,
