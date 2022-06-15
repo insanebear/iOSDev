@@ -10,12 +10,23 @@ import UIKit
 class SwipeableCardViewController: UIViewController {
     private var initialCenter: CGPoint = .zero
     
-    var cardList: [CardView] = []
+    var selectedItem: [MyData] = []
+    
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.setTitle("Print result", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action: #selector(printResult(_:)), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
+        self.view.addSubview(button)
         // for a range check
         let square = UIView()
         square.backgroundColor = .red
@@ -28,13 +39,15 @@ class SwipeableCardViewController: UIViewController {
             square.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             square.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             square.widthAnchor.constraint(equalToConstant: self.view.frame.width/2),
-            square.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+            square.heightAnchor.constraint(equalToConstant: self.view.frame.height),
+            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
     func createCards() {
         for data in MyData.myDataList {
-            let card = CardView(width: 250, ratio: 1.5)
+            let card = CardView(data: data, width: 250, ratio: 1.5)
             card.setContents(image: data.image,
                              title: data.title,
                              subtitle: data.author,
@@ -99,6 +112,11 @@ class SwipeableCardViewController: UIViewController {
                     // Remove the card swiped out
                     senderView.removeFromSuperview()
                 })
+                
+                if let view = senderView as? CardView,
+                    let data = view.data as? MyData {
+                    selectedItem.append(data)
+                }
             } else {
                 // if swipe-action is not valid, return the original status
                 UIView.animate(withDuration: 0.5,
@@ -114,6 +132,13 @@ class SwipeableCardViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func printResult(_ sender: UIButton) {
+        for item in selectedItem {
+            print(item.title, terminator: ",")
+        }
+        print("")
     }
 }
 

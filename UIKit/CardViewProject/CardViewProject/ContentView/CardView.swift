@@ -8,6 +8,7 @@
 import UIKit
 
 class CardView: UIView {
+    var data: Any? = nil
     private var width: CGFloat = 0
     private var height: CGFloat = 0
     
@@ -43,7 +44,8 @@ class CardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(width: CGFloat,
+    convenience init(data: Any? = nil,
+                     width: CGFloat,
                      ratio: CGFloat,    // ratio: 1.5 == 2 : 3
                      filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
@@ -52,6 +54,7 @@ class CardView: UIView {
         
         self.init(frame: .zero)
         
+        self.data = data
         self.width = width
         self.height = width * ratio
         self.isTappable = isTappable
@@ -66,12 +69,15 @@ class CardView: UIView {
     }
     
     // initializer which doesn't need width and height
-    convenience init(filmType: FilmType = .gradient,
+    convenience init(data: Any? = nil,
+                     filmType: FilmType = .gradient,
                      filmColor: UIColor = .black,
                      overlayOpacity: CGFloat = 0.5,
                      isTappable: Bool = true) {
         
         self.init(frame: .zero)
+        
+        self.data = data
         self.isTappable = isTappable
         
         filmLayer.colors = [filmType.getColoredFilm(color: filmColor).0,
