@@ -8,7 +8,9 @@
 import UIKit
 
 class TagFilterViewController: UIViewController {
-
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, AnyHashable>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, AnyHashable>
+    
     let sampleTags: [String] = [
         "Fruit", "Face", "Activity",
     ]
@@ -28,6 +30,8 @@ class TagFilterViewController: UIViewController {
     }
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    
+    var dataSource: DataSource!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +41,8 @@ class TagFilterViewController: UIViewController {
         
         collectionView.collectionViewLayout = generateLayout()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        setupDataSource()
+        configureDataSource()
+        updateSnapshot()
         self.view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
@@ -90,43 +95,41 @@ class TagFilterViewController: UIViewController {
     }
 }
 
-extension TagFilterViewController: UICollectionViewDataSource {
-    func setupDataSource() {
+extension TagFilterViewController {
+    func configureDataSource() {
         collectionView.register(TagCell.self, forCellWithReuseIdentifier: "\(TagCell.self)")
         collectionView.register(EmojiCell.self, forCellWithReuseIdentifier: "\(EmojiCell.self)")
-        collectionView.dataSource = self
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        Section.allCases.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == Section.tagList.rawValue {
-            return sampleTags.count
-        } else {
-            return Emoji.emojiList.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == Section.tagList.rawValue {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TagCell.self)", for: indexPath) as? TagCell else {
-                return UICollectionViewCell()
+        
+        self.dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            
+            if indexPath.section == Section.tagList.rawValue {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TagCell.self)", for: indexPath) as? TagCell else {
+                    return UICollectionViewCell()
+                }
+                
+                cell.configure(text: self.sampleTags[indexPath.row])
+                
+                return cell
+            } else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(EmojiCell.self)", for: indexPath) as? EmojiCell else {
+                    return UICollectionViewCell()
+                }
+                
+                cell.configure(emoji: Emoji.emojiList[indexPath.row])
+                
+                return cell
             }
-            
-            cell.configure(text: sampleTags[indexPath.row])
-            
-            return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(EmojiCell.self)", for: indexPath) as? EmojiCell else {
-                return UICollectionViewCell()
-            }
-            
-            cell.configure(emoji: Emoji.emojiList[indexPath.row])
-            
-            return cell
-        }
+        })
+        
+        self.collectionView.dataSource = self.dataSource
     }
     
+    func updateSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([Section.tagList, Section.itemList])
+        snapshot.appendItems(sampleTags, toSection: .tagList)
+        snapshot.appendItems(Emoji.emojiList, toSection: .itemList)
+        
+        dataSource.apply(snapshot)
+    }
 }
