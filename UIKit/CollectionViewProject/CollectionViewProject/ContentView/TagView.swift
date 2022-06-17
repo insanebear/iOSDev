@@ -8,11 +8,10 @@
 import UIKit
 
 class TagView: UIView {
-    
+    private var isSelected: Bool = false
     private var tagLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = .white
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = UIFont.preferredFont(forTextStyle: .caption1,
@@ -28,11 +27,10 @@ class TagView: UIView {
         
         self.isUserInteractionEnabled = true
         self.addGestureRecognizer(
-            UITapGestureRecognizer(target: self, action: #selector(self.handleTapTagView(_:)))
+            UITapGestureRecognizer(target: self, action: #selector(self.didTapTagView(_:)))
         )
-        self.backgroundColor = .systemRed
+        self.setTagViewColor()
         self.translatesAutoresizingMaskIntoConstraints = false
-        
         self.addSubview(tagLabel)
         
         NSLayoutConstraint.activate([
@@ -57,9 +55,26 @@ class TagView: UIView {
         tagLabel.text = "#\(text)"
     }
     
-    @objc func handleTapTagView(_ sender: UITapGestureRecognizer) {
-        let str = tagLabel.text ?? ""
-        let index = str.index(str.startIndex, offsetBy: 1)
-        print(str[index...])
+    @objc func didTapTagView(_ sender: UITapGestureRecognizer) {
+        var tag = tagLabel.text ?? ""
+        tag.removeFirst()
+        print(tag)
+        
+        isSelected.toggle()
+        setTagViewColor()
+    }
+    
+    func setTagViewColor() {
+        if isSelected {
+            self.backgroundColor = .white
+            tagLabel.textColor = .red
+            self.layer.borderColor = UIColor.red.cgColor
+            self.layer.borderWidth = 1
+        } else {
+            self.backgroundColor = .systemRed
+            tagLabel.textColor = .white
+            self.layer.borderColor = nil
+            self.layer.borderWidth = 0
+        }
     }
 }
