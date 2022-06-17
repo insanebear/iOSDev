@@ -77,4 +77,11 @@ class TagView: UIView {
             self.layer.borderWidth = 0
         }
     }
+    
+    func removeGestureRecognizer() {
+        self.isUserInteractionEnabled = false
+        self.removeGestureRecognizer(
+            UITapGestureRecognizer(target: self, action: #selector(self.didTapTagView(_:)))
+        )
+    }
 }

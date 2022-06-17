@@ -11,8 +11,8 @@
 		7B01148A28474D9200CC399F /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01148928474D9200CC399F /* LoadingCell.swift */; };
 		7B01148C2847995200CC399F /* SongDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01148B2847995200CC399F /* SongDetailViewController.swift */; };
 		7B2AF1CD285C224600475887 /* TagFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AF1CC285C224600475887 /* TagFilterViewController.swift */; };
-		7B2AF1D0285C255F00475887 /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AF1CF285C255F00475887 /* Emoji.swift */; };
 		7B2AF1D2285C27C000475887 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AF1D1285C27C000475887 /* EmojiCell.swift */; };
+		7B2AF1D6285CB16700475887 /* EmojisController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2AF1D5285CB16700475887 /* EmojisController.swift */; };
 		7B915D312843810100FE46E1 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D302843810100FE46E1 /* TextCell.swift */; };
 		7B915D332845078300FE46E1 /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D322845078300FE46E1 /* HeaderReusableView.swift */; };
 		7B915D35284583BF00FE46E1 /* FooterReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B915D34284583BF00FE46E1 /* FooterReusableView.swift */; };
@@ -37,8 +37,8 @@
 		7B01148928474D9200CC399F /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		7B01148B2847995200CC399F /* SongDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongDetailViewController.swift; sourceTree = "<group>"; };
 		7B2AF1CC285C224600475887 /* TagFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFilterViewController.swift; sourceTree = "<group>"; };
-		7B2AF1CF285C255F00475887 /* Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
 		7B2AF1D1285C27C000475887 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
+		7B2AF1D5285CB16700475887 /* EmojisController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojisController.swift; sourceTree = "<group>"; };
 		7B915D302843810100FE46E1 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		7B915D322845078300FE46E1 /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
 		7B915D34284583BF00FE46E1 /* FooterReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterReusableView.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			children = (
 				7B915D3A284646AE00FE46E1 /* Song.swift */,
 				7B0114852846F50500CC399F /* MusicQuery.swift */,
-				7B2AF1CF285C255F00475887 /* Emoji.swift */,
+				7B2AF1D5285CB16700475887 /* EmojisController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -215,6 +215,7 @@
 			files = (
 				7BA0DB2F28537D8F00606382 /* TagView.swift in Sources */,
 				7B915D35284583BF00FE46E1 /* FooterReusableView.swift in Sources */,
+				7B2AF1D6285CB16700475887 /* EmojisController.swift in Sources */,
 				7B2AF1D2285C27C000475887 /* EmojiCell.swift in Sources */,
 				7B915D3E2846479E00FE46E1 /* SongCell.swift in Sources */,
 				7B92DF80283E59A100C3324B /* FlowLayoutCollectionViewController.swift in Sources */,
@@ -228,7 +229,6 @@
 				7B915D332845078300FE46E1 /* HeaderReusableView.swift in Sources */,
 				7B92DF6C283E350600C3324B /* AppDelegate.swift in Sources */,
 				7B2AF1CD285C224600475887 /* TagFilterViewController.swift in Sources */,
-				7B2AF1D0285C255F00475887 /* Emoji.swift in Sources */,
 				7B915D312843810100FE46E1 /* TextCell.swift in Sources */,
 				7BA0DB2B28537D2C00606382 /* TagListViewController.swift in Sources */,
 				7B0114862846F50500CC399F /* MusicQuery.swift in Sources */,

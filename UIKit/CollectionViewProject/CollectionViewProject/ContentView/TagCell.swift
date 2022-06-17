@@ -27,8 +27,11 @@ class TagCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(text: String) {
+    func configure(text: String, isTappable: Bool=true) {
         tagView.setText(with: text)
+        if !isTappable {
+            tagView.removeGestureRecognizer()
+        }
     }
     
     override func prepareForReuse() {

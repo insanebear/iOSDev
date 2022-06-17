@@ -28,21 +28,22 @@ class TagFilterViewController: UIViewController {
             }
         }
     }
-    
+    let emojisController = EmojisController()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     var dataSource: DataSource!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.title = "Tag Filter"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        collectionView.delegate = self
         collectionView.collectionViewLayout = generateLayout()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         configureDataSource()
-        updateSnapshot()
+        performQuery(with: nil)
         self.view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
@@ -100,36 +101,55 @@ extension TagFilterViewController {
         collectionView.register(TagCell.self, forCellWithReuseIdentifier: "\(TagCell.self)")
         collectionView.register(EmojiCell.self, forCellWithReuseIdentifier: "\(EmojiCell.self)")
         
-        self.dataSource = DataSource(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        self.dataSource = DataSource(collectionView: self.collectionView,
+                                     cellProvider: { collectionView, indexPath, itemIdentifier in
             
             if indexPath.section == Section.tagList.rawValue {
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TagCell.self)", for: indexPath) as? TagCell else {
+                // Section: Tag List
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(TagCell.self)",
+                                                                    for: indexPath) as? TagCell,
+                      let tag = itemIdentifier as? String else {
                     return UICollectionViewCell()
                 }
                 
-                cell.configure(text: self.sampleTags[indexPath.row])
-                
+                cell.configure(text: tag, isTappable: false)
                 return cell
+                
             } else {
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(EmojiCell.self)", for: indexPath) as? EmojiCell else {
+                // Section: Item List
+                guard
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(EmojiCell.self)",
+                                                                  for: indexPath) as? EmojiCell,
+                    let emoji = itemIdentifier as? EmojisController.Emoji else {
                     return UICollectionViewCell()
                 }
                 
-                cell.configure(emoji: Emoji.emojiList[indexPath.row])
-                
+                cell.configure(emoji: emoji)
                 return cell
+                
             }
         })
         
         self.collectionView.dataSource = self.dataSource
     }
     
-    func updateSnapshot() {
+    func performQuery(with filter: String?) {
+        let items = emojisController.filteredEmojis(with: filter) // get filtered emojis
+        
         var snapshot = Snapshot()
         snapshot.appendSections([Section.tagList, Section.itemList])
         snapshot.appendItems(sampleTags, toSection: .tagList)
-        snapshot.appendItems(Emoji.emojiList, toSection: .itemList)
+        snapshot.appendItems(items, toSection: .itemList)
         
-        dataSource.apply(snapshot)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension TagFilterViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // When a tag in Tag List section is selected,
+        if indexPath.section == Section.tagList.rawValue {
+            performQuery(with: sampleTags[indexPath.row])
+        }
     }
 }

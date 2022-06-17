@@ -54,7 +54,7 @@ class EmojiCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(emoji: Emoji) {
+    func configure(emoji: EmojisController.Emoji) {
         emojiLabel.text = "\(emoji.emoji)"
         notesLabel.text = "\(emoji.notes)"
     }
