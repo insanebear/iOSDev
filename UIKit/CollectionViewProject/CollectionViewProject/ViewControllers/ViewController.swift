@@ -43,9 +43,18 @@ class ViewController: UIViewController {
         
         return button
     }()
+    
+    private lazy var button5: UIButton = {
+        let button = UIButton()
+        button.setTitle("Tag Filter List", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.addTarget(self, action: #selector(showTagFilterListCollectionView(_:)), for: .touchUpInside)
+        
+        return button
+    }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3, button4])
+        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3, button4, button5])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +98,14 @@ class ViewController: UIViewController {
     
     @objc private func showTagListCollectionView(_ sender: UIButton) {
         let vc = TagListViewController()
+        guard let navVC = navigationController else {
+            fatalError("No navigation vc")
+        }
+        navVC.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func showTagFilterListCollectionView(_ sender: UIButton) {
+        let vc = TagFilterViewController()
         guard let navVC = navigationController else {
             fatalError("No navigation vc")
         }
