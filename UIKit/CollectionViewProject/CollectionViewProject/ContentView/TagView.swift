@@ -29,7 +29,13 @@ class TagView: UIView {
         self.addGestureRecognizer(
             UITapGestureRecognizer(target: self, action: #selector(self.didTapTagView(_:)))
         )
-        self.setTagViewColor()
+        
+        // Base button status
+        self.backgroundColor = .white
+        tagLabel.textColor = .red
+        self.layer.borderColor = UIColor.red.cgColor
+        self.layer.borderWidth = 1
+        
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(tagLabel)
         
@@ -51,30 +57,32 @@ class TagView: UIView {
         self.layer.masksToBounds = true
     }
     
-    func setText(with text: String) {
-        tagLabel.text = "#\(text)"
-    }
     
     @objc func didTapTagView(_ sender: UITapGestureRecognizer) {
         var tag = tagLabel.text ?? ""
         tag.removeFirst()
         print(tag)
-        
-        isSelected.toggle()
-        setTagViewColor()
+
+        changeButtonStatus()
     }
     
-    func setTagViewColor() {
+    func setText(with text: String) {
+        tagLabel.text = "#\(text)"
+    }
+    
+    func changeButtonStatus() {
+        self.isSelected.toggle()
+        
         if isSelected {
-            self.backgroundColor = .white
-            tagLabel.textColor = .red
-            self.layer.borderColor = UIColor.red.cgColor
-            self.layer.borderWidth = 1
-        } else {
             self.backgroundColor = .systemRed
             tagLabel.textColor = .white
             self.layer.borderColor = nil
             self.layer.borderWidth = 0
+        } else {
+            self.backgroundColor = .white
+            tagLabel.textColor = .red
+            self.layer.borderColor = UIColor.red.cgColor
+            self.layer.borderWidth = 1
         }
     }
     

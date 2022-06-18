@@ -14,16 +14,16 @@ class EmojisController {
         let notes: String
     }
     
-    func filteredEmojis(with filter: String?=nil, limit: Int?=nil) -> [Emoji] {
+    func filteredEmojis(with filters: [String:Int]?=nil, limit: Int?=nil) -> [Emoji] {
         // if no filter, return an original list
-        if filter == nil {
+        guard let filters = filters else {
             return EmojisController.emojiList
         }
-        
         // if filter, filter out items that match the condition.
         let filteredEmoijs = EmojisController.emojiList.filter { emoji in
-            emoji.category == filter
+            filters[emoji.category] != nil
         }
+        
         if let limit = limit {
             return Array(filteredEmoijs.prefix(through: limit))
         } else {

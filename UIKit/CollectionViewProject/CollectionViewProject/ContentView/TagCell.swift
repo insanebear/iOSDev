@@ -4,7 +4,6 @@
 //
 //  Created by Jayde Jeong on 2022/06/10.
 //
-
 import UIKit
 
 class TagCell: UICollectionViewCell {
@@ -32,6 +31,10 @@ class TagCell: UICollectionViewCell {
         if !isTappable {
             tagView.removeGestureRecognizer()
         }
+    }
+    
+    func didTapTagCell() {
+        tagView.changeButtonStatus()
     }
     
     override func prepareForReuse() {

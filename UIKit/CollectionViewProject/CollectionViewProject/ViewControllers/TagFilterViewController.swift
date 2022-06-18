@@ -14,6 +14,7 @@ class TagFilterViewController: UIViewController {
     let sampleTags: [String] = [
         "Fruit", "Face", "Activity",
     ]
+    var selectedTags: [String: Int] = [:]
     
     enum Section: Int, CaseIterable {
         case tagList
@@ -133,8 +134,8 @@ extension TagFilterViewController {
         self.collectionView.dataSource = self.dataSource
     }
     
-    func performQuery(with filter: String?) {
-        let items = emojisController.filteredEmojis(with: filter) // get filtered emojis
+    func performQuery(with filters: [String: Int]?) {
+        let items = emojisController.filteredEmojis(with: filters) // get filtered emojis
         
         var snapshot = Snapshot()
         snapshot.appendSections([Section.tagList, Section.itemList])
@@ -149,7 +150,20 @@ extension TagFilterViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // When a tag in Tag List section is selected,
         if indexPath.section == Section.tagList.rawValue {
-            performQuery(with: sampleTags[indexPath.row])
+            let tag = sampleTags[indexPath.row]
+            
+            if let cell = collectionView.cellForItem(at: indexPath) as? TagCell {
+                cell.didTapTagCell()
+            }
+            
+            if selectedTags[tag] != nil {
+                selectedTags.removeValue(forKey: tag)
+            } else {
+                selectedTags[tag] = 0
+            }
+            // TODO: Improve query process using multiple tags
+            // it queries from the begining whenever a tag is added or removed.
+            performQuery(with: selectedTags)
         }
     }
 }
