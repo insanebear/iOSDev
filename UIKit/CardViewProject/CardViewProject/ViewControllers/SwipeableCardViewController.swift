@@ -126,7 +126,7 @@ class SwipeableCardViewController: UIViewController {
                                usingSpringWithDamping: 0.7,
                                initialSpringVelocity: 0.7,
                                options: [.curveEaseOut]) {
-                    senderView.center = senderView.superview!.center
+                    senderView.center = self.initialCenter
                     senderView.rotate(angle: 0)
                 }
             }
