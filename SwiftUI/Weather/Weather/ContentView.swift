@@ -23,9 +23,7 @@ struct ContentView: View {
                 Text("Hit me")
             }
             Button  {
-                for item in weatherManager.weatherItems {
-                    print(item)
-                }
+                print(weatherManager.weatherInfo)
             } label: {
                 Text("Print console")
             }

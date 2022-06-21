@@ -8,22 +8,47 @@
 import Foundation
 
 struct NcstItem: Decodable {
-    let baseDate: String
-    let baseTime: String
-    let category: String
-    let nx: Int
-    let ny: Int
-    let obsrValue: String
+    var baseDateTime: Date?
+    var data: [String: Float]
 }
 
-struct UltraSrtNcst: Decodable {
-    let ncstItems: [NcstItem]
+extension NcstItem {
+    init(from service: NcstItemService) {
+        let items = service.itemList
+        
+        // to convert time string to Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddhhmm"
+        
+        let dateTimeString = items[0].baseDate + items[0].baseTime
+        
+        baseDateTime = dateFormatter.date(from: dateTimeString)
+        
+        // to store category and obsrValue into dictionary
+        var tempData: [String: Float] = [:]
+        for item in items {
+            tempData[item.category] = Float(item.obsrValue)
+        }
+        data = tempData
+    }
+}
+
+struct NcstItemService: Decodable {
+    let itemList: [Item]
     
+    struct Item: Decodable {
+        let baseDate: String
+        let baseTime: String
+        let category: String
+        let obsrValue: String
+    }
+    
+    // coding key to access nested containers
     private enum CodingKeys: String, CodingKey {
         case response
         case body
         case items
-        case ncstItems = "item"
+        case item
     }
     
     init (from decoder: Decoder) throws {
@@ -31,7 +56,8 @@ struct UltraSrtNcst: Decodable {
         let responseContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .response)
         let bodyContainer = try responseContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .body)
         let itemsContainer = try bodyContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
-        
-        ncstItems = try itemsContainer.decode([NcstItem].self, forKey: .ncstItems)
+
+        // decode item using [Item] from itemsContainer
+        itemList = try itemsContainer.decode([Item].self, forKey: .item)
     }
 }

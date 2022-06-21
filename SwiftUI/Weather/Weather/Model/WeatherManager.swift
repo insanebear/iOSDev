@@ -8,7 +8,7 @@
 import Foundation
 
 class WeatherManager: ObservableObject {
-    @Published var weatherItems: [NcstItem] = []
+    @Published var weatherInfo: NcstItem?
     
     func getURL() -> URL {
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
@@ -19,7 +19,7 @@ class WeatherManager: ObservableObject {
         let numOfRows = URLQueryItem(name: "numOfRows", value: "100")
         let pageNo = URLQueryItem(name: "pageNo", value: "10")
         let dataType = URLQueryItem(name: "dataType", value: "JSON")
-        let base_date = URLQueryItem(name: "base_date", value: "20220620")
+        let base_date = URLQueryItem(name: "base_date", value: "20220621")
         let base_time = URLQueryItem(name: "base_time", value: "0600")
         
         let nx = URLQueryItem(name: "nx", value: "55")
@@ -53,17 +53,18 @@ class WeatherManager: ObservableObject {
                   let data = data else {
                       fatalError()
                   }
-            if let result = String(data: data, encoding: .utf8) {
-                print(result)
-            }
+//            if let result = String(data: data, encoding: .utf8) {
+//                print(result)
+//            }
+            
             let decoder = JSONDecoder()
             
-            guard let weatherResponse = try? decoder.decode(UltraSrtNcst.self, from: data) else {
+            guard let serviceItems = try? decoder.decode(NcstItemService.self, from: data) else {
                 print("Something went wrong")
                 return
             }
             DispatchQueue.main.async {
-                self.weatherItems = weatherResponse.ncstItems
+                self.weatherInfo = NcstItem(from: serviceItems)
             }
         }
         task.resume()
