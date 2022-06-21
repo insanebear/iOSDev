@@ -10,17 +10,24 @@ import Foundation
 class WeatherManager: ObservableObject {
     @Published var weatherInfo: NcstItem?
     
-    func getURL() -> URL {
+    func getURL(queryTime: Date) -> URL {
+        /// e.g.  query time: 11: 25 pm
+        /// base time of the data: 11:00 pm
+        /// updating time of the data: 11:30 ~ 11:40 pm
+
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
             fatalError("Cannot find weather API Key")
         }
         
+        let dateString = queryTime.stringDateTime().0
+        let timeString = queryTime.stringDateTime().1
+
         let serviceKey = URLQueryItem(name: "serviceKey", value: privateKey)
         let numOfRows = URLQueryItem(name: "numOfRows", value: "100")
         let pageNo = URLQueryItem(name: "pageNo", value: "10")
         let dataType = URLQueryItem(name: "dataType", value: "JSON")
-        let base_date = URLQueryItem(name: "base_date", value: "20220621")
-        let base_time = URLQueryItem(name: "base_time", value: "0600")
+        let base_date = URLQueryItem(name: "base_date", value: "\(dateString)")
+        let base_time = URLQueryItem(name: "base_time", value: "\(timeString)")
         
         let nx = URLQueryItem(name: "nx", value: "55")
         let ny = URLQueryItem(name: "ny", value: "127")
@@ -41,11 +48,11 @@ class WeatherManager: ObservableObject {
         return url
     }
 
-    func fetchData() {
+    func fetchData(of queryTime: Date) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         
-        let url = getURL()
+        let url = getURL(queryTime: queryTime)
         
         let task = session.dataTask(with: url) { data, response, error in
             guard let httpResponse = response as? HTTPURLResponse,
@@ -53,9 +60,12 @@ class WeatherManager: ObservableObject {
                   let data = data else {
                       fatalError()
                   }
-//            if let result = String(data: data, encoding: .utf8) {
-//                print(result)
-//            }
+            
+            #if DEBUG
+            if let result = String(data: data, encoding: .utf8) {
+                print(result)
+            }
+            #endif
             
             let decoder = JSONDecoder()
             
@@ -68,5 +78,19 @@ class WeatherManager: ObservableObject {
             }
         }
         task.resume()
+    }
+}
+
+extension Date {
+    func stringDateTime() -> (String, String) {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "yyyyMMdd"
+        let dateString = formatter.string(from: self)
+        
+        formatter.dateFormat = "HHmm"
+        let timeString = formatter.string(from: self)
+
+        return (dateString, timeString)
     }
 }

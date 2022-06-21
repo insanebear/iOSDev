@@ -18,7 +18,7 @@ extension NcstItem {
         
         // to convert time string to Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddhhmm"
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
         
         let dateTimeString = items[0].baseDate + items[0].baseTime
         

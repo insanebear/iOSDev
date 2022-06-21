@@ -9,25 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var weatherManager = WeatherManager()
+    @State var currentTime: Date = Date()
     
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
             Text("OO시")
-            Text("24°")
+            Text("\(getTemperature())°")
             Text("맑음")
             Text("최고: 31°, 최저: 21°")
             
             Button  {
-                weatherManager.fetchData()
+                weatherManager.fetchData(of: currentTime)
             } label: {
                 Text("Hit me")
             }
             Button  {
                 print(weatherManager.weatherInfo)
+                print(weatherManager.weatherInfo?.baseDateTime?.stringDateTime())
             } label: {
                 Text("Print console")
             }
         }
+    }
+    
+    func getTemperature() -> String {
+        return String(weatherManager.weatherInfo?.data["T1H"] ?? 0)
     }
 }
 
