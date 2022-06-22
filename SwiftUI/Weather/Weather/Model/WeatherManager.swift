@@ -14,7 +14,11 @@ class WeatherManager: ObservableObject {
         /// e.g.  query time: 11: 25 pm
         /// base time of the data: 11:00 pm
         /// updating time of the data: 11:30 ~ 11:40 pm
+        /// should query about data one hour before when the current time is in 0 to 30 min.
 
+        // TODO: Get data one hour before if query time is current and there's no data
+        /// {"response":{"header":{"resultCode":"01","resultMsg":"APPLICATION_ERROR"}}}
+        
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
             fatalError("Cannot find weather API Key")
         }
@@ -62,9 +66,9 @@ class WeatherManager: ObservableObject {
                   }
             
             #if DEBUG
-            if let result = String(data: data, encoding: .utf8) {
-                print(result)
-            }
+//            if let result = String(data: data, encoding: .utf8) {
+//                print(result)
+//            }
             #endif
             
             let decoder = JSONDecoder()
@@ -92,5 +96,9 @@ extension Date {
         let timeString = formatter.string(from: self)
 
         return (dateString, timeString)
+    }
+    
+    var hourBefore: Date {
+        Calendar.current.date(byAdding: .hour, value: -1, to: self)!
     }
 }

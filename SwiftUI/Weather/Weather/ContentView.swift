@@ -14,12 +14,12 @@ struct ContentView: View {
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
             Text("OO시")
-            Text("\(getTemperature())°")
-            Text("맑음")
+            Text("온도: \(getTemperature())°")
+            Text("강수 형태: \(getPTY())")
             Text("최고: 31°, 최저: 21°")
             
             Button  {
-                weatherManager.fetchData(of: currentTime)
+                weatherManager.fetchData(of: currentTime.hourBefore)
             } label: {
                 Text("Hit me")
             }
@@ -34,6 +34,22 @@ struct ContentView: View {
     
     func getTemperature() -> String {
         return String(weatherManager.weatherInfo?.data["T1H"] ?? 0)
+    }
+    
+    func getPTY() -> String {
+        let value = weatherManager.weatherInfo?.data["PTY"]
+        
+        switch value {
+        case 0: return "없음"
+        case 1: return "비"
+        case 2: return "비/눈"
+        case 3: return "눈"
+        case 4: return "소나기"
+        case 5: return "빗방울"
+        case 6: return "빗방울눈날림"
+        case 7: return "눈날림"
+        default: return ""
+        }
     }
 }
 
