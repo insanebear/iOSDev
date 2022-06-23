@@ -8,9 +8,9 @@
 import Foundation
 
 class WeatherManager: ObservableObject {
-    @Published var ultraSrtNcstInfo: NcstItem?
-    @Published var ultraSrtFcstInfo: FcstItem?
-    @Published var srtFcstInfo: FcstItem?
+    @Published var ultraSrtNcstInfo: WeatherItem?
+    @Published var ultraSrtFcstInfo: WeatherItem?
+    @Published var srtFcstInfo: WeatherItem?
     
     func getURL(queryTime: Date, operation: WeatherOperation) -> URL {
         /// e.g.  query time: 11: 25 pm
@@ -29,8 +29,8 @@ class WeatherManager: ObservableObject {
         let timeString = queryTime.stringDateTime().1
 
         let serviceKey = URLQueryItem(name: "serviceKey", value: privateKey)
-        let numOfRows = URLQueryItem(name: "numOfRows", value: "100")
-        let pageNo = URLQueryItem(name: "pageNo", value: "10")
+        let numOfRows = URLQueryItem(name: "numOfRows", value: "1000")
+        let pageNo = URLQueryItem(name: "pageNo", value: "1")
         let dataType = URLQueryItem(name: "dataType", value: "JSON")
         let base_date = URLQueryItem(name: "base_date", value: "\(dateString)")
         let base_time = URLQueryItem(name: "base_time", value: "\(timeString)")
@@ -57,58 +57,73 @@ class WeatherManager: ObservableObject {
     func fetchData(of queryTime: Date) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
-        
+        let decoder = JSONDecoder()
+
         for operation in WeatherOperation.allCases {
-            
-            let url = getURL(queryTime: queryTime, operation: operation)
-            
-            let task = session.dataTask(with: url) { data, response, error in
-                guard let httpResponse = response as? HTTPURLResponse,
-                      (200..<300).contains(httpResponse.statusCode),
-                      let data = data else {
-                    fatalError()
-                }
+            switch operation {
                 
-//                #if DEBUG
-//                if let result = String(data: data, encoding: .utf8) {
-//                    print(result)
-//                }
-//                #endif
-                
-                let decoder = JSONDecoder()
-                
-                switch operation {
-                case .ultraSrtNcst:
+            case .ultraSrtNcst:
+                let url = getURL(queryTime: queryTime, operation: operation)
+                let task = session.dataTask(with: url) { data, response, error in
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200..<300).contains(httpResponse.statusCode),
+                          let data = data else {
+                        fatalError()
+                    }
                     guard let serviceItems = try? decoder.decode(NcstItemService.self, from: data) else {
-                        print("Something went wrong")
+                        print("Something went wrong: ultraSrtNcst")
                         return
                     }
                     DispatchQueue.main.async {
-                        self.ultraSrtNcstInfo = NcstItem(from: serviceItems)
+                        self.ultraSrtNcstInfo = WeatherItem(operationType: .ultraSrtFcst, from: serviceItems)
                     }
-                    
-                case .ultraSrtFcst:
-                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
-                        print("Something went wrong")
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.ultraSrtFcstInfo = FcstItem(operationType: .ultraSrtFcst, from: serviceItems)
-                    }
-
-                case .vilageFcst:
-                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
-                        print("Something went wrong")
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.srtFcstInfo = FcstItem(operationType: .vilageFcst, from: serviceItems)
-                    }
-
                 }
+                task.resume()
+            case .ultraSrtFcst:
+                let url = getURL(queryTime: queryTime, operation: operation)
                 
+                let task = session.dataTask(with: url) { data, response, error in
+                    guard let httpResponse = response as? HTTPURLResponse,
+                          (200..<300).contains(httpResponse.statusCode),
+                          let data = data else {
+                        fatalError()
+                    }
+                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
+                        print("Something went wrong: ultraSrtFcst")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.ultraSrtFcstInfo = WeatherItem(operationType: .ultraSrtFcst, from: serviceItems)
+                    }
+                }
+                task.resume()
+            case .vilageFcst:
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyyMMddHHmm"
+                
+                let dateTime = queryTime.stringDateTime().0 + "0200"
+                
+                if let d = dateFormatter.date(from: dateTime) {
+                    let url = getURL(queryTime: d, operation: operation)
+
+                    let task = session.dataTask(with: url) { data, response, error in
+                        guard let httpResponse = response as? HTTPURLResponse,
+                              (200..<300).contains(httpResponse.statusCode),
+                              let data = data else {
+                            fatalError()
+                        }
+
+                        guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
+                            print("Something went wrong: vilageFcst")
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.srtFcstInfo = WeatherItem(operationType: .vilageFcst, from: serviceItems)
+                        }
+                    }
+                    task.resume()
+                }
             }
-            task.resume()
         }
     }
 }

@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
             CurrentWeatherView(ultraSrtNcstInfo: weatherManager.ultraSrtNcstInfo)
-            TodayForcastView()
+            TodayForcastView(srtFcstInfo: weatherManager.srtFcstInfo)
 
             Button  {
                 weatherManager.fetchData(of: currentTime.hourBefore)
@@ -40,7 +40,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct CurrentWeatherView: View {
-    var ultraSrtNcstInfo: NcstItem?
+    var ultraSrtNcstInfo: WeatherItem?
     
     var body: some View {
         VStack {
@@ -53,12 +53,21 @@ struct CurrentWeatherView: View {
     }
     
     func getTemperature() -> String {
-        return String(ultraSrtNcstInfo?.data["T1H"] ?? 0)
+        guard let ncstInfo = ultraSrtNcstInfo,
+              let dateTime = ncstInfo.baseDateTime else {
+            return "Unknown"
+        }
+        return String(ncstInfo.data[dateTime]!["T1H"]!)
     }
     
     func getPTY() -> String {
-        let value = ultraSrtNcstInfo?.data["PTY"]
         
+        guard let ncstInfo = ultraSrtNcstInfo,
+              let dateTime = ncstInfo.baseDateTime else {
+            return "Unknown"
+        }
+        let value = ncstInfo.data[dateTime]!["PTY"]!
+
         switch value {
         case 0: return "없음"
         case 1: return "비"
@@ -74,13 +83,80 @@ struct CurrentWeatherView: View {
 }
 
 struct TodayForcastView: View {
+    // TODO: Modify the logic getting data more resonable
+    var srtFcstInfo: WeatherItem?
+    let dateFormatter = DateFormatter()
+    
     var body: some View {
         VStack {
             Text("오늘 날씨")
                 .font(.title)
-            Text("최고: 31°, 최저: 21°")
-            Text("맑음")
-            Text("강수 확률: 00%")
+            Text("최고: \(getMaxTemp())°, 최저: \(getMinTemp())°")
+            Text("\(getSKY())")
+            Text("강수 확률: \(getPOP())%")
+        }
+    }
+    
+    func getMinTemp() -> String {
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
+        
+        let dateTime = Date().stringDateTime().0 + "0600"
+
+        guard let srtFcstInfo = srtFcstInfo,
+              let d = dateFormatter.date(from: dateTime) else {
+            return "Unknown"
+        }
+        
+        return String(srtFcstInfo.data[d]!["TMN"]!)
+    }
+    
+    func getMaxTemp() -> String {
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
+        
+        let dateTimeString = Date().stringDateTime().0 + "1500"
+
+        guard let srtFcstInfo = srtFcstInfo,
+              let d = dateFormatter.date(from: dateTimeString) else {
+            return "Unknown"
+        }
+        
+        return String(srtFcstInfo.data[d]!["TMX"]!)
+    }
+    
+    func getPOP() -> String {
+        dateFormatter.dateFormat = "HH"
+        let dateTimeString = Date().stringDateTime().0 + dateFormatter.string(from: Date()) + "00"
+        
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
+
+        guard let srtFcstInfo = srtFcstInfo,
+              let d = dateFormatter.date(from: dateTimeString) else {
+            return "Unknown"
+        }
+        
+        return String(srtFcstInfo.data[d]!["POP"]!)
+    }
+    
+    func getSKY() -> String {
+        dateFormatter.dateFormat = "HH"
+        let dateTimeString = Date().stringDateTime().0 + dateFormatter.string(from: Date()) + "00"
+        
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
+
+        guard let srtFcstInfo = srtFcstInfo,
+              let d = dateFormatter.date(from: dateTimeString) else {
+            return "Unknown"
+        }
+        
+        
+        let value = srtFcstInfo.data[d]!["SKY"]!
+
+        switch value {
+        case 1: return "맑음"
+        case 3: return "구름많음"
+        case 4: return "흐림"
+        
+        default: return "Unknown"
         }
     }
 }

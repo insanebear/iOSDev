@@ -12,8 +12,7 @@
 		7B5F87BA2860858A009AA856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B5F87B92860858A009AA856 /* Assets.xcassets */; };
 		7B5F87BD2860858A009AA856 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B5F87BC2860858A009AA856 /* Preview Assets.xcassets */; };
 		7B5F87C82860A0C7009AA856 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F87C72860A0C7009AA856 /* WeatherManager.swift */; };
-		7B5F87CB2860AED4009AA856 /* WeatherData+Ncst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F87CA2860AED4009AA856 /* WeatherData+Ncst.swift */; };
-		7BB2020D28637A4B0091FEFC /* WeatherData+Fcst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2020C28637A4B0091FEFC /* WeatherData+Fcst.swift */; };
+		7B5F87CB2860AED4009AA856 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F87CA2860AED4009AA856 /* WeatherData.swift */; };
 		7BB2020F2863F2D60091FEFC /* WeatherData+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB2020E2863F2D60091FEFC /* WeatherData+Enum.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +25,7 @@
 		7B5F87C328608848009AA856 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7B5F87C4286088C0009AA856 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		7B5F87C72860A0C7009AA856 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
-		7B5F87CA2860AED4009AA856 /* WeatherData+Ncst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherData+Ncst.swift"; sourceTree = "<group>"; };
-		7BB2020C28637A4B0091FEFC /* WeatherData+Fcst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherData+Fcst.swift"; sourceTree = "<group>"; };
+		7B5F87CA2860AED4009AA856 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		7BB2020E2863F2D60091FEFC /* WeatherData+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherData+Enum.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,8 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				7B5F87C72860A0C7009AA856 /* WeatherManager.swift */,
-				7B5F87CA2860AED4009AA856 /* WeatherData+Ncst.swift */,
-				7BB2020C28637A4B0091FEFC /* WeatherData+Fcst.swift */,
+				7B5F87CA2860AED4009AA856 /* WeatherData.swift */,
 				7BB2020E2863F2D60091FEFC /* WeatherData+Enum.swift */,
 			);
 			path = Model;
@@ -161,11 +158,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BB2020D28637A4B0091FEFC /* WeatherData+Fcst.swift in Sources */,
 				7BB2020F2863F2D60091FEFC /* WeatherData+Enum.swift in Sources */,
 				7B5F87C82860A0C7009AA856 /* WeatherManager.swift in Sources */,
 				7B5F87B828608588009AA856 /* ContentView.swift in Sources */,
-				7B5F87CB2860AED4009AA856 /* WeatherData+Ncst.swift in Sources */,
+				7B5F87CB2860AED4009AA856 /* WeatherData.swift in Sources */,
 				7B5F87B628608588009AA856 /* WeatherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
