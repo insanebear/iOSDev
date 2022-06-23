@@ -1,5 +1,5 @@
 //
-//  WeatherData.swift
+//  WeatherData+Ncst.swift
 //  Weather
 //
 //  Created by Jayde Jeong on 2022/06/20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NcstItem: Decodable {
+struct NcstItem {
     var baseDateTime: Date?
     var data: [String: Float]
 }

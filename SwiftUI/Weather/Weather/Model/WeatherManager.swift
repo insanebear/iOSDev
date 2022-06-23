@@ -8,14 +8,16 @@
 import Foundation
 
 class WeatherManager: ObservableObject {
-    @Published var weatherInfo: NcstItem?
+    @Published var ultraSrtNcstInfo: NcstItem?
+    @Published var ultraSrtFcstInfo: FcstItem?
+    @Published var srtFcstInfo: FcstItem?
     
-    func getURL(queryTime: Date) -> URL {
+    func getURL(queryTime: Date, operation: WeatherOperation) -> URL {
         /// e.g.  query time: 11: 25 pm
         /// base time of the data: 11:00 pm
         /// updating time of the data: 11:30 ~ 11:40 pm
         /// should query about data one hour before when the current time is in 0 to 30 min.
-
+        
         // TODO: Get data one hour before if query time is current and there's no data
         /// {"response":{"header":{"resultCode":"01","resultMsg":"APPLICATION_ERROR"}}}
         
@@ -39,7 +41,7 @@ class WeatherManager: ObservableObject {
         var urlComponents = URLComponents()
         urlComponents.scheme = "http"
         urlComponents.host = "apis.data.go.kr"
-        urlComponents.path = "/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"
+        urlComponents.path = "/1360000/VilageFcstInfoService_2.0/\(operation.url)"
         urlComponents.queryItems = [serviceKey, numOfRows, pageNo, dataType, base_date, base_time, nx, ny]
         
         // to encode '+' using percent encoding properly
@@ -51,37 +53,63 @@ class WeatherManager: ObservableObject {
         }
         return url
     }
-
+    
     func fetchData(of queryTime: Date) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         
-        let url = getURL(queryTime: queryTime)
-        
-        let task = session.dataTask(with: url) { data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode),
-                  let data = data else {
-                      fatalError()
-                  }
+        for operation in WeatherOperation.allCases {
             
-            #if DEBUG
-//            if let result = String(data: data, encoding: .utf8) {
-//                print(result)
-//            }
-            #endif
+            let url = getURL(queryTime: queryTime, operation: operation)
             
-            let decoder = JSONDecoder()
-            
-            guard let serviceItems = try? decoder.decode(NcstItemService.self, from: data) else {
-                print("Something went wrong")
-                return
+            let task = session.dataTask(with: url) { data, response, error in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200..<300).contains(httpResponse.statusCode),
+                      let data = data else {
+                    fatalError()
+                }
+                
+//                #if DEBUG
+//                if let result = String(data: data, encoding: .utf8) {
+//                    print(result)
+//                }
+//                #endif
+                
+                let decoder = JSONDecoder()
+                
+                switch operation {
+                case .ultraSrtNcst:
+                    guard let serviceItems = try? decoder.decode(NcstItemService.self, from: data) else {
+                        print("Something went wrong")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.ultraSrtNcstInfo = NcstItem(from: serviceItems)
+                    }
+                    
+                case .ultraSrtFcst:
+                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
+                        print("Something went wrong")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.ultraSrtFcstInfo = FcstItem(operationType: .ultraSrtFcst, from: serviceItems)
+                    }
+
+                case .vilageFcst:
+                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
+                        print("Something went wrong")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.srtFcstInfo = FcstItem(operationType: .vilageFcst, from: serviceItems)
+                    }
+
+                }
+                
             }
-            DispatchQueue.main.async {
-                self.weatherInfo = NcstItem(from: serviceItems)
-            }
+            task.resume()
         }
-        task.resume()
     }
 }
 
