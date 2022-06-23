@@ -24,9 +24,9 @@ class WeatherManager: ObservableObject {
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
             fatalError("Cannot find weather API Key")
         }
-        
-        let dateString = queryTime.stringDateTime().0
-        let timeString = queryTime.stringDateTime().1
+        let queryTimeString = queryTime.stringDateTime()
+        let dateString = queryTimeString.0
+        let timeString = queryTimeString.1 + queryTimeString.2
 
         let serviceKey = URLQueryItem(name: "serviceKey", value: privateKey)
         let numOfRows = URLQueryItem(name: "numOfRows", value: "1000")
@@ -64,6 +64,7 @@ class WeatherManager: ObservableObject {
                 
             case .ultraSrtNcst:
                 let url = getURL(queryTime: queryTime, operation: operation)
+                
                 let task = session.dataTask(with: url) { data, response, error in
                     guard let httpResponse = response as? HTTPURLResponse,
                           (200..<300).contains(httpResponse.statusCode),
@@ -129,16 +130,19 @@ class WeatherManager: ObservableObject {
 }
 
 extension Date {
-    func stringDateTime() -> (String, String) {
+    func stringDateTime() -> (String, String, String) {
         let formatter = DateFormatter()
         
         formatter.dateFormat = "yyyyMMdd"
         let dateString = formatter.string(from: self)
         
-        formatter.dateFormat = "HHmm"
-        let timeString = formatter.string(from: self)
+        formatter.dateFormat = "HH"
+        let hourString = formatter.string(from: self)
 
-        return (dateString, timeString)
+        formatter.dateFormat = "mm"
+        let minString = formatter.string(from: self)
+
+        return (dateString, hourString, minString)
     }
     
     var hourBefore: Date {

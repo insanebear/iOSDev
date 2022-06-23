@@ -14,6 +14,7 @@ struct WeatherItem {
 }
 
 extension WeatherItem {
+    // Initializer for NcstItemService
     init(operationType: WeatherOperation, from service: NcstItemService) {
         type = operationType
         
@@ -40,6 +41,7 @@ extension WeatherItem {
         data = tempData
     }
     
+    // Initializer for FcstItemService
     init(operationType: WeatherOperation, from service: FcstItemService) {
         type = operationType
         
@@ -48,7 +50,6 @@ extension WeatherItem {
         // to convert time string to Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMddHHmm"
-        dateFormatter.locale = Locale(identifier: "kr_KR")
         
         let baseDateTimeString = items[0].baseDate + items[0].baseTime
         
@@ -69,63 +70,5 @@ extension WeatherItem {
             }
         }
         data = tempData
-    }
-}
-
-struct NcstItemService: Decodable {
-    let itemList: [Item]
-    
-    struct Item: Decodable {
-        let baseDate: String
-        let baseTime: String
-        let category: String
-        let obsrValue: String
-    }
-    
-    // coding key to access nested containers
-    private enum CodingKeys: String, CodingKey {
-        case response
-        case body
-        case items
-        case item
-    }
-    
-    init (from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let responseContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .response)
-        let bodyContainer = try responseContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .body)
-        let itemsContainer = try bodyContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
-
-        // decode item using [Item] from itemsContainer
-        itemList = try itemsContainer.decode([Item].self, forKey: .item)
-    }
-}
-
-struct FcstItemService: Decodable {
-    let itemList: [Item]
-    
-    struct Item: Decodable {
-        let baseDate: String
-        let baseTime: String
-        let category: String
-        let fcstDate: String
-        let fcstTime: String
-        let fcstValue: String
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case response
-        case body
-        case items
-        case item
-    }
-    
-    init (from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let responseContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .response)
-        let bodyContainer = try responseContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .body)
-        let itemsContainer = try bodyContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
-
-        itemList = try itemsContainer.decode([Item].self, forKey: .item)
     }
 }
