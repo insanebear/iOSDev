@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var weatherManager = WeatherManager()
-    @State var currentTime: Date = Date()
     
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
@@ -18,7 +17,7 @@ struct ContentView: View {
                              ultraSrtFcstInfo: weatherManager.ultraSrtFcstInfo)
 
             Button  {
-                weatherManager.fetchData(of: currentTime.hourBefore)
+                weatherManager.fetchData(of: Date())
             } label: {
                 Text("Get weather data")
             }

@@ -63,7 +63,8 @@ class WeatherManager: ObservableObject {
             switch operation {
                 
             case .ultraSrtNcst:
-                let url = getURL(queryTime: queryTime, operation: operation)
+                let time = getBaseTime(operation: .ultraSrtNcst, time: queryTime)
+                let url = getURL(queryTime: time, operation: operation)
                 
                 let task = session.dataTask(with: url) { data, response, error in
                     guard let httpResponse = response as? HTTPURLResponse,
@@ -81,7 +82,8 @@ class WeatherManager: ObservableObject {
                 }
                 task.resume()
             case .ultraSrtFcst:
-                let url = getURL(queryTime: queryTime, operation: operation)
+                let time = getBaseTime(operation: .ultraSrtFcst, time: queryTime)
+                let url = getURL(queryTime: time, operation: operation)
                 
                 let task = session.dataTask(with: url) { data, response, error in
                     guard let httpResponse = response as? HTTPURLResponse,
@@ -126,6 +128,53 @@ class WeatherManager: ObservableObject {
                 }
             }
         }
+    }
+    
+    func getBaseTime(operation:WeatherOperation, time: Date) -> Date {
+        guard let hours = Int(time.stringDateTime().1),
+              let minutes = Int(time.stringDateTime().2) else {
+            fatalError("Cannot convert Date() to hours and minutes String")
+        }
+        
+        var baseTime = time
+        
+        switch operation {
+        case .ultraSrtNcst:
+            if minutes < 30 { baseTime = time.hourBefore }
+        case .ultraSrtFcst:
+            // to get the today's forcast
+            baseTime = time.hourBefore
+        case .vilageFcst:
+            let baseTimeSet: Set = [2, 5, 8, 11, 14, 17, 20, 23]
+            
+            var newHours = 0
+            if minutes < 10 {
+                // newHours would be less and closest value than the current time.
+                for h in baseTimeSet {
+                    if h >= hours { break }
+                    newHours = h
+                }
+            } else {
+                // newHours would be equal or less and closest value than the current time.
+                for h in baseTimeSet {
+                    if h > hours { break }
+                    newHours = h
+                }
+            }
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyyMMddHHmm"
+            let newTimeString = time.stringDateTime().0 + "00" + time.stringDateTime().2
+            
+            guard var newDate = dateFormatter.date(from: newTimeString) else {
+                fatalError("Fail to create a new base time")
+            }
+            
+            newDate.addTimeInterval(TimeInterval(newHours * 3600)) // add hours as much as newHours
+            baseTime = newDate
+        }
+        
+        return baseTime
     }
 }
 
