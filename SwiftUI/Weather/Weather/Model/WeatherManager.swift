@@ -8,26 +8,85 @@
 import Foundation
 
 class WeatherManager: ObservableObject {
-    @Published var ultraSrtNcstInfo: WeatherItem?
-    @Published var ultraSrtFcstInfo: WeatherItem?
-    @Published var srtFcstInfo: WeatherItem?
+    @Published var usNcstWeatherData: NcstWeatherItem!
+    @Published var usFcstWeatherData: FcstWeatherItem!
+    @Published var vilageFcstWeatherData: FcstWeatherItem!
+
+    var currentWeather: CurrentWeather = CurrentWeather()
+    var todayWeather: TodayForecast = TodayForecast()
     
-    func getURL(queryTime: Date, operation: WeatherOperation) -> URL {
-        /// e.g.  query time: 11: 25 pm
-        /// base time of the data: 11:00 pm
-        /// updating time of the data: 11:30 ~ 11:40 pm
-        /// should query about data one hour before when the current time is in 0 to 30 min.
+    func fetchData(of queryTime: Date) {
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration)
+        let decoder = JSONDecoder()
         
-        // TODO: Get data one hour before if query time is current and there's no data
-        /// {"response":{"header":{"resultCode":"01","resultMsg":"APPLICATION_ERROR"}}}
+        // get url
+        var urlList: [WeatherOperation: URL] = [:]
         
+        for operation in WeatherOperation.allCases {
+            let url = getURL(operation: operation, queryTime: queryTime)
+            urlList[operation] = url
+        }
+        
+        // fetch and decode data from url
+        for (operation, url) in urlList {
+            let task = session.dataTask(with: url) { data, response, error in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      let data = data else {
+                    fatalError()
+                }
+                
+                guard (200..<300).contains(httpResponse.statusCode) else {
+                    fatalError("Response code: \(httpResponse.statusCode)")
+                }
+                
+                DispatchQueue.main.async {
+                    switch operation {
+                    case .ultraSrtNcst:
+                        guard let ncstItemService = try? decoder.decode(NcstItemService.self, from: data) else {
+                            fatalError("UltraSrtNcst: Cannot decode as NcstItemService")
+                        }
+                        self.usNcstWeatherData = NcstWeatherItem(from: ncstItemService)
+                        
+                        // update all currentWeather except SKY
+                        self.currentWeather.updateDataNcst(with: self.usNcstWeatherData)
+                        
+                    case .ultraSrtFcst:
+                        guard let fcstItemService = try? decoder.decode(FcstItemService.self, from: data) else {
+                            fatalError("UltraSrtFcst: Cannot decode as FcstItemService")
+                        }
+                        self.usFcstWeatherData = FcstWeatherItem(from: fcstItemService)
+                        
+                        // update SKY in currentWeather
+                        self.currentWeather.updateDataFcst(with: self.usFcstWeatherData, queryTime: queryTime)
+                        
+                    case .vilageFcst:
+                        guard let fcstItemService = try? decoder.decode(FcstItemService.self, from: data) else {
+                            fatalError("VilageFcst: Cannot decode as FcstItemService")
+                        }
+
+                        self.vilageFcstWeatherData = FcstWeatherItem(from: fcstItemService)
+                        self.todayWeather.updateVilageFcstData(with: self.vilageFcstWeatherData, queryTime: queryTime)
+                    }
+                }
+            }
+            task.resume()
+        }
+        
+    }
+    
+    func getURL(operation: WeatherOperation, queryTime: Date) -> URL {
+        // get a proper base_time to make url
+        let time = getBaseTime(operation: operation, time: queryTime)
+        
+        // build url components
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
             fatalError("Cannot find weather API Key")
         }
-        let queryTimeString = queryTime.stringDateTime()
+        let queryTimeString = time.stringDateTime()
         let dateString = queryTimeString.0
         let timeString = queryTimeString.1 + queryTimeString.2
-
+        
         let serviceKey = URLQueryItem(name: "serviceKey", value: privateKey)
         let numOfRows = URLQueryItem(name: "numOfRows", value: "1000")
         let pageNo = URLQueryItem(name: "pageNo", value: "1")
@@ -41,7 +100,7 @@ class WeatherManager: ObservableObject {
         var urlComponents = URLComponents()
         urlComponents.scheme = "http"
         urlComponents.host = "apis.data.go.kr"
-        urlComponents.path = "/1360000/VilageFcstInfoService_2.0/\(operation.url)"
+        urlComponents.path = "/1360000/VilageFcstInfoService_2.0/\(operation.urlPath)"
         urlComponents.queryItems = [serviceKey, numOfRows, pageNo, dataType, base_date, base_time, nx, ny]
         
         // to encode '+' using percent encoding properly
@@ -54,83 +113,9 @@ class WeatherManager: ObservableObject {
         return url
     }
     
-    func fetchData(of queryTime: Date) {
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration)
-        let decoder = JSONDecoder()
-
-        for operation in WeatherOperation.allCases {
-            switch operation {
-                
-            case .ultraSrtNcst:
-                let time = getBaseTime(operation: .ultraSrtNcst, time: queryTime)
-                let url = getURL(queryTime: time, operation: operation)
-                
-                let task = session.dataTask(with: url) { data, response, error in
-                    guard let httpResponse = response as? HTTPURLResponse,
-                          (200..<300).contains(httpResponse.statusCode),
-                          let data = data else {
-                        fatalError()
-                    }
-                    guard let serviceItems = try? decoder.decode(NcstItemService.self, from: data) else {
-                        print("Something went wrong: ultraSrtNcst")
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.ultraSrtNcstInfo = WeatherItem(operationType: .ultraSrtFcst, from: serviceItems)
-                    }
-                }
-                task.resume()
-            case .ultraSrtFcst:
-                let time = getBaseTime(operation: .ultraSrtFcst, time: queryTime)
-                let url = getURL(queryTime: time, operation: operation)
-                
-                let task = session.dataTask(with: url) { data, response, error in
-                    guard let httpResponse = response as? HTTPURLResponse,
-                          (200..<300).contains(httpResponse.statusCode),
-                          let data = data else {
-                        fatalError()
-                    }
-                    guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
-                        print("Something went wrong: ultraSrtFcst")
-                        return
-                    }
-                    DispatchQueue.main.async {
-                        self.ultraSrtFcstInfo = WeatherItem(operationType: .ultraSrtFcst, from: serviceItems)
-                    }
-                }
-                task.resume()
-            case .vilageFcst:
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyyMMddHHmm"
-                
-                let dateTime = queryTime.stringDateTime().0 + "0200"
-                
-                if let d = dateFormatter.date(from: dateTime) {
-                    let url = getURL(queryTime: d, operation: operation)
-
-                    let task = session.dataTask(with: url) { data, response, error in
-                        guard let httpResponse = response as? HTTPURLResponse,
-                              (200..<300).contains(httpResponse.statusCode),
-                              let data = data else {
-                            fatalError()
-                        }
-
-                        guard let serviceItems = try? decoder.decode(FcstItemService.self, from: data) else {
-                            print("Something went wrong: vilageFcst")
-                            return
-                        }
-                        DispatchQueue.main.async {
-                            self.srtFcstInfo = WeatherItem(operationType: .vilageFcst, from: serviceItems)
-                        }
-                    }
-                    task.resume()
-                }
-            }
-        }
-    }
     
-    func getBaseTime(operation:WeatherOperation, time: Date) -> Date {
+    func getBaseTime(operation: WeatherOperation, time: Date) -> Date {
+        
         guard let hours = Int(time.stringDateTime().1),
               let minutes = Int(time.stringDateTime().2) else {
             fatalError("Cannot convert Date() to hours and minutes String")
@@ -145,56 +130,24 @@ class WeatherManager: ObservableObject {
             // to get the today's forcast
             baseTime = time.hourBefore
         case .vilageFcst:
-            let baseTimeSet: Set = [2, 5, 8, 11, 14, 17, 20, 23]
+            // only use base_time 02:00 to get TMN, TMX, POP
+            var newBaseTimeString = ""
             
-            var newHours = 0
-            if minutes < 10 {
-                // newHours would be less and closest value than the current time.
-                for h in baseTimeSet {
-                    if h >= hours { break }
-                    newHours = h
-                }
+            if hours < 2 || (hours == 2 && minutes < 10) {
+                newBaseTimeString = time.dayBefore.stringDateTime().0 + "0200"
             } else {
-                // newHours would be equal or less and closest value than the current time.
-                for h in baseTimeSet {
-                    if h > hours { break }
-                    newHours = h
-                }
+                newBaseTimeString = time.stringDateTime().0 + "0200"
             }
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMddHHmm"
-            let newTimeString = time.stringDateTime().0 + "00" + time.stringDateTime().2
-            
-            guard var newDate = dateFormatter.date(from: newTimeString) else {
+            guard let newDate = dateFormatter.date(from: newBaseTimeString) else {
                 fatalError("Fail to create a new base time")
             }
             
-            newDate.addTimeInterval(TimeInterval(newHours * 3600)) // add hours as much as newHours
             baseTime = newDate
         }
         
         return baseTime
-    }
-}
-
-extension Date {
-    func stringDateTime() -> (String, String, String) {
-        let formatter = DateFormatter()
-        
-        formatter.dateFormat = "yyyyMMdd"
-        let dateString = formatter.string(from: self)
-        
-        formatter.dateFormat = "HH"
-        let hourString = formatter.string(from: self)
-
-        formatter.dateFormat = "mm"
-        let minString = formatter.string(from: self)
-
-        return (dateString, hourString, minString)
-    }
-    
-    var hourBefore: Date {
-        Calendar.current.date(byAdding: .hour, value: -1, to: self)!
     }
 }

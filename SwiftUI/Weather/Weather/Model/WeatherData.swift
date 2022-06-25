@@ -7,43 +7,34 @@
 
 import Foundation
 
-struct WeatherItem {
-    var type: WeatherOperation
+// MARK: 초단기현황 (getUltraSrtNcst)
+struct NcstWeatherItem {
     var baseDateTime: Date?
-    var data: [Date: [String: Float]] // [dateTime: [category: fcstValue]]
+    var ncstData: [String: Float] // [category: obsrValue]]
 }
 
-extension WeatherItem {
-    // Initializer for NcstItemService
-    init(operationType: WeatherOperation, from service: NcstItemService) {
-        type = operationType
-        
+extension NcstWeatherItem {
+    init(from service: NcstItemService) {
         let items = service.itemList
-
-        // to convert time string to Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmm"
-
-        let dateTimeString = items[0].baseDate + items[0].baseTime
-
-        baseDateTime = dateFormatter.date(from: dateTimeString)
+        var tempData: [String: Float] = [:]
         
-        var tempData: [Date: [String: Float]] = [:]
-        if let baseDateTime = baseDateTime {
-            tempData = [baseDateTime:[:]]
-            
-            for item in items {
-                if let obsrValue = Float(item.obsrValue) {
-                    tempData[baseDateTime]![item.category] = obsrValue
-                }
+        for item in items {
+            if let obsrValue = Float(item.obsrValue) {
+                tempData[item.category] = obsrValue
             }
         }
-        data = tempData
+        
+        ncstData = tempData
     }
-    
-    // Initializer for FcstItemService
-    init(operationType: WeatherOperation, from service: FcstItemService) {
-        type = operationType
+}
+
+// MARK: 초단기예보(getUltraSrtFcst), 단기예보(동네예보, getVilageFcst)
+struct FcstWeatherItem {
+    var baseDateTime: Date?
+    var fcstData: [Date: [String: Float]] // [fcstTime: [category: fcstValue]]
+}
+extension FcstWeatherItem {
+    init(from service: FcstItemService) {
         
         let items = service.itemList
         
@@ -69,6 +60,7 @@ extension WeatherItem {
                 }
             }
         }
-        data = tempData
+        
+        fcstData = tempData
     }
 }

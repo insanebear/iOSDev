@@ -25,7 +25,7 @@ enum WeatherOperation: CaseIterable {
 //            return "예보버전조회"
         }
     }
-    var url: String {
+    var urlPath: String {
         switch (self){
         case .ultraSrtNcst:
             return "getUltraSrtNcst"

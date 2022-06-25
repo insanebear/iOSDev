@@ -8,23 +8,27 @@
 import SwiftUI
 
 struct CurrentWeatherView: View {
-    var ultraSrtNcstInfo: WeatherItem?
+    @ObservedObject var weatherManager: WeatherManager
     
     var temp: String {
-        guard let ncstInfo = ultraSrtNcstInfo,
-              let dateTime = ncstInfo.baseDateTime else {
-            return "Unknown"
+        return String(weatherManager.currentWeather.temperature)
+    }
+    
+    var sky: String {
+        
+        let value = weatherManager.currentWeather.sky
+        switch value {
+        case 1: return "맑음"
+        case 3: return "구름많음"
+        case 4: return "흐림"
+        
+        default: return "Unknown"
         }
-        return String(ncstInfo.data[dateTime]!["T1H"]!)
     }
     
     var pty: String {
-        guard let ncstInfo = ultraSrtNcstInfo,
-              let dateTime = ncstInfo.baseDateTime else {
-            return "Unknown"
-        }
         
-        let value = ncstInfo.data[dateTime]!["PTY"]!
+        let value = weatherManager.currentWeather.rainFallType
         
         switch value {
         case 0: return "없음"
@@ -34,7 +38,7 @@ struct CurrentWeatherView: View {
         case 5: return "빗방울"
         case 6: return "빗방울눈날림"
         case 7: return "눈날림"
-        default: return ""
+        default: return "Unknown"
         }
     }
     
@@ -50,76 +54,26 @@ struct CurrentWeatherView: View {
 }
 
 struct TodayForcastView: View {
-    var srtFcstInfo: WeatherItem?   // for Max, Min temp
-    var ultraSrtFcstInfo: WeatherItem?
-    
-    var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMddHHmm"
-        
-        return formatter
-    } ()
-    
-    var sky: String {
-        let currentTimeString = Date().stringDateTime()
-        let dateTimeString = currentTimeString.0 + currentTimeString.1 + "00"
-        
-        guard let ultraSrtFcstInfo = ultraSrtFcstInfo,
-              let dateTime = dateFormatter.date(from: dateTimeString) else {
-            return "Unknown"
-        }
-        
-        let value = ultraSrtFcstInfo.data[dateTime]!["SKY"]
-        switch value {
-        case 1: return "맑음"
-        case 3: return "구름많음"
-        case 4: return "흐림"
-        
-        default: return "Unknown"
-        }
-    }
+    @ObservedObject var weatherManager: WeatherManager
     
     var minTemp: String {
-        let dateTimeString = Date().stringDateTime().0 + "0600" // Only avail at 06:00
-
-        guard let srtFcstInfo = srtFcstInfo,
-              let dateTime = dateFormatter.date(from: dateTimeString) else {
-            return "Unknown"
-        }
-        
-        return String(srtFcstInfo.data[dateTime]!["TMN"]!)
+        return String(weatherManager.todayWeather.minTemp)
     }
     
     var maxTemp: String {
-        let dateTimeString = Date().stringDateTime().0 + "1500" // Only avail at 15:00
-
-        guard let srtFcstInfo = srtFcstInfo,
-              let dateTime = dateFormatter.date(from: dateTimeString) else {
-            return "Unknown"
-        }
-        
-        return String(srtFcstInfo.data[dateTime]!["TMX"]!)
+        return String(weatherManager.todayWeather.maxTemp)
     }
     
-    var pop: String {
-        let currentTimeString = Date().stringDateTime()
-        let dateTimeString = currentTimeString.0 + currentTimeString.1 + "00"
-        
-        guard let srtFcstInfo = srtFcstInfo,
-              let dateTime = dateFormatter.date(from: dateTimeString) else {
-            return "Unknown"
-        }
-        
-        return String(srtFcstInfo.data[dateTime]!["POP"]!)
-    }
+//    var pop: String {
+//        return String(todayWeather.probRain)
+//    }
     
     var body: some View {
         VStack {
-            Text("오늘 날씨")
+            Text("오늘 날씨 예보")
                 .font(.title)
             Text("최고: \(maxTemp)°, 최저: \(minTemp)°")
-            Text("\(sky)")
-            Text("강수 확률: \(pop)%")
+//            Text("강수 확률: \(pop)%")
         }
     }
 }
