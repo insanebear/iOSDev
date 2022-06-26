@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import CoreLocation
 
 class WeatherManager {
     static let shared = WeatherManager()
-
-    func fetchData(of queryTime: Date, currentWeather: CurrentWeather, todayForecast: TodayForecast) {
+    
+    func fetchData(of queryTime: Date, currentWeather: CurrentWeather, todayForecast: TodayForecast, location: CLLocation?) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         let decoder = JSONDecoder()
@@ -19,7 +20,7 @@ class WeatherManager {
         var urlList: [WeatherOperation: URL] = [:]
         
         for operation in WeatherOperation.allCases {
-            let url = getURL(operation: operation, queryTime: queryTime)
+            let url = getURL(operation: operation, queryTime: queryTime, location: location)
             urlList[operation] = url
         }
         
@@ -32,6 +33,8 @@ class WeatherManager {
                 }
                 
                 guard (200..<300).contains(httpResponse.statusCode) else {
+                    // FIXME: Unknown response time out error
+                    // it might be the cause of slow fetching
                     fatalError("Response code: \(httpResponse.statusCode)")
                 }
                 
@@ -42,7 +45,7 @@ class WeatherManager {
                             fatalError("UltraSrtNcst: Cannot decode as NcstItemService")
                         }
                         let usNcstWeatherData = NcstWeatherItem(from: ncstItemService)
-
+                        
                         // update all currentWeather except SKY
                         currentWeather.updateDataNcst(with: usNcstWeatherData)
                         
@@ -59,7 +62,7 @@ class WeatherManager {
                         guard let fcstItemService = try? decoder.decode(FcstItemService.self, from: data) else {
                             fatalError("VilageFcst: Cannot decode as FcstItemService")
                         }
-
+                        
                         let vilageFcstWeatherData = FcstWeatherItem(from: fcstItemService)
                         todayForecast.updateVilageFcstData(with: vilageFcstWeatherData, queryTime: queryTime)
                     }
@@ -70,9 +73,15 @@ class WeatherManager {
         
     }
     
-    func getURL(operation: WeatherOperation, queryTime: Date) -> URL {
+    func getURL(operation: WeatherOperation, queryTime: Date, location: CLLocation?) -> URL {
         // get a proper base_time to make url
         let time = getBaseTime(operation: operation, time: queryTime)
+        var lccCoordinate: (Int, Int)!
+        
+        guard let location = location else {
+            fatalError("No location")
+        }
+        lccCoordinate = convertCoordinate(location: location)
         
         // build url components
         guard let privateKey = Bundle.main.object(forInfoDictionaryKey: "WEATHER_API_KEY") as? String else {
@@ -89,8 +98,8 @@ class WeatherManager {
         let base_date = URLQueryItem(name: "base_date", value: "\(dateString)")
         let base_time = URLQueryItem(name: "base_time", value: "\(timeString)")
         
-        let nx = URLQueryItem(name: "nx", value: "55")
-        let ny = URLQueryItem(name: "ny", value: "127")
+        let nx = URLQueryItem(name: "nx", value: "\(lccCoordinate.0)")
+        let ny = URLQueryItem(name: "ny", value: "\(lccCoordinate.1)")
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "http"
@@ -107,7 +116,6 @@ class WeatherManager {
         }
         return url
     }
-    
     
     func getBaseTime(operation: WeatherOperation, time: Date) -> Date {
         
@@ -144,5 +152,59 @@ class WeatherManager {
         }
         
         return baseTime
+    }
+    
+}
+
+extension WeatherManager {
+    struct WeatherMapConstant {
+        var re = 6371.00877     // 지도 반경
+        var grid = 5.0          // 격자 간격 (km)
+        var slat1 = 30.0        // 표준 위도 1
+        var slat2 = 60.0        // 표준 위도 2
+        var olon = 126.0        // 기준점 경도
+        var olat = 38.0         // 기준점 위도
+        var xo: Double { 210 / grid } // 기준점 x 좌표
+        var yo: Double { 675 / grid } // 기준점 y 좌표
+        var first = 0           // 시작 여부 (0 = 시작)
+    }
+    
+    func convertCoordinate(location: CLLocation) -> (Int, Int) {
+        let constants = WeatherMapConstant()
+        let lat = location.coordinate.latitude
+        let long = location.coordinate.longitude
+        
+        let radian = .pi/180.0
+        
+        let re = constants.re / constants.grid
+        let slat1 = constants.slat1 * radian
+        let slat2 = constants.slat2 * radian
+        let olon = constants.olon * radian
+        let olat = constants.olat * radian
+        
+        var sn = tan(.pi * 0.25 + slat2 * 0.5) / tan(.pi * 0.25 + slat1 * 0.5)
+        sn = log(cos(slat1) / cos(slat2)) / log(sn)
+        
+        var sf = tan(.pi * 0.25 + slat1 * 0.5)
+        sf = pow(sf, sn) * cos(slat1) / sn
+        
+        var ro = tan(.pi * 0.25 + olat * 0.5)
+        ro = re * sf / pow(ro, sn)
+        
+        var ra = tan(.pi * 0.25 + lat * radian * 0.5)
+        ra = re * sf / pow(ra, sn)
+        var theta = long * radian - olon
+        if theta > .pi {
+            theta -= 2.0 * .pi
+        }
+        if theta < (-1 * .pi) {
+            theta += 2.0 * .pi
+        }
+        theta *= sn
+        
+        let x = ra*sin(theta) + constants.xo + 1.5
+        let y = (ro - ra*cos(theta)) + constants.yo + 1.5
+        
+        return (Int(x), Int(y))
     }
 }

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CurrentWeatherView: View {
+    var locationString: String
     var temp: String
     var sky: String
     var pty: String
@@ -16,7 +18,7 @@ struct CurrentWeatherView: View {
         VStack {
             Text("현재 날씨")
                 .font(.title)
-            Text("OO시")
+            Text("위치: \(locationString)")
             Text("온도: \(temp)°")
             Text("강수 형태: \(pty)")
             Text("하늘 상태: \(sky)")

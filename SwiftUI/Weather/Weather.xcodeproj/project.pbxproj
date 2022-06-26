@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B2C194D2868776E00B569C9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2C194C2868776E00B569C9 /* LocationManager.swift */; };
+		7B2C19502868A59600B569C9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B2C194F2868A59600B569C9 /* Settings.bundle */; };
 		7B5F87B628608588009AA856 /* WeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F87B528608588009AA856 /* WeatherApp.swift */; };
 		7B5F87B828608588009AA856 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F87B728608588009AA856 /* ContentView.swift */; };
 		7B5F87BA2860858A009AA856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B5F87B92860858A009AA856 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B2C194C2868776E00B569C9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		7B2C194F2868A59600B569C9 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B5F87B228608588009AA856 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B5F87B528608588009AA856 /* WeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp.swift; sourceTree = "<group>"; };
 		7B5F87B728608588009AA856 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +57,7 @@
 		7B5F87A928608588009AA856 = {
 			isa = PBXGroup;
 			children = (
+				7B2C194F2868A59600B569C9 /* Settings.bundle */,
 				7B5F87C4286088C0009AA856 /* Config.xcconfig */,
 				7BF580732867203B00C5FB72 /* Extension */,
 				7B5F87B428608588009AA856 /* Weather */,
@@ -99,6 +104,7 @@
 				7BB2020E2863F2D60091FEFC /* WeatherData+Enum.swift */,
 				7BF58076286720C000C5FB72 /* CurrentWeather.swift */,
 				7BF58078286720DA00C5FB72 /* TodayForecast.swift */,
+				7B2C194C2868776E00B569C9 /* LocationManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -170,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B5F87BD2860858A009AA856 /* Preview Assets.xcassets in Resources */,
+				7B2C19502868A59600B569C9 /* Settings.bundle in Resources */,
 				7B5F87BA2860858A009AA856 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +191,7 @@
 				7BB2020F2863F2D60091FEFC /* WeatherData+Enum.swift in Sources */,
 				7B5F87C82860A0C7009AA856 /* WeatherManager.swift in Sources */,
 				7BF58079286720DA00C5FB72 /* TodayForecast.swift in Sources */,
+				7B2C194D2868776E00B569C9 /* LocationManager.swift in Sources */,
 				7BB202112864740A0091FEFC /* WeatherData+Service.swift in Sources */,
 				7BF580752867206B00C5FB72 /* Date.swift in Sources */,
 				7BF58077286720C000C5FB72 /* CurrentWeather.swift in Sources */,
@@ -324,6 +332,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weather/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치의 날씨를 표시하기 위해 현재 위치 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -354,6 +363,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weather/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치의 날씨를 표시하기 위해 현재 위치 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
