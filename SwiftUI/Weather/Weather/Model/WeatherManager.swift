@@ -13,7 +13,7 @@ class WeatherManager: ObservableObject {
     @Published var vilageFcstWeatherData: FcstWeatherItem!
 
     var currentWeather: CurrentWeather = CurrentWeather()
-    var todayWeather: TodayForecast = TodayForecast()
+    var todayForecast: TodayForecast = TodayForecast()
     
     func fetchData(of queryTime: Date) {
         let configuration = URLSessionConfiguration.default
@@ -66,7 +66,7 @@ class WeatherManager: ObservableObject {
                         }
 
                         self.vilageFcstWeatherData = FcstWeatherItem(from: fcstItemService)
-                        self.todayWeather.updateVilageFcstData(with: self.vilageFcstWeatherData, queryTime: queryTime)
+                        self.todayForecast.updateVilageFcstData(with: self.vilageFcstWeatherData, queryTime: queryTime)
                     }
                 }
             }

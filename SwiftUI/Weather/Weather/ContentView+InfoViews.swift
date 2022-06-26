@@ -8,39 +8,9 @@
 import SwiftUI
 
 struct CurrentWeatherView: View {
-    @ObservedObject var weatherManager: WeatherManager
-    
-    var temp: String {
-        return String(weatherManager.currentWeather.temperature)
-    }
-    
-    var sky: String {
-        
-        let value = weatherManager.currentWeather.sky
-        switch value {
-        case 1: return "맑음"
-        case 3: return "구름많음"
-        case 4: return "흐림"
-        
-        default: return "Unknown"
-        }
-    }
-    
-    var pty: String {
-        
-        let value = weatherManager.currentWeather.rainFallType
-        
-        switch value {
-        case 0: return "없음"
-        case 1: return "비"
-        case 2: return "비/눈"
-        case 3: return "눈"
-        case 5: return "빗방울"
-        case 6: return "빗방울눈날림"
-        case 7: return "눈날림"
-        default: return "Unknown"
-        }
-    }
+    var temp: String
+    var sky: String
+    var pty: String
     
     var body: some View {
         VStack {
@@ -49,24 +19,15 @@ struct CurrentWeatherView: View {
             Text("OO시")
             Text("온도: \(temp)°")
             Text("강수 형태: \(pty)")
+            Text("하늘 상태: \(sky)")
         }
     }
 }
 
 struct TodayForcastView: View {
-    @ObservedObject var weatherManager: WeatherManager
-    
-    var minTemp: String {
-        return String(weatherManager.todayWeather.minTemp)
-    }
-    
-    var maxTemp: String {
-        return String(weatherManager.todayWeather.maxTemp)
-    }
-    
-//    var pop: String {
-//        return String(todayWeather.probRain)
-//    }
+    var minTemp: String
+    var maxTemp: String
+//    var pop: String
     
     var body: some View {
         VStack {

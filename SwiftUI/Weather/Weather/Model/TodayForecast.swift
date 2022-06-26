@@ -9,9 +9,9 @@ import Foundation
 
 class TodayForecast {
     // vilage (srtFcst)
-    var maxTemp: Float = -1      // TMX - value of 15:00
-    var minTemp: Float = -1      // TMN - value of 06:00
-//    var probRain: Float = -1     // POP - value of
+    var maxTemp: String = ""      // TMX - value of 15:00
+    var minTemp: String = ""     // TMN - value of 06:00
+//    var probRain: String = ""     // POP - value of
     
     func updateVilageFcstData(with vilageFcstItem: FcstWeatherItem, queryTime: Date) {
         // 0600, 1500

@@ -12,8 +12,11 @@ struct ContentView: View {
     
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
-            CurrentWeatherView(weatherManager: weatherManager)
-            TodayForcastView(weatherManager: weatherManager)
+            CurrentWeatherView(temp: weatherManager.currentWeather.temperature,
+                               sky: weatherManager.currentWeather.sky,
+                               pty: weatherManager.currentWeather.rainFallType)
+            TodayForcastView(minTemp: weatherManager.todayForecast.minTemp,
+                             maxTemp: weatherManager.todayForecast.maxTemp)
 
             Button  {
                 weatherManager.fetchData(of: Date())

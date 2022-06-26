@@ -10,18 +10,16 @@ import Foundation
 // MARK: 초단기현황 (getUltraSrtNcst)
 struct NcstWeatherItem {
     var baseDateTime: Date?
-    var ncstData: [String: Float] // [category: obsrValue]]
+    var ncstData: [String: String] // [category: obsrValue]]
 }
 
 extension NcstWeatherItem {
     init(from service: NcstItemService) {
         let items = service.itemList
-        var tempData: [String: Float] = [:]
+        var tempData: [String: String] = [:]
         
         for item in items {
-            if let obsrValue = Float(item.obsrValue) {
-                tempData[item.category] = obsrValue
-            }
+            tempData[item.category] = item.obsrValue
         }
         
         ncstData = tempData
@@ -31,7 +29,7 @@ extension NcstWeatherItem {
 // MARK: 초단기예보(getUltraSrtFcst), 단기예보(동네예보, getVilageFcst)
 struct FcstWeatherItem {
     var baseDateTime: Date?
-    var fcstData: [Date: [String: Float]] // [fcstTime: [category: fcstValue]]
+    var fcstData: [Date: [String: String]] // [fcstTime: [category: fcstValue]]
 }
 extension FcstWeatherItem {
     init(from service: FcstItemService) {
@@ -46,17 +44,16 @@ extension FcstWeatherItem {
         
         baseDateTime = dateFormatter.date(from: baseDateTimeString)
         
-        var tempData: [Date: [String: Float]] = [:]
+        var tempData: [Date: [String: String]] = [:]
         for item in items {
             let fcstDateTimeString = item.fcstDate + item.fcstTime
             
-            if let fcstDateTime = dateFormatter.date(from: fcstDateTimeString),
-               let fcstValue = Float(item.fcstValue) {
+            if let fcstDateTime = dateFormatter.date(from: fcstDateTimeString){
                 
                 if tempData[fcstDateTime] == nil {
-                    tempData[fcstDateTime] = [item.category: fcstValue]
+                    tempData[fcstDateTime] = [item.category: item.fcstValue]
                 } else {
-                    tempData[fcstDateTime]![item.category] = fcstValue
+                    tempData[fcstDateTime]![item.category] = item.fcstValue
                 }
             }
         }
