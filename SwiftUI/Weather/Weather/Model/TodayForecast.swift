@@ -7,10 +7,10 @@
 
 import Foundation
 
-class TodayForecast {
+class TodayForecast: ObservableObject {
     // vilage (srtFcst)
-    var maxTemp: String = ""      // TMX - value of 15:00
-    var minTemp: String = ""     // TMN - value of 06:00
+    @Published var maxTemp: String = ""      // TMX - value of 15:00
+    @Published var minTemp: String = ""     // TMN - value of 06:00
 //    var probRain: String = ""     // POP - value of
     
     func updateVilageFcstData(with vilageFcstItem: FcstWeatherItem, queryTime: Date) {

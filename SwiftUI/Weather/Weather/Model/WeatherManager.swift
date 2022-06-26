@@ -7,15 +7,10 @@
 
 import Foundation
 
-class WeatherManager: ObservableObject {
-    @Published var usNcstWeatherData: NcstWeatherItem!
-    @Published var usFcstWeatherData: FcstWeatherItem!
-    @Published var vilageFcstWeatherData: FcstWeatherItem!
+class WeatherManager {
+    static let shared = WeatherManager()
 
-    var currentWeather: CurrentWeather = CurrentWeather()
-    var todayForecast: TodayForecast = TodayForecast()
-    
-    func fetchData(of queryTime: Date) {
+    func fetchData(of queryTime: Date, currentWeather: CurrentWeather, todayForecast: TodayForecast) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         let decoder = JSONDecoder()
@@ -46,27 +41,27 @@ class WeatherManager: ObservableObject {
                         guard let ncstItemService = try? decoder.decode(NcstItemService.self, from: data) else {
                             fatalError("UltraSrtNcst: Cannot decode as NcstItemService")
                         }
-                        self.usNcstWeatherData = NcstWeatherItem(from: ncstItemService)
-                        
+                        let usNcstWeatherData = NcstWeatherItem(from: ncstItemService)
+
                         // update all currentWeather except SKY
-                        self.currentWeather.updateDataNcst(with: self.usNcstWeatherData)
+                        currentWeather.updateDataNcst(with: usNcstWeatherData)
                         
                     case .ultraSrtFcst:
                         guard let fcstItemService = try? decoder.decode(FcstItemService.self, from: data) else {
                             fatalError("UltraSrtFcst: Cannot decode as FcstItemService")
                         }
-                        self.usFcstWeatherData = FcstWeatherItem(from: fcstItemService)
+                        let usFcstWeatherData = FcstWeatherItem(from: fcstItemService)
                         
                         // update SKY in currentWeather
-                        self.currentWeather.updateDataFcst(with: self.usFcstWeatherData, queryTime: queryTime)
+                        currentWeather.updateDataFcst(with: usFcstWeatherData, queryTime: queryTime)
                         
                     case .vilageFcst:
                         guard let fcstItemService = try? decoder.decode(FcstItemService.self, from: data) else {
                             fatalError("VilageFcst: Cannot decode as FcstItemService")
                         }
 
-                        self.vilageFcstWeatherData = FcstWeatherItem(from: fcstItemService)
-                        self.todayForecast.updateVilageFcstData(with: self.vilageFcstWeatherData, queryTime: queryTime)
+                        let vilageFcstWeatherData = FcstWeatherItem(from: fcstItemService)
+                        todayForecast.updateVilageFcstData(with: vilageFcstWeatherData, queryTime: queryTime)
                     }
                 }
             }

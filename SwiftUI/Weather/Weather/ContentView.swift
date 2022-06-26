@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var weatherManager = WeatherManager()
+    var weatherManager: WeatherManager = .shared
+    
+    @StateObject var currentWeather: CurrentWeather = CurrentWeather()
+    @StateObject var todayForecast: TodayForecast = TodayForecast()
     
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
-            CurrentWeatherView(temp: weatherManager.currentWeather.temperature,
-                               sky: weatherManager.currentWeather.sky,
-                               pty: weatherManager.currentWeather.rainFallType)
-            TodayForcastView(minTemp: weatherManager.todayForecast.minTemp,
-                             maxTemp: weatherManager.todayForecast.maxTemp)
+            CurrentWeatherView(temp: currentWeather.temperature,
+                               sky: currentWeather.sky,
+                               pty: currentWeather.rainFallType)
+            TodayForcastView(minTemp: todayForecast.minTemp,
+                             maxTemp: todayForecast.maxTemp)
 
             Button  {
-                weatherManager.fetchData(of: Date())
+                weatherManager.fetchData(of: Date(),
+                                         currentWeather: currentWeather,
+                                         todayForecast: todayForecast)
             } label: {
                 Text("Get weather data")
             }

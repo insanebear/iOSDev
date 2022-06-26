@@ -7,19 +7,19 @@
 
 import Foundation
 
-class CurrentWeather {
+class CurrentWeather: ObservableObject {
     // ultraSrtNcst
-    var temperature: String = ""  // T1H
-    var rainFall1hr: String = ""  // RN1
-    var windDegree: String = ""   // VEC
-    var windSpeed: String = ""    // WSD
-    var windElemEW: String = ""   // UUU
-    var windElemSN: String = ""   // VVV
-    var humidity: String = ""     // REH
-    var rainFallType: String = "" // PTY
+    @Published var temperature: String = ""  // T1H
+    @Published var rainFall1hr: String = ""  // RN1
+    @Published var windDegree: String = ""   // VEC
+    @Published var windSpeed: String = ""    // WSD
+    @Published var windElemEW: String = ""   // UUU
+    @Published var windElemSN: String = ""   // VVV
+    @Published var humidity: String = ""     // REH
+    @Published var rainFallType: String = "" // PTY
     
     // ultraSrtFcst (based on before 1 hour fcst)
-    var sky: String = ""          // SKY
+    @Published var sky: String = ""          // SKY
 
     func updateDataNcst(with ncstWeatherItem: NcstWeatherItem) {
         for (category, obsrValue) in ncstWeatherItem.ncstData {
