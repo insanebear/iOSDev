@@ -21,6 +21,20 @@ struct MyData: Hashable {
     }
 }
 
+struct MyData2: Hashable {
+    let images: [UIImage?]
+    let title: String
+    let author: String
+    let memo: String
+    
+    init(imageNames: [String], title: String, author: String, memo: String) {
+        self.images = imageNames.map { UIImage(named: $0) }
+        self.title = title
+        self.author = author
+        self.memo = memo
+    }
+}
+
 #if DEBUG
 extension MyData {
     static let myDataList: [MyData] = [
@@ -38,6 +52,12 @@ extension MyData {
         MyData(imageName: "image4", title: "Image6", author: "Jayde", memo: "공원"),
         MyData(imageName: "image3", title: "Image7", author: "Jayde", memo: "공원"),
         MyData(imageName: "image4", title: "Image8", author: "Jayde", memo: "공원"),
+    ]
+}
+
+extension MyData2 {
+    static let myDataList: [MyData2] = [
+        MyData2(imageNames: ["image1", "image2", "image3"], title: "Image1", author: "Jayde", memo: "서울숲")
     ]
 }
 #endif

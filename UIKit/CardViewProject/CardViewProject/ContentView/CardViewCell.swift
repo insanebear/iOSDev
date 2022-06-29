@@ -36,7 +36,7 @@ class CardViewListCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.setContents(image: data.image,
+        cardView.setContents(images: [data.image],
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)
@@ -76,7 +76,7 @@ class CardViewPageCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.setContents(image: data.image,
+        cardView.setContents(images: [data.image],
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)

@@ -12,7 +12,7 @@ class CardView: UIView {
     private var width: CGFloat = 0
     private var height: CGFloat = 0
     
-    private var isTappable: Bool = false // TODO: add to the init
+    private var isTappable: Bool = false
     private var showOverlay: Bool = false
     
     private let filmLayer: CAGradientLayer = {
@@ -28,9 +28,17 @@ class CardView: UIView {
         return layer
     } ()
     
-    private var cardImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
+    private var cardImageScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scrollView
+    } ()
+    
+    private var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     } ()
     
     var cardBasicInfoView: CardBasicInfoView!
@@ -38,6 +46,12 @@ class CardView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        // Setup card shape
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     required init?(coder: NSCoder) {
@@ -91,33 +105,30 @@ class CardView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        filmLayer.frame = cardImageView.bounds
-        overlayLayer.frame = cardImageView.bounds
+        self.layoutIfNeeded() // immediately fix stack view's bounds
+        filmLayer.frame = stackView.bounds
+        overlayLayer.frame = stackView.bounds
         
         self.setNeedsDisplay()
     }
     
     func initialSetup() {
         // Setup card view interactions
-        self.isUserInteractionEnabled = true
-        self.addGestureRecognizer(
-            // Tab Gesture
-            UITapGestureRecognizer(target: self, action: #selector(self.didTapCardView(_:)))
-        )
+        if isTappable {
+            self.isUserInteractionEnabled = true
+            self.addGestureRecognizer(
+                // Tab Gesture
+                UITapGestureRecognizer(target: self, action: #selector(self.didTapCardView(_:)))
+            )
+        }
         
-        // Setup card shape
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
+        // Setup cardImageScrollView
+        stackView.axis = .horizontal
         
-        // Setup cardImageView
-        cardImageView.contentMode = .scaleAspectFill
-        cardImageView.sizeToFit()
-        cardImageView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(cardImageView)
-        
-        // Setup layer on cardImageView
-        cardImageView.layer.insertSublayer(filmLayer, at: 0)
-        cardImageView.layer.insertSublayer(overlayLayer, at: 1)
+        cardImageScrollView.isPagingEnabled = true
+        cardImageScrollView.isScrollEnabled = true
+        cardImageScrollView.addSubview(stackView)
+        self.addSubview(cardImageScrollView)
         
         // Setup cardBasicInfoView
         cardBasicInfoView = CardBasicInfoView()
@@ -129,16 +140,31 @@ class CardView: UIView {
         cardDetailInfoView.translatesAutoresizingMaskIntoConstraints = false
         cardDetailInfoView.isHidden = true
         self.addSubview(cardDetailInfoView)
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setContents(image: UIImage?, title: String, subtitle: String, memo: String) {
-        self.cardImageView.image = image
+    func setContents(images: [UIImage?], title: String, subtitle: String, memo: String) {
+        // FIXME: basic and detail info for a multi resourced card
+        for case let image in images {
+            let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFill
+            imageView.sizeToFit()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            
+            stackView.addArrangedSubview(imageView)
+
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalTo: cardImageScrollView.widthAnchor),
+                imageView.heightAnchor.constraint(equalTo: cardImageScrollView.heightAnchor),
+            ])
+        }
+        stackView.layer.addSublayer(filmLayer)
+        stackView.layer.addSublayer(overlayLayer)
+
         self.cardBasicInfoView.setContents(title: title, subTitle: subtitle)
         self.cardDetailInfoView.setContents(content: memo)
+        
     }
-    
+
     @objc func didTapCardView(_ sender: UIGestureRecognizer) {
         // disable switching animation
         CATransaction.setDisableActions(true)
@@ -164,10 +190,15 @@ class CardView: UIView {
 extension CardView {
     func setupAlignment() {
         NSLayoutConstraint.activate([
-            cardImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            cardImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            cardImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            cardImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            cardImageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            cardImageScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            cardImageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            cardImageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: cardImageScrollView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: cardImageScrollView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: cardImageScrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: cardImageScrollView.trailingAnchor),
             
             cardBasicInfoView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
             cardBasicInfoView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),

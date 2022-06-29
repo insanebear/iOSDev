@@ -27,6 +27,8 @@
 		7BA0DB1E2851EACD00606382 /* CardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB1D2851EACD00606382 /* CardScrollView.swift */; };
 		7BA0DB252852CAD100606382 /* CardCollectionViewFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB242852CAD100606382 /* CardCollectionViewFooterView.swift */; };
 		7BA0DB272852E2EC00606382 /* PagingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DB262852E2EC00606382 /* PagingInfo.swift */; };
+		7BF86C0A286AFDAC003ED89B /* MultiResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF86C09286AFDAC003ED89B /* MultiResourcesViewController.swift */; };
+		7BF86C0E286B0D1A003ED89B /* CardResourceScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF86C0D286B0D1A003ED89B /* CardResourceScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		7BA0DB1D2851EACD00606382 /* CardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardScrollView.swift; sourceTree = "<group>"; };
 		7BA0DB242852CAD100606382 /* CardCollectionViewFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewFooterView.swift; sourceTree = "<group>"; };
 		7BA0DB262852E2EC00606382 /* PagingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingInfo.swift; sourceTree = "<group>"; };
+		7BF86C09286AFDAC003ED89B /* MultiResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiResourcesViewController.swift; sourceTree = "<group>"; };
+		7BF86C0D286B0D1A003ED89B /* CardResourceScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResourceScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 				7B5D61FC28504DC600B41D8B /* CardCollectionViewHeaderView.swift */,
 				7BA0DB242852CAD100606382 /* CardCollectionViewFooterView.swift */,
 				7BA0DB1D2851EACD00606382 /* CardScrollView.swift */,
+				7BF86C0D286B0D1A003ED89B /* CardResourceScrollView.swift */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 				7B5D61F6284F27AA00B41D8B /* CardCollectionViewController.swift */,
 				7B5D61FA28504BA800B41D8B /* CardCollectionViewController+DataSource.swift */,
 				7BA0DB1B2851EA9800606382 /* CardPageViewController.swift */,
+				7BF86C09286AFDAC003ED89B /* MultiResourcesViewController.swift */,
 				7B2AF1C6285969A200475887 /* SwipeableCardViewController.swift */,
 			);
 			path = ViewControllers;
@@ -210,6 +216,7 @@
 				7B5D61F9284F29A900B41D8B /* CardViewCell.swift in Sources */,
 				7B5D61D8284EC03900B41D8B /* ViewController.swift in Sources */,
 				7B5D61D4284EC03900B41D8B /* AppDelegate.swift in Sources */,
+				7BF86C0E286B0D1A003ED89B /* CardResourceScrollView.swift in Sources */,
 				7B5D61FB28504BA800B41D8B /* CardCollectionViewController+DataSource.swift in Sources */,
 				7B5D61D6284EC03900B41D8B /* SceneDelegate.swift in Sources */,
 				7B5D61FD28504DC600B41D8B /* CardCollectionViewHeaderView.swift in Sources */,
@@ -218,6 +225,7 @@
 				7B5D61F2284EEA4A00B41D8B /* CardView+Enum.swift in Sources */,
 				7B5D61F4284F18C400B41D8B /* CardView+TextViews.swift in Sources */,
 				7BA0DB272852E2EC00606382 /* PagingInfo.swift in Sources */,
+				7BF86C0A286AFDAC003ED89B /* MultiResourcesViewController.swift in Sources */,
 				7B5D61EF284EDCBF00B41D8B /* MyData.swift in Sources */,
 				7B2AF1C7285969A200475887 /* SwipeableCardViewController.swift in Sources */,
 				7BA0DB1E2851EACD00606382 /* CardScrollView.swift in Sources */,
