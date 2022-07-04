@@ -9,87 +9,57 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private lazy var button1: UIButton = {
-        let button = UIButton()
-        button.setTitle("Simple Card View", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(showSimpleCardViewContoller(_:)), for: .touchUpInside)
-        return button
-    }()
+    let items: [Item] = [
+        Item(name: "Simple Card View", destination: SimpleCardViewController()),
+        Item(name: "Card Collection View", destination: CardCollectionViewController(collectionViewLayout: UICollectionViewLayout())),
+        Item(name: "Card Page View", destination: CardPageViewController()),
+        Item(name: "Multi resources in one card", destination: MultiResourcesViewController()),
+        Item(name: "Swipeable Card View", destination: SwipeableCardViewController()),
+    ]
     
-    private lazy var button2: UIButton = {
-        let button = UIButton()
-        button.setTitle("Card Collection View", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(showCardCollectionViewContoller(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var button3: UIButton = {
-        let button = UIButton()
-        button.setTitle("Card Page View", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(showCardPageViewContoller(_:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var button4: UIButton = {
-        let button = UIButton()
-        button.setTitle("Swipeable Card View", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(showSwipeableCardViewController(_:)), for: .touchUpInside)
-        return button
-    }()
-
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [button1, button2, button3, button4])
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(stackView)
         view.backgroundColor = .white
         
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-    }
-    
-    @objc private func showSimpleCardViewContoller(_ sender: UIButton) {
-        let vc = SimpleCardViewController()
-        guard let navVC = navigationController else {
-            fatalError("No navigation vc")
-        }
-        navVC.pushViewController(vc, animated: true)
-    }
-    
-    @objc private func showCardCollectionViewContoller(_ sender: UIButton) {
-        let vc = CardCollectionViewController(collectionViewLayout: UICollectionViewLayout())
-        guard let navVC = navigationController else {
-            fatalError("No navigation vc")
-        }
-        navVC.pushViewController(vc, animated: true)
-    }
-    
-    @objc private func showCardPageViewContoller(_ sender: UIButton) {
-        let vc = CardPageViewController()
-        guard let navVC = navigationController else {
-            fatalError("No navigation vc")
-        }
-        navVC.pushViewController(vc, animated: true)
-    }
-    
-    @objc private func showSwipeableCardViewController(_ sender: UIButton) {
-        let vc = SwipeableCardViewController()
-        guard let navVC = navigationController else {
-            fatalError("No navigation vc")
-        }
-        navVC.pushViewController(vc, animated: true)
     }
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = items[indexPath.row].name
+        
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let navVC = navigationController else {
+            fatalError("No navigation vc")
+        }
+        navVC.pushViewController(items[indexPath.row].destination, animated: true)
+    }
+}
+
+struct Item {
+    let name: String
+    let destination: UIViewController
+}

@@ -1,17 +1,17 @@
 //
-//  CardScrollView.swift
+//  CardResourceScrollView.swift
 //  CardViewProject
 //
-//  Created by Jayde Jeong on 2022/06/09.
+//  Created by Jayde Jeong on 2022/06/28.
 //
 
 import UIKit
 
-class CardScrollView: UIScrollView {
+class CardResourceScrollView: UIScrollView {
     var width: CGFloat = 0
     var ratio: CGFloat = 0
 
-    var dataList: [MyData] = []
+    var data = MyData2.myDataList[0]
     
     var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -32,11 +32,10 @@ class CardScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(width: CGFloat, ratio: CGFloat, dataList: [MyData]) {
+    convenience init(width: CGFloat, ratio: CGFloat) {
         self.init(frame: .zero)
         self.width = width
         self.ratio = ratio
-        self.dataList = dataList
         
         // stack view
         setContents()
@@ -59,12 +58,18 @@ class CardScrollView: UIScrollView {
     
     func setContents() {
         // create cards and set data in the stack view
-        for data in dataList {
-            let cardView = CardView(width: self.width, ratio: self.ratio, filmType: .gradient, filmColor: .black, overlayOpacity: 0.5)
-            cardView.setContents(images: [data.image], title: data.title, subtitle: data.author, memo: data.memo)
-            
-            stackView.addArrangedSubview(cardView)
+//        for data in dataList {
+//            let cardView = CardView(width: self.width, ratio: self.ratio, filmType: .gradient, filmColor: .black, overlayOpacity: 0.5)
+//            cardView.setContents(image: data.image, title: data.title, subtitle: data.author, memo: data.memo)
+//
+//            stackView.addArrangedSubview(cardView)
+//        }
+        
+        for image in data.images {
+            if let image = image {
+                let imageView = UIImageView(image: image)
+                stackView.addArrangedSubview(imageView)
+            }
         }
     }
 }
-
