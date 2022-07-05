@@ -68,13 +68,10 @@ class CurrentWeather: ObservableObject {
         }
     }
     
-    func updateDataFcst(with fcstWeatherIem: FcstWeatherItem, queryTime: Date) {
-        let s = queryTime.stringDateTime().0 + queryTime.stringDateTime().1 + "00"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmm"
+    func updateDataFcst(with fcstWeatherItem: FcstWeatherItem, queryTime: Date) {
+        let fcstTime = queryTime.dateAt(hours: nil, minutes: 00)
         
-        guard let baseTime = dateFormatter.date(from: s),
-              let fcstData = fcstWeatherIem.fcstData[baseTime],
+        guard let fcstData = fcstWeatherItem.fcstData[fcstTime],
               let skyValue = fcstData["SKY"] else {
             fatalError("Fail to load value for CurrentWeather: SKY")
         }

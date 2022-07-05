@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var time: Date = Date()
     let weatherManager: WeatherManager = .shared
     @StateObject var locationManager = LocationManager()
     
@@ -16,18 +17,25 @@ struct ContentView: View {
     
     var body: some View {
         VStack (alignment: .center, spacing: 10) {
-            CurrentWeatherView(locationString: locationManager.currentAddress,
-                               temp: currentWeather.temperature,
-                               sky: currentWeather.sky,
-                               pty: currentWeather.rainFallType)
-            TodayForcastView(minTemp: todayForecast.minTemp,
-                             maxTemp: todayForecast.maxTemp,
-                             pop: todayForecast.probRain)
-
+            Spacer()
+            Text("\(locationManager.currentAddress)")
+                .font(.title)
+            
+            TopInfoView(temp: currentWeather.temperature,
+                        sky: currentWeather.sky,
+                        pty: currentWeather.rainFallType,
+                        minTemp: todayForecast.minTemp,
+                        maxTemp: todayForecast.maxTemp,
+                        pop: todayForecast.probRain)
+            TodayForcastView()
+            Spacer()
         }
         .onAppear {
             // TODO: Fetch data faster or fetch before the launching
-            weatherManager.fetchData(of: Date(),
+            #if DEBUG
+            time = Date().dateAt(hours: 00, minutes: 30)
+            #endif
+            weatherManager.fetchData(of: time,
                                      currentWeather: currentWeather,
                                      todayForecast: todayForecast,
                                      location: locationManager.currentLocation)

@@ -145,7 +145,7 @@ class WeatherManager {
         case .vilageFcst:
             
             // 0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300
-            if currentTime < currentTime.dateAt(hours: 03, minutes: 00) {
+            if currentTime < currentTime.dateAt(hours: 3, minutes: 00) {
                 // use data of yesterday
                 let baseTime = currentTime.dayBefore.dateAt(hours: 23, minutes: 00)
                 baseTimeList.append(baseTime)
@@ -181,6 +181,19 @@ class WeatherManager {
                 baseTimeList.append(baseTime)
             }
         }
+        #if DEBUG
+        let message = """
+        - currentTime: \(currentTime.stringDateTime().0) \(currentTime.stringDateTime().1)시 \(currentTime.stringDateTime().2)분
+        - weatherOperation: \(operation.description)
+        - BaseTime list
+        """
+        print(message)
+        for time in baseTimeList {
+            print(" |- \(time.stringDateTime().0) \(time.stringDateTime().1)시 \(time.stringDateTime().2)분")
+        }
+        print("------------------------")
+        
+        #endif
 
         return baseTimeList
     }

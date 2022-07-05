@@ -16,12 +16,18 @@ struct NcstWeatherItem {
 extension NcstWeatherItem {
     init(from service: NcstItemService) {
         let items = service.itemList
-        var tempData: [String: String] = [:]
         
+        // date time
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmm"
+        let baseDateTimeString = items[0].baseDate + items[0].baseTime
+        baseDateTime = dateFormatter.date(from: baseDateTimeString)
+        
+        // ncst data
+        var tempData: [String: String] = [:]
         for item in items {
             tempData[item.category] = item.obsrValue
         }
-        
         ncstData = tempData
     }
 }
@@ -36,12 +42,10 @@ extension FcstWeatherItem {
         
         let items = service.itemList
         
-        // to convert time string to Date()
+        // date time
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMddHHmm"
-        
         let baseDateTimeString = items[0].baseDate + items[0].baseTime
-        
         baseDateTime = dateFormatter.date(from: baseDateTimeString)
         
         var tempData: [Date: [String: String]] = [:]

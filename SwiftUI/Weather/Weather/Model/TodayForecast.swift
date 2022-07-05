@@ -8,12 +8,18 @@
 import Foundation
 
 class TodayForecast: ObservableObject {
+    var baseTime: Date = Date()
+    @Published var baseTimeString: String = ""
+    
     // vilage (srtFcst)
     @Published var maxTemp: String = ""      // TMX - value of 15:00
     @Published var minTemp: String = ""     // TMN - value of 06:00
     @Published var probRain: String = ""     // POP - value of now
     
     func updateVilageFcstData(with vilageFcstItem: FcstWeatherItem, queryTime: Date) {
+        guard let baseTime = vilageFcstItem.baseDateTime else { return }
+        self.baseTime = baseTime
+        
         var tmn: String!
         var tmx: String!
         var pop: String!
@@ -32,8 +38,6 @@ class TodayForecast: ObservableObject {
             self.maxTemp = tmx
             self.probRain = pop
         } else {
-            guard let baseTime = vilageFcstItem.baseDateTime else { return }
-            
             guard let baseTimeHours = Int(baseTime.stringDateTime().1),
                   let currentTimeHours = Int(queryTime.stringDateTime().1) else {
                 fatalError("Cannot convert Date() to hours and minutes String")
@@ -52,15 +56,14 @@ class TodayForecast: ObservableObject {
             }
             
             // POP
-            print("BaseTime:", baseTimeHours,", CurrentTime:", currentTimeHours)
-            if ![2, 11].contains(baseTimeHours)
-                || ([2, 11].contains(baseTimeHours) && baseTimeHours == currentTimeHours) {
-                
-            }
-            
             if baseTimeHours == 2 && 3...5 ~= currentTimeHours
                 || baseTimeHours == 11 && 12...14 ~= currentTimeHours
                 || ![2, 11].contains(baseTimeHours) {
+                
+                // set base time
+                guard let baseTime = vilageFcstItem.baseDateTime else { return }
+                self.baseTime = baseTime
+                self.baseTimeString = "\(baseTime.stringDateTime().0) \(baseTime.stringDateTime().1)시 \(baseTime.stringDateTime().2)분"
                 
                 pop = vilageFcstItem.fcstData[popFcstTime]!["POP"]
                 self.probRain = pop
