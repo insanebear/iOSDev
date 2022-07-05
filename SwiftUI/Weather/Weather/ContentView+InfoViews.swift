@@ -29,14 +29,14 @@ struct CurrentWeatherView: View {
 struct TodayForcastView: View {
     var minTemp: String
     var maxTemp: String
-//    var pop: String
+    var pop: String
     
     var body: some View {
         VStack {
             Text("오늘 날씨 예보")
                 .font(.title)
             Text("최고: \(maxTemp)°, 최저: \(minTemp)°")
-//            Text("강수 확률: \(pop)%")
+            Text("강수 확률: \(pop)%")
         }
     }
 }
