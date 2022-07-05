@@ -30,4 +30,21 @@ extension Date {
     var dayBefore: Date {
         Calendar.current.date(byAdding: .day, value: -1, to: self)!
     }
+    
+    func dateAt(hours: Int?, minutes: Int?) -> Date {
+        let calendar = Calendar.current
+
+        var dateComponents = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute], from: self)
+
+        if let hours = hours {
+            dateComponents.hour = hours
+        }
+        
+        if let minutes = minutes {
+            dateComponents.minute = minutes
+        }
+
+        return calendar.date(from: dateComponents)!
+    }
 }

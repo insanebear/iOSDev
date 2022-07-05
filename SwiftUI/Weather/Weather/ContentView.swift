@@ -21,7 +21,8 @@ struct ContentView: View {
                                sky: currentWeather.sky,
                                pty: currentWeather.rainFallType)
             TodayForcastView(minTemp: todayForecast.minTemp,
-                             maxTemp: todayForecast.maxTemp)
+                             maxTemp: todayForecast.maxTemp,
+                             pop: todayForecast.probRain)
 
         }
         .onAppear {
