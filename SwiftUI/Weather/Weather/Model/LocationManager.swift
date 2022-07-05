@@ -71,9 +71,15 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.last else { return }
-        self.getAddress(location: userLocation)
-        self.currentLocation = userLocation
+        // update current location only when the distance difference is longer than 1 km.
+        guard let newLocation = locations.last else { return }
+        
+        if currentLocation.distance(from: newLocation) < CLLocationDistance(1000){
+            return
+        }
+        
+        self.getAddress(location: newLocation)
+        self.currentLocation = newLocation
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
