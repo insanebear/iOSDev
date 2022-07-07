@@ -41,8 +41,8 @@ class CardView: UIView {
         return stackView
     } ()
     
-    var cardBasicInfoView: CardBasicInfoView!
-    var cardDetailInfoView: CardDetailInfoView!
+    var cardBasicInfoView: CardTextView!
+    var cardDetailInfoView: CardTextView!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -131,12 +131,12 @@ class CardView: UIView {
         self.addSubview(cardImageScrollView)
         
         // Setup cardBasicInfoView
-        cardBasicInfoView = CardBasicInfoView()
+        cardBasicInfoView = CardTextView()
         cardBasicInfoView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(cardBasicInfoView)
         
         // Setup cardDetailInfoView - Hidden at first
-        cardDetailInfoView = CardDetailInfoView()
+        cardDetailInfoView = CardTextView()
         cardDetailInfoView.translatesAutoresizingMaskIntoConstraints = false
         cardDetailInfoView.isHidden = true
         self.addSubview(cardDetailInfoView)
@@ -159,10 +159,11 @@ class CardView: UIView {
         }
         stackView.layer.addSublayer(filmLayer)
         stackView.layer.addSublayer(overlayLayer)
-
-        self.cardBasicInfoView.setContents(title: title, subTitle: subtitle)
-        self.cardDetailInfoView.setContents(content: memo)
         
+        self.cardBasicInfoView.cardTitle.text = title
+        self.cardBasicInfoView.subtitle.text = subtitle
+        self.cardDetailInfoView.subtitle.text = memo
+
     }
 
     @objc func didTapCardView(_ sender: UIGestureRecognizer) {
