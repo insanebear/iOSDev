@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         Item(name: "Card Page View", destination: CardPageViewController()),
         Item(name: "Multi resources in one card", destination: MultiResourcesViewController()),
         Item(name: "Swipeable Card View", destination: SwipeableCardViewController()),
+        Item(name: "Vertical Card View", destination: VerticalCardsViewController(collectionViewLayout: UICollectionViewLayout())),
     ]
     
     let tableView = UITableView(frame: .zero, style: .insetGrouped)
