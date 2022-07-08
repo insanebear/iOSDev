@@ -44,6 +44,10 @@ class CardViewListCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        cardView.setContents(images: [],
+                             title: "",
+                             subtitle: "",
+                             memo: "")
     }
 }
 
@@ -84,5 +88,9 @@ class CardViewPageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        cardView.setContents(images: [],
+                             title: "",
+                             subtitle: "",
+                             memo: "")
     }
 }

@@ -37,8 +37,6 @@ class VerticalCardsViewController: UICollectionViewController {
     }
     
     func generateLayout() -> UICollectionViewLayout {
-        
-        
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 20
         config.scrollDirection = .vertical
