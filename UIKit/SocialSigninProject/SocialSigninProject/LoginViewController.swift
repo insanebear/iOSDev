@@ -9,6 +9,7 @@ import UIKit
 import GoogleSignIn
 
 class LoginViewController: UIViewController {
+    private var authViewModel: AuthenticationViewModel
     
     let signinButton: GIDSignInButton = {
         let button = GIDSignInButton()
@@ -16,15 +17,17 @@ class LoginViewController: UIViewController {
         return button
     } ()
     
-    var signInConfig: GIDConfiguration!
+    init(authViewModel: AuthenticationViewModel) {
+        self.authViewModel = authViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let clientID = Bundle.main.object(forInfoDictionaryKey: "CLIENT_ID") as? String else {
-            fatalError()
-        }
-        
-        signInConfig = GIDConfiguration(clientID: clientID)
         
         signinButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         self.view.addSubview(signinButton)
@@ -39,15 +42,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func signIn(_ sender: GIDSignInButton) {
-        let viewController = ViewController()
-        viewController.modalTransitionStyle = .crossDissolve
-        viewController.modalPresentationStyle = .fullScreen
-        
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
-            guard error == nil else { return }
-            self.present(viewController, animated: true) {
-                print("Login succeeded")
-            }
-        }
+        // FIXME: Sign-in again does not work
+        authViewModel.signIn()
     }
 }

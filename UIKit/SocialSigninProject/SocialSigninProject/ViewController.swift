@@ -9,6 +9,8 @@ import UIKit
 import GoogleSignIn
 
 class ViewController: UIViewController {
+    private var authViewModel: AuthenticationViewModel
+    
     let signoutButton: UIButton = {
         let button = UIButton()
         button.setTitle("Sign out", for: .normal)
@@ -17,6 +19,16 @@ class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     } ()
+    
+    init(authViewModel: AuthenticationViewModel) {
+        self.authViewModel = authViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +54,15 @@ class ViewController: UIViewController {
     }
 
     @objc func signOut(_ sender: UIButton) {
-        GIDSignIn.sharedInstance.signOut()
+        authViewModel.signOut()
+        
+        let viewController = LoginViewController(authViewModel: self.authViewModel)
+        viewController.modalTransitionStyle = .crossDissolve
+        viewController.modalPresentationStyle = .fullScreen
+        
+        self.present(viewController, animated: true) {
+            print("Logout succeeded")
+        }
     }
 }
 
