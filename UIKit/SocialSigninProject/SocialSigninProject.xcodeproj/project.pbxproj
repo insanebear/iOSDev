@@ -10,7 +10,7 @@
 		7B630F28287C1D390085D605 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B630F27287C1D390085D605 /* LoginViewController.swift */; };
 		7B6600DC287BE487003C14E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DB287BE487003C14E9 /* AppDelegate.swift */; };
 		7B6600DE287BE487003C14E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DD287BE487003C14E9 /* SceneDelegate.swift */; };
-		7B6600E0287BE487003C14E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DF287BE487003C14E9 /* ViewController.swift */; };
+		7B6600E0287BE487003C14E9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DF287BE487003C14E9 /* MainViewController.swift */; };
 		7B6600E5287BE489003C14E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6600E4287BE489003C14E9 /* Assets.xcassets */; };
 		7B6600E8287BE489003C14E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6600E6287BE489003C14E9 /* LaunchScreen.storyboard */; };
 		7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */; };
@@ -25,7 +25,7 @@
 		7B6600D8287BE487003C14E9 /* SocialSigninProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialSigninProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6600DB287BE487003C14E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6600DD287BE487003C14E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7B6600DF287BE487003C14E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7B6600DF287BE487003C14E9 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7B6600E4287BE489003C14E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B6600E7287BE489003C14E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B6600E9287BE489003C14E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 			children = (
 				7B6600DB287BE487003C14E9 /* AppDelegate.swift */,
 				7B6600DD287BE487003C14E9 /* SceneDelegate.swift */,
-				7B6600DF287BE487003C14E9 /* ViewController.swift */,
+				7B6600DF287BE487003C14E9 /* MainViewController.swift */,
 				7B630F27287C1D390085D605 /* LoginViewController.swift */,
 				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
 				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
@@ -213,7 +213,7 @@
 			files = (
 				7B630F28287C1D390085D605 /* LoginViewController.swift in Sources */,
 				7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */,
-				7B6600E0287BE487003C14E9 /* ViewController.swift in Sources */,
+				7B6600E0287BE487003C14E9 /* MainViewController.swift in Sources */,
 				7B6600DC287BE487003C14E9 /* AppDelegate.swift in Sources */,
 				7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */,
 				7B6600DE287BE487003C14E9 /* SceneDelegate.swift in Sources */,

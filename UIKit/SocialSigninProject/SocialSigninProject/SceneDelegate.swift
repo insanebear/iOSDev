@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let user = user {
                 // Show the app's signed-in state.
                 self.authViewModel.state = .signedIn(user)
-                self.window?.rootViewController = ViewController(authViewModel: self.authViewModel)
+                self.window?.rootViewController = MainViewController(authViewModel: self.authViewModel)
             } else if error != nil || user == nil {
                 // Show the app's signed-out state.
                 self.authViewModel.state = .signedOut

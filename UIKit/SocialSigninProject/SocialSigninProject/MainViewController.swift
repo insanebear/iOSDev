@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  SocialSigninProject
 //
 //  Created by Jayde Jeong on 2022/07/11.
@@ -8,7 +8,7 @@
 import UIKit
 import GoogleSignIn
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     private var authViewModel: AuthenticationViewModel
     
     let signoutButton: UIButton = {
@@ -20,6 +20,15 @@ class ViewController: UIViewController {
         return button
     } ()
     
+    let disconeectButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Disconnect", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    } ()
+
     init(authViewModel: AuthenticationViewModel) {
         self.authViewModel = authViewModel
         super.init(nibName: nil, bundle: nil)
@@ -41,28 +50,32 @@ class ViewController: UIViewController {
         self.view.addSubview(textLabel)
         
         signoutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
-        self.view.addSubview(signoutButton)
-        
+        disconeectButton.addTarget(self, action: #selector(disconnect), for: .touchUpInside)
+
+        let buttonStackView = UIStackView()
+        buttonStackView.axis = .horizontal
+        buttonStackView.alignment = .center
+        buttonStackView.spacing = 10
+        buttonStackView.addArrangedSubview(disconeectButton)
+        buttonStackView.addArrangedSubview(signoutButton)
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        self.view.addSubview(buttonStackView)
+
         NSLayoutConstraint.activate([
+            buttonStackView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor),
+            buttonStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
             textLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             textLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            signoutButton.topAnchor.constraint(equalTo: textLabel.bottomAnchor),
-            signoutButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            signoutButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20)
         ])
         
     }
 
     @objc func signOut(_ sender: UIButton) {
         authViewModel.signOut()
-        
-        let viewController = LoginViewController(authViewModel: self.authViewModel)
-        viewController.modalTransitionStyle = .crossDissolve
-        viewController.modalPresentationStyle = .fullScreen
-        
-        self.present(viewController, animated: true) {
-            print("Logout succeeded")
-        }
+    }
+    @objc func disconnect(_ sender: UIButton) {
+        authViewModel.disconnect()
     }
 }
 

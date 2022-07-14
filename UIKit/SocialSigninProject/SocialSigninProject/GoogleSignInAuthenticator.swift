@@ -37,7 +37,7 @@ final class GoogleSignInAuthenticator {
             
             self.authViewModel.state = .signedIn(user)
             
-            let viewController = ViewController(authViewModel: self.authViewModel)
+            let viewController = MainViewController(authViewModel: self.authViewModel)
             viewController.modalTransitionStyle = .crossDissolve
             viewController.modalPresentationStyle = .fullScreen
             
@@ -50,6 +50,8 @@ final class GoogleSignInAuthenticator {
     func signOut() {
         GIDSignIn.sharedInstance.signOut()
         authViewModel.state = .signedOut
+        
+        UIApplication.shared.windows.first?.rootViewController = LoginViewController(authViewModel: self.authViewModel)
     }
     
     func disconnect() {
