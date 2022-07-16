@@ -15,6 +15,7 @@
 		7B6600E8287BE489003C14E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6600E6287BE489003C14E9 /* LaunchScreen.storyboard */; };
 		7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */; };
 		7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */; };
+		7B9BDF67287FF44B009400A8 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BDF66287FF44B009400A8 /* UserProfileView.swift */; };
 		DBBCA8DBC4086F908DCA3656 /* Pods_SocialSigninProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE96F233354FDE826D64EE70 /* Pods_SocialSigninProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		7B6600E9287BE489003C14E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInAuthenticator.swift; sourceTree = "<group>"; };
+		7B9BDF66287FF44B009400A8 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		AE96F233354FDE826D64EE70 /* Pods_SocialSigninProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocialSigninProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -79,6 +81,7 @@
 				7B6600DD287BE487003C14E9 /* SceneDelegate.swift */,
 				7B6600DF287BE487003C14E9 /* MainViewController.swift */,
 				7B630F27287C1D390085D605 /* LoginViewController.swift */,
+				7B9BDF66287FF44B009400A8 /* UserProfileView.swift */,
 				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
 				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
 				7B6600E9287BE489003C14E9 /* Info.plist */,
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9BDF67287FF44B009400A8 /* UserProfileView.swift in Sources */,
 				7B630F28287C1D390085D605 /* LoginViewController.swift in Sources */,
 				7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */,
 				7B6600E0287BE487003C14E9 /* MainViewController.swift in Sources */,
