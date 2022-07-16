@@ -28,6 +28,17 @@ class MainViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     } ()
+    
+    let userProfileView: UserProfileView = {
+        guard let user = GIDSignIn.sharedInstance.currentUser else {
+            fatalError("Cannot read current user")
+        }
+        
+        let view = UserProfileView(user: user)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    } ()
 
     init(authViewModel: AuthenticationViewModel) {
         self.authViewModel = authViewModel
@@ -48,6 +59,7 @@ class MainViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(textLabel)
+        self.view.addSubview(userProfileView)
         
         signoutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         disconeectButton.addTarget(self, action: #selector(disconnect), for: .touchUpInside)
@@ -67,6 +79,8 @@ class MainViewController: UIViewController {
             buttonStackView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
             textLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             textLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            userProfileView.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 20),
+            userProfileView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
         
     }
