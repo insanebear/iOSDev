@@ -6,6 +6,7 @@ target 'SocialSigninProject' do
   use_frameworks!
 
   # Pods for SocialSigninProject
+  pod 'FirebaseAuth'
   pod 'GoogleSignIn'
 
 end

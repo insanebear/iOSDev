@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B0FCDA6288584580077FE36 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B0FCDA5288584580077FE36 /* GoogleService-Info.plist */; };
 		7B630F28287C1D390085D605 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B630F27287C1D390085D605 /* LoginViewController.swift */; };
 		7B6600DC287BE487003C14E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DB287BE487003C14E9 /* AppDelegate.swift */; };
 		7B6600DE287BE487003C14E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600DD287BE487003C14E9 /* SceneDelegate.swift */; };
@@ -16,12 +17,15 @@
 		7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */; };
 		7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */; };
 		7B9BDF67287FF44B009400A8 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BDF66287FF44B009400A8 /* UserProfileView.swift */; };
+		7BFC94A828863E140006CCAB /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC94A728863E140006CCAB /* RegistrationViewController.swift */; };
+		7BFC94AA2886D8540006CCAB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC94A92886D8540006CCAB /* User.swift */; };
 		DBBCA8DBC4086F908DCA3656 /* Pods_SocialSigninProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE96F233354FDE826D64EE70 /* Pods_SocialSigninProject.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1CB97D0D126212173A42D2CB /* Pods-SocialSigninProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialSigninProject.debug.xcconfig"; path = "Target Support Files/Pods-SocialSigninProject/Pods-SocialSigninProject.debug.xcconfig"; sourceTree = "<group>"; };
 		52BCC855DC5599D190E608B5 /* Pods-SocialSigninProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialSigninProject.release.xcconfig"; path = "Target Support Files/Pods-SocialSigninProject/Pods-SocialSigninProject.release.xcconfig"; sourceTree = "<group>"; };
+		7B0FCDA5288584580077FE36 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B630F27287C1D390085D605 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7B6600D8287BE487003C14E9 /* SocialSigninProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialSigninProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6600DB287BE487003C14E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +37,8 @@
 		7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInAuthenticator.swift; sourceTree = "<group>"; };
 		7B9BDF66287FF44B009400A8 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		7BFC94A728863E140006CCAB /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		7BFC94A92886D8540006CCAB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AE96F233354FDE826D64EE70 /* Pods_SocialSigninProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocialSigninProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,12 +87,15 @@
 				7B6600DD287BE487003C14E9 /* SceneDelegate.swift */,
 				7B6600DF287BE487003C14E9 /* MainViewController.swift */,
 				7B630F27287C1D390085D605 /* LoginViewController.swift */,
+				7BFC94A728863E140006CCAB /* RegistrationViewController.swift */,
 				7B9BDF66287FF44B009400A8 /* UserProfileView.swift */,
 				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
 				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
 				7B6600E9287BE489003C14E9 /* Info.plist */,
+				7B0FCDA5288584580077FE36 /* GoogleService-Info.plist */,
 				7B6600E6287BE489003C14E9 /* LaunchScreen.storyboard */,
 				7B6600E4287BE489003C14E9 /* Assets.xcassets */,
+				7BFC94A92886D8540006CCAB /* User.swift */,
 			);
 			path = SocialSigninProject;
 			sourceTree = "<group>";
@@ -162,6 +171,7 @@
 			files = (
 				7B6600E8287BE489003C14E9 /* LaunchScreen.storyboard in Resources */,
 				7B6600E5287BE489003C14E9 /* Assets.xcassets in Resources */,
+				7B0FCDA6288584580077FE36 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +226,10 @@
 			files = (
 				7B9BDF67287FF44B009400A8 /* UserProfileView.swift in Sources */,
 				7B630F28287C1D390085D605 /* LoginViewController.swift in Sources */,
+				7BFC94A828863E140006CCAB /* RegistrationViewController.swift in Sources */,
 				7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */,
 				7B6600E0287BE487003C14E9 /* MainViewController.swift in Sources */,
+				7BFC94AA2886D8540006CCAB /* User.swift in Sources */,
 				7B6600DC287BE487003C14E9 /* AppDelegate.swift in Sources */,
 				7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */,
 				7B6600DE287BE487003C14E9 /* SceneDelegate.swift in Sources */,

@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import FirebaseAuth
+import FirebaseCore
 import GoogleSignIn
-import UIKit
 
 final class GoogleSignInAuthenticator {
     private var configuration: GIDConfiguration = {
-        guard let clientID = Bundle.main.object(forInfoDictionaryKey: "CLIENT_ID") as? String else {
+        guard let clientID = FirebaseApp.app()?.options.clientID as? String else {
             fatalError()
         }
         return GIDConfiguration(clientID: clientID)
@@ -30,24 +31,49 @@ final class GoogleSignInAuthenticator {
         }
         
         GIDSignIn.sharedInstance.signIn(with: configuration, presenting: rootViewController) { user, error in
+            
             guard let user = user else {
                 print("Error! \(String(describing: error))")
                 return
             }
-            
             self.authViewModel.state = .signedIn(user)
             
-            let viewController = MainViewController(authViewModel: self.authViewModel)
-            viewController.modalTransitionStyle = .crossDissolve
-            viewController.modalPresentationStyle = .fullScreen
+            let authentication = user.authentication
             
-            rootViewController.present(viewController, animated: true) {
-                print("Login succeeded")
+            guard let idToken = authentication.idToken else {
+                return
             }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Error! \(String(describing: error))")
+                    return
+                }
+                // User is signed in
+                let viewController = MainViewController(authViewModel: self.authViewModel)
+                viewController.modalTransitionStyle = .crossDissolve
+                viewController.modalPresentationStyle = .fullScreen
+                
+                rootViewController.present(viewController, animated: true) {
+                    print("Login succeeded")
+                }
+                
+            }
+            
+            
         }
     }
     
     func signOut() {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
         GIDSignIn.sharedInstance.signOut()
         authViewModel.state = .signedOut
         
