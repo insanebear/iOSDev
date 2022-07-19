@@ -71,21 +71,30 @@ final class GoogleSignInAuthenticator {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            GIDSignIn.sharedInstance.signOut()
+            authViewModel.state = .signedOut
+            
+            UIApplication.shared.windows.first?.rootViewController = LoginViewController(authViewModel: self.authViewModel)
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
-        GIDSignIn.sharedInstance.signOut()
-        authViewModel.state = .signedOut
-        
-        UIApplication.shared.windows.first?.rootViewController = LoginViewController(authViewModel: self.authViewModel)
     }
     
     func disconnect() {
-        GIDSignIn.sharedInstance.disconnect { error in
+        let firebaseAuth = Auth.auth()
+        
+        firebaseAuth.currentUser?.delete { error in
             if let error = error {
-                print("Encountered error disconnecting scope: \(error)")
+                print("Encountered error disconnecting scope: \(String(describing: error))")
+            } else {
+                GIDSignIn.sharedInstance.disconnect { error in
+                    if let error = error {
+                        print("Encountered error disconnecting scope: \(error)")
+                    } else {
+                        self.signOut()
+                    }
+                }
             }
-            self.signOut()
         }
     }
 }
