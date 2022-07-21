@@ -30,13 +30,17 @@ final class GoogleSignInAuthenticator {
             return
         }
         
+        // Google Sign-in
         GIDSignIn.sharedInstance.signIn(with: configuration, presenting: rootViewController) { user, error in
             
-            guard let user = user else {
+            guard let user = user, let profile = user.profile else {
                 print("Error! \(String(describing: error))")
                 return
             }
             self.authViewModel.state = .signedIn(user)
+            self.authViewModel.user = User(email: profile.email,
+                                      name: profile.name,
+                                      profileImage: profile.imageURL(withDimension: UInt(45 * UIScreen.main.scale)))
             
             let authentication = user.authentication
             
@@ -60,10 +64,7 @@ final class GoogleSignInAuthenticator {
                 rootViewController.present(viewController, animated: true) {
                     print("Login succeeded")
                 }
-                
             }
-            
-            
         }
     }
     
@@ -73,6 +74,7 @@ final class GoogleSignInAuthenticator {
             try firebaseAuth.signOut()
             GIDSignIn.sharedInstance.signOut()
             authViewModel.state = .signedOut
+            authViewModel.user = nil
             
             UIApplication.shared.windows.first?.rootViewController = LoginViewController(authViewModel: self.authViewModel)
         } catch let signOutError as NSError {

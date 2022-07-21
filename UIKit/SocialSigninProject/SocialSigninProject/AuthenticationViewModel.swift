@@ -10,6 +10,7 @@ import GoogleSignIn
 
 final class AuthenticationViewModel {
     var state: State
+    var user: User?
     
     private var authenticator: GoogleSignInAuthenticator {
         return GoogleSignInAuthenticator(authViewModel: self)

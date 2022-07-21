@@ -7,11 +7,11 @@
 
 import UIKit
 import GoogleSignIn
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let authViewModel = AuthenticationViewModel()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,16 +23,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Restore user login status
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-            if let user = user {
+            let authViewModel = AuthenticationViewModel()
+            if let user = user, let profile = user.profile {
                 // Show the app's signed-in state.
-                self.authViewModel.state = .signedIn(user)
-                self.window?.rootViewController = MainViewController(authViewModel: self.authViewModel)
+                // ???: Can use a function for Firebase authentication from GoogleSignInAuthenticator?
+                authViewModel.state = .signedIn(user)
+                authViewModel.user = User(email: profile.email,
+                                          name: profile.name,
+                                          profileImage: profile.imageURL(withDimension: UInt(45 * UIScreen.main.scale)))
+
+                // Firebase authentication
+                let authentication = user.authentication
+                
+                guard let idToken = authentication.idToken else {
+                    return
+                }
+                
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                               accessToken: authentication.accessToken)
+                Auth.auth().signIn(with: credential) { authResult, error in
+                    if let error = error {
+                        print("Error! \(String(describing: error))")
+                        return
+                    }
+                    
+                    self.window?.rootViewController = MainViewController(authViewModel: authViewModel)
+                }
             } else if error != nil || user == nil {
                 // Show the app's signed-out state.
-                self.authViewModel.state = .signedOut
-                self.window?.rootViewController = LoginViewController(authViewModel: self.authViewModel)
+                authViewModel.state = .signedOut
+                self.window?.rootViewController = LoginViewController(authViewModel: authViewModel)
             } else {
-                self.authViewModel.state = .signedOut
+                authViewModel.state = .signedOut
                 print("Error occurred as restoring the previous sign-in: \(String(describing: error))")
             }
         }

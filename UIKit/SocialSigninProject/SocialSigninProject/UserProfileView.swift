@@ -9,7 +9,7 @@ import UIKit
 import GoogleSignIn
 
 class UserProfileView: UIView {
-    private var user: GIDGoogleUser?
+    private var user: User?
     
     let stackView: UIStackView = {
         let stackView = UIStackView()
@@ -35,7 +35,7 @@ class UserProfileView: UIView {
         return imageView
     } ()
     
-    convenience init(user: GIDGoogleUser) {
+    convenience init(user: User) {
         self.init(frame: .zero)
         self.user = user
         
@@ -64,9 +64,8 @@ class UserProfileView: UIView {
     }
     
     func setName() {
-        if let givenName = user?.profile?.givenName,
-           let familyName = user?.profile?.familyName {
-            nameLabel.text = "\(givenName)  \(familyName)"
+        if let user = user {
+            nameLabel.text = "\(user.name)"
             self.addSubview(nameLabel)
             
             NSLayoutConstraint.activate([
@@ -81,13 +80,16 @@ class UserProfileView: UIView {
         profileImageView.layer.cornerRadius = dimension/2
         profileImageView.clipsToBounds = true
         
-        if let userProfile = user?.profile,
-           let url = userProfile.imageURL(withDimension: UInt(dimension)),
-           let data = try? Data(contentsOf: url),
-           let image = UIImage(data: data) {
-            
-            DispatchQueue.main.async {
-                self.profileImageView.image = image
+        if let user = user {
+            if let imageUrl = user.profileImage,
+               let data = try? Data(contentsOf: imageUrl),
+               let image = UIImage(data: data) {
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                }
+            } else {
+                self.profileImageView.image = UIImage(systemName: "person.fill")
             }
         }
     }

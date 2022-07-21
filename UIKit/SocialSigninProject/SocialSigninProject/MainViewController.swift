@@ -11,6 +11,8 @@ import GoogleSignIn
 class MainViewController: UIViewController {
     private var authViewModel: AuthenticationViewModel
     
+    var userProfileView: UserProfileView!
+
     let signoutButton: UIButton = {
         let button = UIButton()
         button.setTitle("Sign out", for: .normal)
@@ -27,17 +29,6 @@ class MainViewController: UIViewController {
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
-    } ()
-    
-    let userProfileView: UserProfileView = {
-        guard let user = GIDSignIn.sharedInstance.currentUser else {
-            fatalError("Cannot read current user")
-        }
-        
-        let view = UserProfileView(user: user)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
     } ()
 
     init(authViewModel: AuthenticationViewModel) {
@@ -59,7 +50,8 @@ class MainViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(textLabel)
-        self.view.addSubview(userProfileView)
+        
+        setupUserProfileView()
         
         signoutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         disconeectButton.addTarget(self, action: #selector(disconnect), for: .touchUpInside)
@@ -83,6 +75,17 @@ class MainViewController: UIViewController {
             userProfileView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
         ])
         
+    }
+    
+    func setupUserProfileView() {
+        guard let user = self.authViewModel.user else {
+            fatalError("Cannot read current user")
+        }
+        
+        userProfileView = UserProfileView(user: user)
+        userProfileView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(userProfileView)
     }
 
     @objc func signOut(_ sender: UIButton) {

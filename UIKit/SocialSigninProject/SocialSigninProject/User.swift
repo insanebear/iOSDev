@@ -9,5 +9,6 @@ import Foundation
 
 struct User {
     let email: String
-    let password: String
+    let name: String
+    var profileImage: URL? = nil
 }
