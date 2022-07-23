@@ -143,6 +143,7 @@ class LoginViewController: UIViewController {
         
         
         passwordField = UITextField()
+        passwordField.isSecureTextEntry = true
         passwordField.attributedPlaceholder = NSAttributedString(
             string: "Enter password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
@@ -174,7 +175,6 @@ class LoginViewController: UIViewController {
         emailLoginStack = UIStackView()
         emailLoginStack.axis = .vertical
         emailLoginStack.alignment = .center
-        
         emailLoginStack.spacing = 10
         emailLoginStack.addArrangedSubview(emailStack)
         emailLoginStack.addArrangedSubview(passwordStack)
@@ -187,5 +187,9 @@ class LoginViewController: UIViewController {
     
     @objc func showSignupViewController(_ sender: UIButton) {
         present(RegistrationViewController(), animated: true)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }

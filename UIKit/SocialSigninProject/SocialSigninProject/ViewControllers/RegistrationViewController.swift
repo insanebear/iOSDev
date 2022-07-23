@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class RegistrationViewController: UIViewController {
     
@@ -16,10 +17,12 @@ class RegistrationViewController: UIViewController {
     var emailLabel: UILabel!
     var emailField: UITextField!
     var emailStack: UIStackView!
+    var emailErrorMessage: UILabel!
 
     var passwordLabel: UILabel!
     var passwordField: UITextField!
     var passwordStack: UIStackView!
+    var passwordErrorMessage: UILabel!
     
     var fieldStackView: UIStackView!
     
@@ -68,7 +71,29 @@ class RegistrationViewController: UIViewController {
     }
     
     func setupTextFields() {
-        // nickname
+        setupNameFields()
+        setupEmailFields()
+        setupPasswordFields()
+        
+        fieldStackView = UIStackView()
+        fieldStackView.translatesAutoresizingMaskIntoConstraints = false
+        fieldStackView.axis = .vertical
+        fieldStackView.alignment = .leading
+        fieldStackView.spacing = 30
+        fieldStackView.addArrangedSubview(nameStack)
+        fieldStackView.addArrangedSubview(emailStack)
+        fieldStackView.addArrangedSubview(passwordStack)
+        
+        self.view.addSubview(fieldStackView)
+        
+        NSLayoutConstraint.activate([
+            fieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            fieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            fieldStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: UIScreen.main.bounds.height/4)
+        ])
+    }
+    
+    func setupNameFields() {
         nameLabel = UILabel()
         nameLabel.text = "Name"
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -92,8 +117,9 @@ class RegistrationViewController: UIViewController {
         nameStack.addArrangedSubview(nameLabel)
         nameStack.addArrangedSubview(nameField)
         nameStack.spacing = 10
-        
-        // email
+    }
+    
+    func setupEmailFields() {
         emailLabel = UILabel()
         emailLabel.text = "E-mail"
         emailLabel.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -105,27 +131,39 @@ class RegistrationViewController: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
         )
         emailField.textColor = .black
+        emailField.tag = 0
+        emailField.delegate = self
         emailField.layer.borderWidth = 1
         emailField.layer.borderColor = UIColor.lightGray.cgColor
         emailField.contentHorizontalAlignment = .leading
         emailField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/20).isActive = true
         emailField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40).isActive = true
         
+        emailErrorMessage = UILabel()
+        emailErrorMessage.text = "Please enter a valid email address"
+        emailErrorMessage.font = UIFont.preferredFont(forTextStyle: .caption1)
+        emailErrorMessage.textColor = .red
+        emailErrorMessage.isHidden = true
+        
         emailStack = UIStackView()
         emailStack.axis = .vertical
         emailStack.alignment = .leading
         emailStack.addArrangedSubview(emailLabel)
         emailStack.addArrangedSubview(emailField)
+        emailStack.addArrangedSubview(emailErrorMessage)
         emailStack.spacing = 10
-        
-        // password
+    }
+    
+    func setupPasswordFields() {
         passwordLabel = UILabel()
         passwordLabel.text = "Password"
         passwordLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         passwordLabel.textColor = .black
         
-        
         passwordField = UITextField()
+        passwordField.tag = 1
+        passwordField.delegate = self
+        passwordField.isSecureTextEntry = true
         passwordField.attributedPlaceholder = NSAttributedString(
             string: "Enter password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
@@ -136,29 +174,19 @@ class RegistrationViewController: UIViewController {
         passwordField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/20).isActive = true
         passwordField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40).isActive = true
         
+        passwordErrorMessage = UILabel()
+        passwordErrorMessage.text = "At least 6 digits or characters"
+        passwordErrorMessage.font = UIFont.preferredFont(forTextStyle: .caption1)
+        passwordErrorMessage.textColor = .red
+        passwordErrorMessage.isHidden = true
+        
         passwordStack = UIStackView()
         passwordStack.axis = .vertical
         passwordStack.alignment = .leading
         passwordStack.addArrangedSubview(passwordLabel)
         passwordStack.addArrangedSubview(passwordField)
+        passwordStack.addArrangedSubview(passwordErrorMessage)
         passwordStack.spacing = 10
-        
-        fieldStackView = UIStackView()
-        fieldStackView.translatesAutoresizingMaskIntoConstraints = false
-        fieldStackView.axis = .vertical
-        fieldStackView.alignment = .leading
-        fieldStackView.spacing = 30
-        fieldStackView.addArrangedSubview(nameStack)
-        fieldStackView.addArrangedSubview(emailStack)
-        fieldStackView.addArrangedSubview(passwordStack)
-        
-        self.view.addSubview(fieldStackView)
-        
-        NSLayoutConstraint.activate([
-            fieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            fieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            fieldStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: UIScreen.main.bounds.height/4)
-        ])
     }
     
     @objc func cancel(_ sender: UIButton) {
@@ -166,11 +194,58 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func done(_ sender: UIButton) {
+        // TODO: Save name
         // save info
-        self.dismiss(animated: true)
+        if let email = emailField.text, let password = passwordField.text {
+            let isEmailValid = validateEmail(email: email)
+            let isPasswordValid = validatePassword(password: password)
+            
+            if !isEmailValid {
+                emailErrorMessage.isHidden = false
+            }
+            
+            if !isPasswordValid {
+                passwordErrorMessage.isHidden = false
+            }
+            
+            if isEmailValid && isPasswordValid {
+                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                    if let error = error {
+                        print("Error occurred while creating account using email: \(error)")
+                    }
+                }
+                self.dismiss(animated: true)
+            }
+        }
+    }
+    
+    func validateEmail(email: String) -> Bool {
+        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        
+        return emailPredicate.evaluate(with: email)
+    }
+    
+    func validatePassword(password: String) -> Bool {
+        // check only the length condition here
+        if password.count < 6 {
+            return false
+        }
+        return true
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+}
+
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag == 0 { // email
+            emailErrorMessage.isHidden = true
+        }
+        if textField.tag == 1 { // password
+            passwordErrorMessage.isHidden = true
+        }
     }
 }
