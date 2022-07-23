@@ -85,12 +85,9 @@
 			children = (
 				7B6600DB287BE487003C14E9 /* AppDelegate.swift */,
 				7B6600DD287BE487003C14E9 /* SceneDelegate.swift */,
-				7B6600DF287BE487003C14E9 /* MainViewController.swift */,
-				7B630F27287C1D390085D605 /* LoginViewController.swift */,
-				7BFC94A728863E140006CCAB /* RegistrationViewController.swift */,
-				7B9BDF66287FF44B009400A8 /* UserProfileView.swift */,
-				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
-				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
+				7B67E6EA2888D37D0013907B /* ViewControllers */,
+				7B67E6EB2888D8180013907B /* Views */,
+				7B67E6EC2888D8200013907B /* Models */,
 				7B6600E9287BE489003C14E9 /* Info.plist */,
 				7B0FCDA5288584580077FE36 /* GoogleService-Info.plist */,
 				7B6600E6287BE489003C14E9 /* LaunchScreen.storyboard */,
@@ -98,6 +95,33 @@
 				7BFC94A92886D8540006CCAB /* User.swift */,
 			);
 			path = SocialSigninProject;
+			sourceTree = "<group>";
+		};
+		7B67E6EA2888D37D0013907B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7B6600DF287BE487003C14E9 /* MainViewController.swift */,
+				7B630F27287C1D390085D605 /* LoginViewController.swift */,
+				7BFC94A728863E140006CCAB /* RegistrationViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7B67E6EB2888D8180013907B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BDF66287FF44B009400A8 /* UserProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7B67E6EC2888D8200013907B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
+				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C6879DF00A8AEFA0431C2E4A /* Pods */ = {
