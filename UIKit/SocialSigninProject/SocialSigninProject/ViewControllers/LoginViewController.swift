@@ -9,7 +9,7 @@ import UIKit
 import GoogleSignIn
 
 class LoginViewController: UIViewController {
-    private var authViewModel: AuthenticationViewModel
+    internal var authViewModel: AuthenticationViewModel
     
     var loginFeatureStack: UIStackView! // contains all login features
 
@@ -20,13 +20,9 @@ class LoginViewController: UIViewController {
     var emailSectionLabel: UILabel!
     
     var emailLoginStack: UIStackView! // contains email, password fields and sign-in button
-    var emailLabel: UILabel!
-    var emailField: UITextField!
-    var emailStack: UIStackView!
-    var passwordLabel: UILabel!
-    var passwordField: UITextField!
-    var passwordStack: UIStackView!
-    var emailSignInButton: UIButton!
+    var emailField: InputFieldView!
+    var passwordField: InputFieldView!
+    var emailSignInButton: DoneButton!
     
     var emailMethodSeperator: UILabel!
     
@@ -110,65 +106,19 @@ class LoginViewController: UIViewController {
     
     func setupEmailLoginStack(){
         // email field
-        emailLabel = UILabel()
-        emailLabel.text = "E-mail"
-        emailLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        emailLabel.textColor = .black
-        
-        emailField = UITextField()
-        emailField.attributedPlaceholder = NSAttributedString(
-            string: "Enter your email",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
-        )
-        emailField.textColor = .black
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor.lightGray.cgColor
-        emailField.contentHorizontalAlignment = .leading
-        emailField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/20).isActive = true
-        emailField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40).isActive = true
-        
-        // email stack
-        emailStack = UIStackView()
-        emailStack.axis = .vertical
-        emailStack.spacing = 10
-        emailStack.alignment = .leading
-        emailStack.addArrangedSubview(emailLabel)
-        emailStack.addArrangedSubview(emailField)
+        emailField = InputFieldView()
+        emailField.setTitle("E-mail")
+        emailField.setPlaceholder("Enter your email")
         
         // password field
-        passwordLabel = UILabel()
-        passwordLabel.text = "Password"
-        passwordLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        passwordLabel.textColor = .black
-        
-        
-        passwordField = UITextField()
-        passwordField.isSecureTextEntry = true
-        passwordField.attributedPlaceholder = NSAttributedString(
-            string: "Enter password",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
-        )
-        passwordField.textColor = .black
-        passwordField.layer.borderWidth = 1
-        passwordField.layer.borderColor = UIColor.lightGray.cgColor
-        passwordField.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/20).isActive = true
-        passwordField.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40).isActive = true
-        
-        // password stack
-        passwordStack = UIStackView()
-        passwordStack.axis = .vertical
-        passwordStack.spacing = 10
-        passwordStack.alignment = .leading
-        passwordStack.addArrangedSubview(passwordLabel)
-        passwordStack.addArrangedSubview(passwordField)
+        passwordField = InputFieldView()
+        passwordField.setTitle("Password")
+        passwordField.setPlaceholder("Enter password")
+        passwordField.setTextEntrySecure(true)
         
         // email sign in button
-        emailSignInButton = UIButton()
-        emailSignInButton.backgroundColor = .systemBlue
-        emailSignInButton.layer.cornerRadius = 10
+        emailSignInButton = DoneButton()
         emailSignInButton.setTitle("Sign in", for: .normal)
-        emailSignInButton.setTitleColor(.white, for: .normal)
-        emailSignInButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/5).isActive = true
         emailSignInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         
         // -- email login stack
@@ -176,20 +126,8 @@ class LoginViewController: UIViewController {
         emailLoginStack.axis = .vertical
         emailLoginStack.alignment = .center
         emailLoginStack.spacing = 10
-        emailLoginStack.addArrangedSubview(emailStack)
-        emailLoginStack.addArrangedSubview(passwordStack)
+        emailLoginStack.addArrangedSubview(emailField)
+        emailLoginStack.addArrangedSubview(passwordField)
         emailLoginStack.addArrangedSubview(emailSignInButton)
-    }
-    
-    @objc func signIn(_ sender: UIButton) {
-        authViewModel.signIn()
-    }
-    
-    @objc func showSignupViewController(_ sender: UIButton) {
-        present(RegistrationViewController(), animated: true)
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
 }
