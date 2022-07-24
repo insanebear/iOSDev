@@ -9,7 +9,7 @@ import UIKit
 import GoogleSignIn
 
 class UserProfileView: UIView {
-    private var user: User?
+    private var userInfo: UserInfo!
     
     let stackView: UIStackView = {
         let stackView = UIStackView()
@@ -30,21 +30,31 @@ class UserProfileView: UIView {
         return label
     } ()
     
+    let emailLabel: UILabel = {
+        let label = UILabel()
+        label.sizeToFit()
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     } ()
     
-    convenience init(user: User) {
+    convenience init(userInfo: UserInfo) {
         self.init(frame: .zero)
-        self.user = user
+        self.userInfo = userInfo
         
         setName()
+        setEmail()
         setImage()
         
         stackView.addArrangedSubview(profileImageView)
         stackView.addArrangedSubview(nameLabel)
-        
+        stackView.addArrangedSubview(emailLabel)
+
         self.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -64,33 +74,32 @@ class UserProfileView: UIView {
     }
     
     func setName() {
-        if let user = user {
-            nameLabel.text = "\(user.name)"
+        if let name = userInfo.name {
+            nameLabel.text = "\(name)"
             self.addSubview(nameLabel)
-            
-            NSLayoutConstraint.activate([
-                nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            ])
         }
     }
     
+    func setEmail() {
+        if let email = userInfo.email {
+            emailLabel.text = "\(email)"
+            self.addSubview(emailLabel)
+        }
+    }
+
     func setImage() {
-        let dimension = 45 * UIScreen.main.scale
-        profileImageView.layer.cornerRadius = dimension/2
+        profileImageView.layer.cornerRadius = 10
         profileImageView.clipsToBounds = true
         
-        if let user = user {
-            if let imageUrl = user.profileImage,
-               let data = try? Data(contentsOf: imageUrl),
-               let image = UIImage(data: data) {
-                
-                DispatchQueue.main.async {
-                    self.profileImageView.image = image
-                }
-            } else {
-                self.profileImageView.image = UIImage(systemName: "person.fill")
+        if let imageUrl = userInfo.profileImage,
+           let data = try? Data(contentsOf: imageUrl),
+           let image = UIImage(data: data) {
+            
+            DispatchQueue.main.async {
+                self.profileImageView.image = image
             }
+        } else {
+            self.profileImageView.image = UIImage(systemName: "person.fill")
         }
     }
 }

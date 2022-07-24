@@ -78,11 +78,11 @@ class MainViewController: UIViewController {
     }
     
     func setupUserProfileView() {
-        guard let user = self.authViewModel.user else {
+        guard let userInfo = self.authViewModel.userInfo else {
             fatalError("Cannot read current user")
         }
         
-        userProfileView = UserProfileView(user: user)
+        userProfileView = UserProfileView(userInfo: userInfo)
         userProfileView.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(userProfileView)

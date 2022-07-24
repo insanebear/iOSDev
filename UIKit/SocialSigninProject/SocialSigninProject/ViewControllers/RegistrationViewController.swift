@@ -8,6 +8,7 @@
 import UIKit
 
 class RegistrationViewController: UIViewController {
+    internal var authViewModel: AuthenticationViewModel
     
     var nameField: InputFieldView!
     var emailField: InputFieldView!
@@ -26,6 +27,15 @@ class RegistrationViewController: UIViewController {
         
         return button
     } ()
+    
+    init(authViewModel: AuthenticationViewModel) {
+        self.authViewModel = authViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

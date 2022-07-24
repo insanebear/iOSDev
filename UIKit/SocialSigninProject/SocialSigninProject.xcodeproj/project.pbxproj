@@ -19,10 +19,10 @@
 		7B6AB04F288CEE0F001B919D /* RegistrationViewController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6AB04E288CEE0F001B919D /* RegistrationViewController+Actions.swift */; };
 		7B6AB051288CEE82001B919D /* LoginViewController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6AB050288CEE82001B919D /* LoginViewController+Actions.swift */; };
 		7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */; };
-		7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */; };
+		7B82A62E287D52A80053FE8C /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B82A62D287D52A80053FE8C /* Authenticator.swift */; };
 		7B9BDF67287FF44B009400A8 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BDF66287FF44B009400A8 /* UserProfileView.swift */; };
 		7BFC94A828863E140006CCAB /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC94A728863E140006CCAB /* RegistrationViewController.swift */; };
-		7BFC94AA2886D8540006CCAB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC94A92886D8540006CCAB /* User.swift */; };
+		7BFC94AA2886D8540006CCAB /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFC94A92886D8540006CCAB /* UserInfo.swift */; };
 		7BFF527E288CD29E007A5D42 /* InputFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFF527D288CD29E007A5D42 /* InputFieldView.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,10 +42,10 @@
 		7B6AB04E288CEE0F001B919D /* RegistrationViewController+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RegistrationViewController+Actions.swift"; sourceTree = "<group>"; };
 		7B6AB050288CEE82001B919D /* LoginViewController+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+Actions.swift"; sourceTree = "<group>"; };
 		7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
-		7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInAuthenticator.swift; sourceTree = "<group>"; };
+		7B82A62D287D52A80053FE8C /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		7B9BDF66287FF44B009400A8 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		7BFC94A728863E140006CCAB /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
-		7BFC94A92886D8540006CCAB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7BFC94A92886D8540006CCAB /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		7BFF527D288CD29E007A5D42 /* InputFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFieldView.swift; sourceTree = "<group>"; };
 		8C3E4F6E15091663EC89A4F7 /* Pods_SocialSigninProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SocialSigninProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -100,7 +100,6 @@
 				7B0FCDA5288584580077FE36 /* GoogleService-Info.plist */,
 				7B6600E6287BE489003C14E9 /* LaunchScreen.storyboard */,
 				7B6600E4287BE489003C14E9 /* Assets.xcassets */,
-				7BFC94A92886D8540006CCAB /* User.swift */,
 			);
 			path = SocialSigninProject;
 			sourceTree = "<group>";
@@ -131,7 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				7B82A62B287D51950053FE8C /* AuthenticationViewModel.swift */,
-				7B82A62D287D52A80053FE8C /* GoogleSignInAuthenticator.swift */,
+				7B82A62D287D52A80053FE8C /* Authenticator.swift */,
+				7BFC94A92886D8540006CCAB /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -267,9 +267,9 @@
 				7B82A62C287D51950053FE8C /* AuthenticationViewModel.swift in Sources */,
 				7B6AB04D288CE01C001B919D /* DoneButton.swift in Sources */,
 				7B6600E0287BE487003C14E9 /* MainViewController.swift in Sources */,
-				7BFC94AA2886D8540006CCAB /* User.swift in Sources */,
+				7BFC94AA2886D8540006CCAB /* UserInfo.swift in Sources */,
 				7B6600DC287BE487003C14E9 /* AppDelegate.swift in Sources */,
-				7B82A62E287D52A80053FE8C /* GoogleSignInAuthenticator.swift in Sources */,
+				7B82A62E287D52A80053FE8C /* Authenticator.swift in Sources */,
 				7B6AB04F288CEE0F001B919D /* RegistrationViewController+Actions.swift in Sources */,
 				7BFF527E288CD29E007A5D42 /* InputFieldView.swift in Sources */,
 				7B6600DE287BE487003C14E9 /* SceneDelegate.swift in Sources */,

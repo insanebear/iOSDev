@@ -6,26 +6,40 @@
 //
 
 import Foundation
-import GoogleSignIn
+import FirebaseAuth
 
 final class AuthenticationViewModel {
     var state: State
-    var user: User?
+    var authenticationType: AuthenticationType
+    var userInfo: UserInfo?
     
-    private var authenticator: GoogleSignInAuthenticator {
-        return GoogleSignInAuthenticator(authViewModel: self)
+    private var authenticator: Authenticator {
+        return Authenticator(authViewModel: self)
     }
     
     init() {
-        if let user = GIDSignIn.sharedInstance.currentUser {
+        if let user = Auth.auth().currentUser {
             self.state = .signedIn(user)
         } else {
             self.state = .signedOut
         }
+        
+        authenticationType = .none
     }
     
-    func signIn() {
-        authenticator.signIn()
+    func signIn(type: AuthenticationType, email: String? = nil, password: String? = nil) {
+        switch type {
+        case .email:
+            if let email = email, let password = password {
+                authenticationType = .email
+                authenticator.emailSignIn(email: email, password: password)
+            }
+        case .google:
+            authenticationType = .google
+            authenticator.googleSignIn()
+        default:
+            break
+        }
     }
     
     func signOut() {
@@ -39,7 +53,13 @@ final class AuthenticationViewModel {
 
 extension AuthenticationViewModel {
     enum State {
-        case signedIn(GIDGoogleUser)
+        case signedIn(User)
         case signedOut
+    }
+    
+    enum AuthenticationType {
+        case none
+        case email
+        case google
     }
 }

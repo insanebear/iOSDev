@@ -64,7 +64,7 @@ class LoginViewController: UIViewController {
     
     func setupGoogleSignInButton() {
         googleSignInButton = GIDSignInButton()
-        googleSignInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        googleSignInButton.addTarget(self, action: #selector(googleSignIn), for: .touchUpInside)
         googleSignInButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-40).isActive = true
     }
     
@@ -119,7 +119,7 @@ class LoginViewController: UIViewController {
         // email sign in button
         emailSignInButton = DoneButton()
         emailSignInButton.setTitle("Sign in", for: .normal)
-        emailSignInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        emailSignInButton.addTarget(self, action: #selector(emailSignIn), for: .touchUpInside)
         
         // -- email login stack
         emailLoginStack = UIStackView()

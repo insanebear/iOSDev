@@ -15,7 +15,7 @@ extension RegistrationViewController {
     
     @objc func done(_ sender: UIButton) {
         // TODO: Save name
-        // save info
+
         if let email = emailField.getText(), let password = passwordField.getText() {
             let isEmailValid = validateEmail(email: email)
             let isPasswordValid = validatePassword(password: password)
@@ -33,6 +33,8 @@ extension RegistrationViewController {
                     if let error = error {
                         print("Error occurred while creating account using email: \(error)")
                     }
+                    
+                    self.authViewModel.signIn(type: .email, email: email, password: password)
                 }
                 self.dismiss(animated: true)
             }

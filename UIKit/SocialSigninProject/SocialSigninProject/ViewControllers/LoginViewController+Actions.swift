@@ -8,12 +8,19 @@
 import UIKit
 
 extension LoginViewController {
-    @objc func signIn(_ sender: UIButton) {
-        authViewModel.signIn()
+    @objc func emailSignIn(_ sender: UIButton) {
+        let email = emailField.getText()
+        let password = passwordField.getText()
+        
+        authViewModel.signIn(type: .email, email: email, password: password)
     }
     
+    @objc func googleSignIn(_ sender: UIButton) {
+        authViewModel.signIn(type: .google)
+    }
+
     @objc func showSignupViewController(_ sender: UIButton) {
-        present(RegistrationViewController(), animated: true)
+        present(RegistrationViewController(authViewModel: authViewModel), animated: true)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
