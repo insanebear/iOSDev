@@ -59,6 +59,10 @@ class InputFieldView: UIStackView {
         textField.isSecureTextEntry = value
     }
     
+    public func setAutocapitalization(type: UITextAutocapitalizationType) {
+        textField.autocapitalizationType = type
+    }
+    
     public func getText() -> String? {
         return textField.text
     }

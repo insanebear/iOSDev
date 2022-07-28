@@ -14,11 +14,18 @@ extension RegistrationViewController {
     }
     
     @objc func done(_ sender: UIButton) {
-        // TODO: Save name
-
-        if let email = emailField.getText(), let password = passwordField.getText() {
+        
+        if let email = emailField.getText(),
+           let password = passwordField.getText(),
+           let name = nameField.getText() {
+            
             let isEmailValid = validateEmail(email: email)
             let isPasswordValid = validatePassword(password: password)
+            let isNameValid = name == "" ? false : true
+            
+            if !isNameValid {
+                nameField.showErrorMessage(true)
+            }
             
             if !isEmailValid {
                 emailField.showErrorMessage(true)
@@ -28,13 +35,21 @@ extension RegistrationViewController {
                 passwordField.showErrorMessage(true)
             }
             
-            if isEmailValid && isPasswordValid {
+            if isEmailValid && isPasswordValid && isNameValid {
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     if let error = error {
                         print("Error occurred while creating account using email: \(error)")
                     }
                     
-                    self.authViewModel.signIn(type: .email, email: email, password: password)
+                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                    changeRequest?.displayName = name
+                    changeRequest?.commitChanges { error in // save displayName
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                        
+                        self.authViewModel.signIn(type: .email, email: email, password: password)
+                    }
                 }
                 self.dismiss(animated: true)
             }

@@ -63,9 +63,11 @@ class RegistrationViewController: UIViewController {
         nameField = InputFieldView()
         nameField.setTitle("Name")
         nameField.setPlaceholder("Enter your name")
+        nameField.setErrorMessage(with: "Please enter your name")
         
         // email field
         emailField = InputFieldView()
+        emailField.setAutocapitalization(type: .none)
         emailField.setTitle("E-mail")
         emailField.setPlaceholder("Enter your email")
         emailField.setErrorMessage(with: "Please enter a valid email address")

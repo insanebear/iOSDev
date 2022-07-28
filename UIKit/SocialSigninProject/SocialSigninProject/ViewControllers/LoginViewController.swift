@@ -107,6 +107,7 @@ class LoginViewController: UIViewController {
     func setupEmailLoginStack(){
         // email field
         emailField = InputFieldView()
+        emailField.setAutocapitalization(type: .none)
         emailField.setTitle("E-mail")
         emailField.setPlaceholder("Enter your email")
         
