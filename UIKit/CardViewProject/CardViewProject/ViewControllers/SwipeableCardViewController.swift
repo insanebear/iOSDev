@@ -49,7 +49,7 @@ class SwipeableCardViewController: UIViewController {
     func createCards() {
         for data in MyData.myDataList {
             let card = CardView(data: data, width: 250, ratio: 1.5)
-            card.setContents(images: [data.image],
+            card.configure(images: [data.image],
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)

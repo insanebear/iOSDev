@@ -30,3 +30,9 @@ enum FilmType: CaseIterable {
         }
     }
 }
+
+enum CardType: CaseIterable {
+    case noResource
+    case noText
+    case normal // resource + text
+}

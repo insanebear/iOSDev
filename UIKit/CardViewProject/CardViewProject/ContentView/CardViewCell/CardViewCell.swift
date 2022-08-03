@@ -36,7 +36,7 @@ class CardViewListCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.setContents(images: [data.image],
+        cardView.configure(images: [data.image],
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)
@@ -44,7 +44,7 @@ class CardViewListCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        cardView.setContents(images: [],
+        cardView.configure(images: [],
                              title: "",
                              subtitle: "",
                              memo: "")
@@ -80,7 +80,7 @@ class CardViewPageCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.setContents(images: [data.image],
+        cardView.configure(images: [data.image],
                              title: data.title,
                              subtitle: data.author,
                              memo: data.memo)
@@ -88,7 +88,7 @@ class CardViewPageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        cardView.setContents(images: [],
+        cardView.configure(images: [],
                              title: "",
                              subtitle: "",
                              memo: "")

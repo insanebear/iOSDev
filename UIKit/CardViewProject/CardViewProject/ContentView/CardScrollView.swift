@@ -61,7 +61,7 @@ class CardScrollView: UIScrollView {
         // create cards and set data in the stack view
         for data in dataList {
             let cardView = CardView(width: self.width, ratio: self.ratio, filmType: .gradient, filmColor: .black, overlayOpacity: 0.5)
-            cardView.setContents(images: [data.image], title: data.title, subtitle: data.author, memo: data.memo)
+            cardView.configure(images: [data.image], title: data.title, subtitle: data.author, memo: data.memo)
             
             stackView.addArrangedSubview(cardView)
         }

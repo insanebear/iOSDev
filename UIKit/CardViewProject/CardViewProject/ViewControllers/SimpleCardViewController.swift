@@ -15,7 +15,7 @@ class SimpleCardViewController: UIViewController {
         let data = MyData.myDataList[0]
         
         let card = CardView(width: 200, ratio: 1.5, filmColor: .orange)
-        card.setContents(images: [data.image],
+        card.configure(images: [data.image],
                          title: data.title,
                          subtitle: data.author,
                          memo: data.memo)

@@ -1,5 +1,5 @@
 //
-//  CardView+TextViews.swift
+//  CardVTextViews.swift
 //  CardViewProject
 //
 //  Created by Jayde Jeong on 2022/06/07.
