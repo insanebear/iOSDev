@@ -15,10 +15,10 @@ class SimpleCardViewController: UIViewController {
         let data = MyData.myDataList[0]
         
         let card = CardView(width: 200, ratio: 1.5, filmColor: .orange)
-        card.configure(images: [data.image],
-                         title: data.title,
-                         subtitle: data.author,
-                         memo: data.memo)
+        card.configureResource(images: [data.image])
+        card.configureText(title: data.title,
+                               subtitle: data.author,
+                               memo: data.memo)
 
         self.view.addSubview(card)
 

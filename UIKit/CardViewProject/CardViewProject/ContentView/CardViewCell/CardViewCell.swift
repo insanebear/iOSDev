@@ -36,18 +36,19 @@ class CardViewListCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.configure(images: [data.image],
-                             title: data.title,
-                             subtitle: data.author,
-                             memo: data.memo)
+        cardView.configureResource(images: [data.image])
+        cardView.configureText(title: data.title,
+                               subtitle: data.author,
+                               memo: data.memo)
+        
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        cardView.configure(images: [],
-                             title: "",
-                             subtitle: "",
-                             memo: "")
+        cardView.configureResource(images: [])
+        cardView.configureText(title: "",
+                               subtitle: "",
+                               memo: "")
     }
 }
 
@@ -80,17 +81,17 @@ class CardViewPageCell: UICollectionViewCell {
     }
     
     public func configure(data: MyData) {
-        cardView.configure(images: [data.image],
-                             title: data.title,
-                             subtitle: data.author,
-                             memo: data.memo)
+        cardView.configureResource(images: [data.image])
+        cardView.configureText(title: data.title,
+                               subtitle: data.author,
+                               memo: data.memo)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        cardView.configure(images: [],
-                             title: "",
-                             subtitle: "",
-                             memo: "")
+        cardView.configureResource(images: [])
+        cardView.configureText(title: "",
+                               subtitle: "",
+                               memo: "")
     }
 }

@@ -111,7 +111,7 @@ class CardView: UIView {
         }
     }
     
-    func configure(images: [UIImage?], title: String, subtitle: String, memo: String) {
+    func configureResource(images: [UIImage?]) {
         // FIXME: basic and detail info for a multi resourced card
         guard let cardResourceStack = cardResourceStack,
               let cardResourceScrollView = cardResourceScrollView else {
@@ -134,7 +134,9 @@ class CardView: UIView {
         
         cardResourceStack.layer.addSublayer(filmLayer)
         cardResourceStack.layer.addSublayer(overlayLayer)
-        
+    }
+    
+    func configureText(title: String, subtitle: String, memo: String) {
         if let cardBasicInfoView = cardBasicInfoView {
             cardBasicInfoView.cardTitle.text = title
             cardBasicInfoView.subtitle.text = subtitle

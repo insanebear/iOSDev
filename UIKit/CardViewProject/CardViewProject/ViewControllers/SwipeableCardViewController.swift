@@ -49,10 +49,10 @@ class SwipeableCardViewController: UIViewController {
     func createCards() {
         for data in MyData.myDataList {
             let card = CardView(data: data, width: 250, ratio: 1.5)
-            card.configure(images: [data.image],
-                             title: data.title,
-                             subtitle: data.author,
-                             memo: data.memo)
+            card.configureResource(images: [data.image])
+            card.configureText(title: data.title,
+                                   subtitle: data.author,
+                                   memo: data.memo)
             
             // Pan Gesture for card swiping action
             card.addGestureRecognizer(

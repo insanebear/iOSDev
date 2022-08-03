@@ -15,8 +15,12 @@ class MultiResourcesViewController: UIViewController {
         let data = MyData2.myDataList[0]
         
         let cardView = CardView(data: data, width: 300, ratio: 0.5)
+        cardView.configureResource(images: data.images)
+        cardView.configureText(title: data.title,
+                               subtitle: data.author,
+                               memo: data.memo)
         cardView.translatesAutoresizingMaskIntoConstraints = false
-        cardView.configure(images: data.images, title: data.title, subtitle: data.author, memo: "")
+        
         view.addSubview(cardView)
         
         NSLayoutConstraint.activate([
