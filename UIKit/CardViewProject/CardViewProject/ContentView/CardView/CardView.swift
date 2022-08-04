@@ -27,6 +27,7 @@ class CardView: UIView {
     
     var cardBasicInfoView: CardTextView?
     var cardDetailInfoView: CardTextView?
+    var cardIconsView: CardIconsView?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -160,6 +161,10 @@ class CardView: UIView {
                 cardDetailInfoView.isHidden = true
             }
             
+            if let cardIconsView = cardIconsView {
+                cardIconsView.isHidden = false
+            }
+            
             overlayLayer.isHidden = true
             filmLayer.isHidden = false
             showOverlay = false
@@ -169,6 +174,10 @@ class CardView: UIView {
             }
             if let cardDetailInfoView = cardDetailInfoView {
                 cardDetailInfoView.isHidden = false
+            }
+            
+            if let cardIconsView = cardIconsView {
+                cardIconsView.isHidden = true
             }
             
             overlayLayer.isHidden = false

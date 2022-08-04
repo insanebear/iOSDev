@@ -47,6 +47,16 @@ extension CardView {
         self.addSubview(cardResourceScrollView!)
     }
     
+    func setupIconsView(cardIconsView: CardIconsView) {
+        self.cardIconsView = cardIconsView
+        self.addSubview(cardIconsView)
+        
+        if let cardIconsView = self.cardIconsView {
+            cardIconsView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            cardIconsView.topAnchor.constraint(equalTo: self.topAnchor, constant: height/10).isActive = true
+        }
+    }
+    
     func setupAlignment() {
         if let cardResourceStack = cardResourceStack,
            let cardResourceScrollView = cardResourceScrollView {
