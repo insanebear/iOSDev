@@ -24,6 +24,10 @@
 		7B5D61FB28504BA800B41D8B /* CardCollectionViewController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61FA28504BA800B41D8B /* CardCollectionViewController+DataSource.swift */; };
 		7B5D61FD28504DC600B41D8B /* CardCollectionViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5D61FC28504DC600B41D8B /* CardCollectionViewHeaderView.swift */; };
 		7B6600CE2877AB86003C14E9 /* VerticalCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6600CD2877AB86003C14E9 /* VerticalCardsViewController.swift */; };
+		7B732A5B28ABCD0600CC3066 /* UnsplashSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B732A5A28ABCD0600CC3066 /* UnsplashSampleViewController.swift */; };
+		7B732A5D28ABCD4500CC3066 /* ImageQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B732A5C28ABCD4500CC3066 /* ImageQuery.swift */; };
+		7B732A5F28ABCD7500CC3066 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B732A5E28ABCD7500CC3066 /* Image.swift */; };
+		7B732A6228ABCF7400CC3066 /* ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B732A6128ABCF7400CC3066 /* ImageViewCell.swift */; };
 		7B8666EA289A6E55003CD34C /* CardView+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8666E9289A6E55003CD34C /* CardView+Views.swift */; };
 		7B8666EC289A8916003CD34C /* CardIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8666EB289A8916003CD34C /* CardIconsView.swift */; };
 		7B8666EE289A9204003CD34C /* ButtonCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8666ED289A9204003CD34C /* ButtonCardViewController.swift */; };
@@ -55,6 +59,11 @@
 		7B5D61FA28504BA800B41D8B /* CardCollectionViewController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardCollectionViewController+DataSource.swift"; sourceTree = "<group>"; };
 		7B5D61FC28504DC600B41D8B /* CardCollectionViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCollectionViewHeaderView.swift; sourceTree = "<group>"; };
 		7B6600CD2877AB86003C14E9 /* VerticalCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCardsViewController.swift; sourceTree = "<group>"; };
+		7B732A5A28ABCD0600CC3066 /* UnsplashSampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashSampleViewController.swift; sourceTree = "<group>"; };
+		7B732A5C28ABCD4500CC3066 /* ImageQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageQuery.swift; sourceTree = "<group>"; };
+		7B732A5E28ABCD7500CC3066 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		7B732A6028ABCE7500CC3066 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		7B732A6128ABCF7400CC3066 /* ImageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewCell.swift; sourceTree = "<group>"; };
 		7B8666E9289A6E55003CD34C /* CardView+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardView+Views.swift"; sourceTree = "<group>"; };
 		7B8666EB289A8916003CD34C /* CardIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconsView.swift; sourceTree = "<group>"; };
 		7B8666ED289A9204003CD34C /* ButtonCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCardViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +105,7 @@
 		7B5D61D2284EC03900B41D8B /* CardViewProject */ = {
 			isa = PBXGroup;
 			children = (
+				7B732A6028ABCE7500CC3066 /* Config.xcconfig */,
 				7B5D61F0284EDCC500B41D8B /* Model */,
 				7B5D61EB284ED96600B41D8B /* ContentView */,
 				7B5D61F5284F277900B41D8B /* ViewControllers */,
@@ -116,6 +126,7 @@
 				7B8666E8289A4996003CD34C /* CardViewCell */,
 				7BA0DB1D2851EACD00606382 /* CardScrollView.swift */,
 				7BF86C0D286B0D1A003ED89B /* CardResourceScrollView.swift */,
+				7B732A6128ABCF7400CC3066 /* ImageViewCell.swift */,
 			);
 			path = ContentView;
 			sourceTree = "<group>";
@@ -125,6 +136,8 @@
 			children = (
 				7B5D61EE284EDCBF00B41D8B /* MyData.swift */,
 				7BA0DB262852E2EC00606382 /* PagingInfo.swift */,
+				7B732A5C28ABCD4500CC3066 /* ImageQuery.swift */,
+				7B732A5E28ABCD7500CC3066 /* Image.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -140,6 +153,7 @@
 				7BF86C09286AFDAC003ED89B /* MultiResourcesViewController.swift */,
 				7B2AF1C6285969A200475887 /* SwipeableCardViewController.swift */,
 				7B6600CD2877AB86003C14E9 /* VerticalCardsViewController.swift */,
+				7B732A5A28ABCD0600CC3066 /* UnsplashSampleViewController.swift */,
 				7B8666ED289A9204003CD34C /* ButtonCardViewController.swift */,
 			);
 			path = ViewControllers;
@@ -239,11 +253,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B5D61F7284F27AA00B41D8B /* CardCollectionViewController.swift in Sources */,
+				7B732A5F28ABCD7500CC3066 /* Image.swift in Sources */,
 				7BA0DB252852CAD100606382 /* CardCollectionViewFooterView.swift in Sources */,
 				7B6600CE2877AB86003C14E9 /* VerticalCardsViewController.swift in Sources */,
 				7B5D61E8284EC0F300B41D8B /* SimpleCardViewController.swift in Sources */,
 				7B5D61F9284F29A900B41D8B /* CardViewCell.swift in Sources */,
 				7B8666EA289A6E55003CD34C /* CardView+Views.swift in Sources */,
+				7B732A5B28ABCD0600CC3066 /* UnsplashSampleViewController.swift in Sources */,
+				7B732A6228ABCF7400CC3066 /* ImageViewCell.swift in Sources */,
 				7B5D61D8284EC03900B41D8B /* ViewController.swift in Sources */,
 				7B5D61D4284EC03900B41D8B /* AppDelegate.swift in Sources */,
 				7BF86C0E286B0D1A003ED89B /* CardResourceScrollView.swift in Sources */,
@@ -253,6 +270,7 @@
 				7B5D61EA284ED96100B41D8B /* CardView.swift in Sources */,
 				7BA0DB1C2851EA9800606382 /* CardPageViewController.swift in Sources */,
 				7B5D61F2284EEA4A00B41D8B /* CardView+Enum.swift in Sources */,
+				7B732A5D28ABCD4500CC3066 /* ImageQuery.swift in Sources */,
 				7B5D61F4284F18C400B41D8B /* CardTextViews.swift in Sources */,
 				7BA0DB272852E2EC00606382 /* PagingInfo.swift in Sources */,
 				7B8666EE289A9204003CD34C /* ButtonCardViewController.swift in Sources */,
@@ -288,6 +306,7 @@
 /* Begin XCBuildConfiguration section */
 		7B5D61E2284EC03C00B41D8B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B732A6028ABCE7500CC3066 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
