@@ -13,7 +13,7 @@ class CellHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        self.backgroundColor = UIColor.black.withAlphaComponent(0)
         self.translatesAutoresizingMaskIntoConstraints = false
         
         label = UILabel()
