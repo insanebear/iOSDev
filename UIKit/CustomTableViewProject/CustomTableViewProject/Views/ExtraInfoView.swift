@@ -13,7 +13,6 @@ class ExtraInfoView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .lightGray
         self.translatesAutoresizingMaskIntoConstraints = false
         self.sizeToFit()
         
@@ -35,15 +34,17 @@ class ExtraInfoView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext() else { return }
+//        guard let context = UIGraphicsGetCurrentContext() else { return }
         
-        let midPoint = CGPoint(x: rect.size.width/2, y: rect.size.height/2)
+//        let midPoint = CGPoint(x: rect.size.width/2, y: rect.size.height/2)
         
         // rectangle
-        let rectangle = CGRect(x: midPoint.x - 100, y: midPoint.y - 50, width: 200, height: 100)
-        context.setFillColor(UIColor.red.cgColor)
-        context.addRect(rectangle)
-        context.fill(rectangle)
-        context.strokePath()
+//        let width: CGFloat = 200
+//        let height: CGFloat = 100
+//        let rectangle = CGRect(x: midPoint.x - 100, y: midPoint.y - 50, width: width, height: height)
+//        context.setFillColor(UIColor.clear.cgColor)
+//        context.addRect(rectangle)
+//        context.fill(rectangle)
+//        context.stroke(rect, width: 1)
     }
 }
