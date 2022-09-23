@@ -10,6 +10,10 @@
 
   - Sample codes using CollectionView
 
+- [CustomTableViewProject](https://github.com/insanebear/iOSDev/tree/main/UIKit/CustomTableViewProject)
+
+  - Making custom table view cell with Emoji data
+
 - [MapProject](https://github.com/insanebear/iOSDev/tree/main/UIKit/MapProject)
 
   - Sample codes using MapKit and Naver map
