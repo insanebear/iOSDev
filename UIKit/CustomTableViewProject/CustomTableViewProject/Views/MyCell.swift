@@ -15,7 +15,16 @@ class MyCell: UITableViewCell {
     private let extraInfoView = ExtraInfoView()
     private let customView = CustomView()
 
-    var emoji: Emoji?
+    var emoji: Emoji? {
+        didSet {
+            customView.titleLabel.text = emoji?.emoji
+            customView.descriptionLabel.text = emoji?.description
+            extraInfoView.label.text = emoji?.emoji
+            if let emoji = emoji {
+                accessoryView?.isHidden = emoji.isFavorite ? false : true
+            }
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -60,24 +69,11 @@ class MyCell: UITableViewCell {
         cellLeadingView.numberLabel.text = String(num)
 
         self.emoji = emoji
-        if let emoji = self.emoji {
-            self.customView.titleLabel.text = emoji.emoji
-            self.customView.descriptionLabel.text = emoji.description
-            
-            extraInfoView.label.text = emoji.emoji
-            
-            if emoji.isFavorite {
-                accessoryView?.isHidden = false
-            }
-        }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.emoji = nil
-        self.customView.titleLabel.text = nil
-        self.customView.descriptionLabel.text = nil
-        accessoryView?.isHidden = true
     }
     
     override func didAddSubview(_ subview: UIView) {
