@@ -27,8 +27,11 @@ class MyCell: UITableViewCell {
         contentView.addSubview(extraInfoView)
         contentView.addSubview(customView)
         
-        accessoryView = CellAccessoryView(frame: .zero)
-
+        let favoriteImage = UIImage(systemName: "star.fill")
+        let favoriteImageView = UIImageView(image: favoriteImage)
+        accessoryView = favoriteImageView
+        accessoryView?.isHidden = true
+        
         self.showsReorderControl = true
         
         NSLayoutConstraint.activate([
@@ -62,6 +65,10 @@ class MyCell: UITableViewCell {
             self.customView.descriptionLabel.text = emoji.description
             
             extraInfoView.label.text = emoji.emoji
+            
+            if emoji.isFavorite {
+                accessoryView?.isHidden = false
+            }
         }
     }
     
@@ -70,10 +77,12 @@ class MyCell: UITableViewCell {
         self.emoji = nil
         self.customView.titleLabel.text = nil
         self.customView.descriptionLabel.text = nil
+        accessoryView?.isHidden = true
     }
     
     override func didAddSubview(_ subview: UIView) {
         /// To apply custom edit control and reorder control icons
+        // FIXME: To display all cases (not working for hidden cells at first)
         if let originalIcon = subview.subviews.first as? UIImageView {
             originalIcon.removeFromSuperview()
         }
@@ -111,6 +120,8 @@ extension MyCell {
             }
         }
     }
+    
+    // FIXME: background color only works for long touches.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         customView.backgroundColor = .lightGray

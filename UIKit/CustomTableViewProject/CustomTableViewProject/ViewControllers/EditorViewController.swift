@@ -49,7 +49,7 @@ class EditorViewController: UITableViewController {
     }
     
     func setupStaticTableView() {
-        /// UITextField and UITableViewCell
+        /// UITextField, UISwitch and UITableViewCell
         
         // Emoji
         self.emojiTextField = UITextField()
@@ -82,13 +82,15 @@ class EditorViewController: UITableViewController {
             title = "Edit Name"
             self.emojiTextField.text = emoji.emoji
             self.descriptionTextField.text = emoji.description
+            self.favoriteSwitch.isOn = emoji.isFavorite
         } else {
             title = "Add Name"
             self.emojiTextField.placeholder = "Enter an Emoji"
             self.descriptionTextField.placeholder = "Enter an Emoji Description"
+            self.favoriteSwitch.isOn = false
         }
         
-        // TextField Alignments in TableViewCell
+        // TextField and Switch Alignments in TableViewCell
         NSLayoutConstraint.activate([
             self.emojiTextField.leadingAnchor.constraint(equalTo: self.emojiCell.leadingAnchor, constant: 20),
             self.emojiTextField.trailingAnchor.constraint(equalTo: self.emojiCell.trailingAnchor, constant: -20),
@@ -163,6 +165,7 @@ extension EditorViewController {
 
             emoji.emoji = emojiText
             emoji.description = descriptionText
+            emoji.isFavorite = favoriteSwitch.isOn
             
             let index = Emoji.sampleEmojis.indexOfEmoji(with: emoji.id)
             Emoji.sampleEmojis[index] = emoji

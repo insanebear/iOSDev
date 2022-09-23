@@ -27,10 +27,10 @@ extension Array where Element == Emoji {
 extension Emoji {
     static var sampleEmojis: [Emoji] = [
         Emoji(emoji: "🤔", description: "Hmm", isFavorite: false),
-        Emoji(emoji: "🎉", description: "Tada", isFavorite: false),
+        Emoji(emoji: "🎉", description: "Tada", isFavorite: true),
         Emoji(emoji: "🙇‍♂️", description: "Bow", isFavorite: false),
         Emoji(emoji: "🐈", description: "Cat", isFavorite: false),
-        Emoji(emoji: "😄", description: "Smile", isFavorite: false),
+        Emoji(emoji: "😄", description: "Smile", isFavorite: true),
         Emoji(emoji: "😉", description: "Wink", isFavorite: false),
         Emoji(emoji: "👻", description: "Ghost", isFavorite: false),
         Emoji(emoji: "👑", description: "Crown", isFavorite: false),
