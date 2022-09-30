@@ -180,7 +180,7 @@ extension EditorViewController {
     @objc func didSaveTapped(_ sender: UIBarButtonItem) {
         if let emojiText = emojiTextField.text,
            let descriptionText = descriptionTextField.text {
-            let newEmoji = Emoji(emoji: emojiText, description: descriptionText, isFavorite: favoriteSwitch.isOn)
+            let newEmoji = Emoji(emoji: emojiText, description: descriptionText, isFavorite: favoriteSwitch.isOn, icon: "c.circle.fill")
             Emoji.sampleEmojis.append(newEmoji)
             print(newEmoji)
         }

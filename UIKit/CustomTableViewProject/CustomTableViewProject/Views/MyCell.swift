@@ -17,11 +17,15 @@ class MyCell: UITableViewCell {
 
     var emoji: Emoji? {
         didSet {
-            customView.titleLabel.text = emoji?.emoji
-            customView.descriptionLabel.text = emoji?.description
-            extraInfoView.label.text = emoji?.emoji
             if let emoji = emoji {
                 accessoryView?.isHidden = emoji.isFavorite ? false : true
+                
+                customView.titleLabel.text = emoji.emoji
+                customView.descriptionLabel.text = emoji.description
+                extraInfoView.label.text = emoji.emoji
+
+                let icon = UIImage(systemName: emoji.icon)
+                cellLeadingView.iconView.image = icon
             }
         }
     }
@@ -65,9 +69,7 @@ class MyCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure (num: Int, emoji: Emoji) {
-        cellLeadingView.numberLabel.text = String(num)
-
+    public func configure(emoji: Emoji) {
         self.emoji = emoji
     }
     

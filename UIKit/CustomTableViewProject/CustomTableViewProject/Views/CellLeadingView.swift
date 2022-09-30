@@ -9,24 +9,23 @@ import UIKit
 
 class CellLeadingView: UIView {
     
-    var numberLabel: UILabel!
-    let offset: CGFloat = 10
+//    var numberLabel: UILabel!
+    var iconView: UIImageView!
+    let offset: CGFloat = -0.25
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.black.withAlphaComponent(0)
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        numberLabel = UILabel()
-        numberLabel.textColor = .white
-        numberLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        numberLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.addSubview(numberLabel)
+        iconView = UIImageView()
+        iconView.tintColor = .white
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(iconView)
         
         NSLayoutConstraint.activate([
-            numberLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            numberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -offset)
+            iconView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: offset)
         ])
     }
     

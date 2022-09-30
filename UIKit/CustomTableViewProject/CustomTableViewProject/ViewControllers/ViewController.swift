@@ -35,7 +35,7 @@ class ViewController: UITableViewController {
         }
         let idx = indexPath.row
         let emoji = Emoji.sampleEmojis[idx]
-        cell.configure(num: idx+1, emoji: emoji)
+        cell.configure(emoji: emoji)
         cell.selectionStyle = .gray
         
         return cell
@@ -58,6 +58,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         100
     }
+    
     
 }
 

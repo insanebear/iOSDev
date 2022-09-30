@@ -13,6 +13,7 @@ struct Emoji: Equatable, Identifiable {
     var emoji: String
     var description: String
     var isFavorite: Bool
+    var icon: String
 }
 
 extension Array where Element == Emoji {
@@ -26,15 +27,15 @@ extension Array where Element == Emoji {
 
 extension Emoji {
     static var sampleEmojis: [Emoji] = [
-        Emoji(emoji: "🤔", description: "Hmm", isFavorite: false),
-        Emoji(emoji: "🎉", description: "Tada", isFavorite: true),
-        Emoji(emoji: "🙇‍♂️", description: "Bow", isFavorite: false),
-        Emoji(emoji: "🐈", description: "Cat", isFavorite: false),
-        Emoji(emoji: "😄", description: "Smile", isFavorite: true),
-        Emoji(emoji: "😉", description: "Wink", isFavorite: false),
-        Emoji(emoji: "👻", description: "Ghost", isFavorite: false),
-        Emoji(emoji: "👑", description: "Crown", isFavorite: false),
-        Emoji(emoji: "🎩", description: "Hat", isFavorite: false),
-        Emoji(emoji: "🧶", description: "Yarn", isFavorite: false),
+        Emoji(emoji: "🤔", description: "Hmm", isFavorite: false, icon: "face.smiling.fill"),
+        Emoji(emoji: "🎉", description: "Tada", isFavorite: true, icon: "f.circle.fill"),
+        Emoji(emoji: "🙇‍♂️", description: "Bow", isFavorite: false, icon: "face.smiling.fill"),
+        Emoji(emoji: "🐈", description: "Cat", isFavorite: false, icon: "a.circle.fill"),
+        Emoji(emoji: "😄", description: "Smile", isFavorite: true, icon: "face.smiling.fill"),
+        Emoji(emoji: "😉", description: "Wink", isFavorite: false, icon: "face.smiling.fill"),
+        Emoji(emoji: "👻", description: "Ghost", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "👑", description: "Crown", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "🎩", description: "Hat", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "🧶", description: "Yarn", isFavorite: false, icon: "v.circle.fill"),
     ]
 }
