@@ -33,8 +33,13 @@ class MyCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        // customViewGestureRecognizer
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(didViewTapped(_:)))
         customView.addGestureRecognizer(tapGestureReconizer)
+        
+        // cellLeadingView GestureRecognizer
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLeadingViewTapped(_:)))
+        cellLeadingView.iconView.addGestureRecognizer(tapGestureRecognizer)
 
         contentView.addSubview(cellLeadingView)
         contentView.addSubview(extraInfoView)
@@ -73,6 +78,22 @@ class MyCell: UITableViewCell {
         self.emoji = emoji
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        if editing {
+            let icon = UIImage(systemName: "x.circle.fill")
+            cellLeadingView.iconView.image = icon
+            cellLeadingView.iconView.tintColor = .red
+            cellLeadingView.iconView.isUserInteractionEnabled = true
+        } else {
+            if let emoji = emoji {
+                let icon = UIImage(systemName: emoji.icon)
+                cellLeadingView.iconView.image = icon
+                cellLeadingView.iconView.tintColor = .white
+                cellLeadingView.iconView.isUserInteractionEnabled = false
+            }
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.emoji = nil
@@ -87,12 +108,7 @@ class MyCell: UITableViewCell {
         var iconImage: UIImage!
         var newIconImageView: UIImageView!
         
-        if subview.description.contains("UITableViewCellEditControl") {
-            iconImage = UIImage(systemName: "x.circle.fill")
-            newIconImageView = UIImageView(image: iconImage)
-            
-            subview.addSubview(newIconImageView)
-        } else if subview.description.contains("UITableViewCellReorderControl") {
+        if subview.description.contains("UITableViewCellReorderControl") {
             iconImage = UIImage(systemName: "arrow.up.and.down")
             newIconImageView = UIImageView(image: iconImage)
             
@@ -133,6 +149,12 @@ extension MyCell {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         customView.backgroundColor = .none
+    }
+    
+    @objc func didLeadingViewTapped(_ sender: UITapGestureRecognizer) {
+        if let superView = self.superview as? UITableView {
+            superView.perform(Selector(("_swipeToDeleteCell:")), with: self)
+        }
     }
 }
 

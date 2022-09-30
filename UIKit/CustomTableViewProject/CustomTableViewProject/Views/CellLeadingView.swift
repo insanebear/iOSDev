@@ -9,7 +9,6 @@ import UIKit
 
 class CellLeadingView: UIView {
     
-//    var numberLabel: UILabel!
     var iconView: UIImageView!
     let offset: CGFloat = -0.25
     

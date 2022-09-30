@@ -37,5 +37,9 @@ extension Emoji {
         Emoji(emoji: "👑", description: "Crown", isFavorite: false, icon: "v.circle.fill"),
         Emoji(emoji: "🎩", description: "Hat", isFavorite: false, icon: "v.circle.fill"),
         Emoji(emoji: "🧶", description: "Yarn", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "⚾️", description: "Baseball", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "🥏", description: "Frisbee", isFavorite: false, icon: "v.circle.fill"),
+        Emoji(emoji: "🏉", description: "Rugbyball", isFavorite: true, icon: "v.circle.fill"),
+        Emoji(emoji: "🏐", description: "Volleyball", isFavorite: false, icon: "v.circle.fill"),
     ]
 }

@@ -36,7 +36,6 @@ class ViewController: UITableViewController {
         let idx = indexPath.row
         let emoji = Emoji.sampleEmojis[idx]
         cell.configure(emoji: emoji)
-        cell.selectionStyle = .gray
         
         return cell
     }
@@ -59,6 +58,9 @@ class ViewController: UITableViewController {
         100
     }
     
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
     
 }
 
