@@ -10,6 +10,7 @@ import UIKit
 class EditorViewController: UITableViewController {
     /// static table view
     var emoji: Emoji?
+    var index: Int = 0
     
     var emojiCell: UITableViewCell!
     var emojiTextField: UITextField!
@@ -44,6 +45,12 @@ class EditorViewController: UITableViewController {
         super.init(style: .grouped)
     }
     
+    init(index: Int) {
+        self.index = index + 1
+        self.isAddingNewEmoji = emoji == nil ? true : false
+        super.init(style: .grouped)
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -181,7 +188,8 @@ extension EditorViewController {
         if let emojiText = emojiTextField.text,
            let descriptionText = descriptionTextField.text {
             let newEmoji = Emoji(emoji: emojiText, description: descriptionText, isFavorite: favoriteSwitch.isOn, icon: "c.circle.fill")
-            Emoji.sampleEmojis.append(newEmoji)
+            
+            Emoji.sampleEmojis.insert(newEmoji, at: index)
             print(newEmoji)
         }
         

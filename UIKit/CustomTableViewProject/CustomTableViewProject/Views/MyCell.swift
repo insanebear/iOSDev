@@ -34,24 +34,31 @@ class MyCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         // customViewGestureRecognizer
-        let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(didViewTapped(_:)))
-        textViews.addGestureRecognizer(tapGestureReconizer)
+        let textViewsTapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(didViewTapped(_:)))
+        textViews.addGestureRecognizer(textViewsTapGestureReconizer)
         
         // cellLeadingView GestureRecognizer
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLeadingViewTapped(_:)))
-        cellLeadingView.iconView.addGestureRecognizer(tapGestureRecognizer)
-
+        let iconViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLeadingIconViewTapped(_:)))
+        cellLeadingView.iconView.addGestureRecognizer(iconViewTapGestureRecognizer)
+        
+        let addButtonTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLeadingAddButtonTapped(_:)))
+        cellLeadingView.addButton.addGestureRecognizer(addButtonTapGestureRecognizer)
+        
+        // add subviews
         contentView.addSubview(cellLeadingView)
         contentView.addSubview(extraInfoView)
         contentView.addSubview(textViews)
         
+        // accessory view
         let favoriteImage = UIImage(systemName: "star.fill")
         let favoriteImageView = UIImageView(image: favoriteImage)
         accessoryView = favoriteImageView
         accessoryView?.isHidden = true
         
+        // reorder control
         self.showsReorderControl = true
         
+        // autolayout alignments
         NSLayoutConstraint.activate([
             
             cellLeadingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -59,7 +66,7 @@ class MyCell: UITableViewCell {
             cellLeadingView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             cellLeadingView.widthAnchor.constraint(equalToConstant: 50),
             
-            extraInfoView.centerXAnchor.constraint(equalTo: cellLeadingView.centerXAnchor),
+            extraInfoView.leadingAnchor.constraint(equalTo: cellLeadingView.leadingAnchor),
             extraInfoView.bottomAnchor.constraint(equalTo: cellLeadingView.bottomAnchor, constant: -15),
             extraInfoView.widthAnchor.constraint(equalToConstant: 10),
             extraInfoView.heightAnchor.constraint(equalToConstant: 10),
@@ -86,12 +93,14 @@ class MyCell: UITableViewCell {
             cellLeadingView.iconView.image = icon
             cellLeadingView.iconView.tintColor = .red
             cellLeadingView.iconView.isUserInteractionEnabled = true
+            cellLeadingView.addButton.isHidden = false
         } else {
             if let emoji = emoji {
                 let icon = UIImage(systemName: emoji.icon)
                 cellLeadingView.iconView.image = icon
                 cellLeadingView.iconView.tintColor = .white
                 cellLeadingView.iconView.isUserInteractionEnabled = false
+                cellLeadingView.addButton.isHidden = true
             }
         }
     }
@@ -137,6 +146,25 @@ extension MyCell {
         }
     }
     
+    @objc func didLeadingAddButtonTapped(_ sender: UITapGestureRecognizer) {
+        if let emoji = emoji {
+            let index = Emoji.sampleEmojis.indexOfEmoji(with: emoji.id)
+            let editorVC = EditorViewController(index: index)
+            let navVC = UINavigationController(rootViewController: editorVC)
+            
+            // modal presentation for a navigation view controller
+            if let parentVC = self.parentViewController {
+                parentVC.present(navVC, animated: true)
+            }
+        }
+    }
+    
+    @objc func didLeadingIconViewTapped(_ sender: UITapGestureRecognizer) {
+        if let superView = self.superview as? UITableView {
+            superView.perform(Selector(("_swipeToDeleteCell:")), with: self)
+        }
+    }
+    
     // FIXME: background color only works for long touches.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -151,12 +179,6 @@ extension MyCell {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         textViews.backgroundColor = .none
-    }
-    
-    @objc func didLeadingViewTapped(_ sender: UITapGestureRecognizer) {
-        if let superView = self.superview as? UITableView {
-            superView.perform(Selector(("_swipeToDeleteCell:")), with: self)
-        }
     }
 }
 

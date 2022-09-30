@@ -12,9 +12,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEmoji(_:)))
-        navigationItem.rightBarButtonItems = [addButtonItem, editButtonItem]
-        
+        navigationItem.rightBarButtonItem = editButtonItem
+
         tableView.register(MyCell.self, forCellReuseIdentifier: "\(MyCell.self)")
         tableView.separatorStyle = .none
         tableView.allowsSelection = false // to use a custom selecting action
@@ -65,14 +64,6 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController {
-    
-    @objc func addEmoji(_ sender: UIBarButtonItem) {
-        let editorVC = EditorViewController(emoji: nil)
-        let navVC = UINavigationController(rootViewController: editorVC)
-
-        // modal presentation for a navigation view controller
-        present(navVC, animated: true)
-    }
     
     @objc func didDismissEditorViewController(_ notification: Notification) {
         DispatchQueue.main.async {

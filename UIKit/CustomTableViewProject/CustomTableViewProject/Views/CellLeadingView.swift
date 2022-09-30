@@ -10,6 +10,7 @@ import UIKit
 class CellLeadingView: UIView {
     
     var iconView: UIImageView!
+    var addButton: UIButton!
     let offset: CGFloat = -0.25
     
     override init(frame: CGRect) {
@@ -17,14 +18,28 @@ class CellLeadingView: UIView {
         self.backgroundColor = UIColor.black.withAlphaComponent(0)
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        // icon view
         iconView = UIImageView()
         iconView.tintColor = .white
         iconView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(iconView)
         
+        // add button
+        let plusIcon = UIImage(systemName: "plus.circle.fill")
+        
+        addButton = UIButton()
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.isHidden = true
+        addButton.setImage(plusIcon, for: .normal)
+        addButton.tintColor = .green
+        self.addSubview(addButton)
+        
+        // alignment
         NSLayoutConstraint.activate([
             iconView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: offset)
+            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: offset),
+            addButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            addButton.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 10)
         ])
     }
     
