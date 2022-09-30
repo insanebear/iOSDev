@@ -13,15 +13,15 @@ class MyCell: UITableViewCell {
     
     private let cellLeadingView = CellLeadingView()
     private let extraInfoView = ExtraInfoView()
-    private let customView = CustomView()
+    private let textViews = TextViews()
 
     var emoji: Emoji? {
         didSet {
             if let emoji = emoji {
                 accessoryView?.isHidden = emoji.isFavorite ? false : true
                 
-                customView.titleLabel.text = emoji.emoji
-                customView.descriptionLabel.text = emoji.description
+                textViews.titleLabel.text = emoji.emoji
+                textViews.descriptionLabel.text = emoji.description
                 extraInfoView.label.text = emoji.emoji
 
                 let icon = UIImage(systemName: emoji.icon)
@@ -35,7 +35,7 @@ class MyCell: UITableViewCell {
         
         // customViewGestureRecognizer
         let tapGestureReconizer = UITapGestureRecognizer(target: self, action: #selector(didViewTapped(_:)))
-        customView.addGestureRecognizer(tapGestureReconizer)
+        textViews.addGestureRecognizer(tapGestureReconizer)
         
         // cellLeadingView GestureRecognizer
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didLeadingViewTapped(_:)))
@@ -43,7 +43,7 @@ class MyCell: UITableViewCell {
 
         contentView.addSubview(cellLeadingView)
         contentView.addSubview(extraInfoView)
-        contentView.addSubview(customView)
+        contentView.addSubview(textViews)
         
         let favoriteImage = UIImage(systemName: "star.fill")
         let favoriteImageView = UIImageView(image: favoriteImage)
@@ -60,13 +60,15 @@ class MyCell: UITableViewCell {
             cellLeadingView.widthAnchor.constraint(equalToConstant: 50),
             
             extraInfoView.centerXAnchor.constraint(equalTo: cellLeadingView.centerXAnchor),
-            extraInfoView.topAnchor.constraint(equalTo: cellLeadingView.bottomAnchor, constant: -20),
+            extraInfoView.bottomAnchor.constraint(equalTo: cellLeadingView.bottomAnchor, constant: -15),
+            extraInfoView.widthAnchor.constraint(equalToConstant: 10),
+            extraInfoView.heightAnchor.constraint(equalToConstant: 10),
 
-            customView.leadingAnchor.constraint(equalTo: cellLeadingView.trailingAnchor, constant: 30),
-            customView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            customView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            customView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            customView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            textViews.leadingAnchor.constraint(equalTo: cellLeadingView.trailingAnchor, constant: 30),
+            textViews.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            textViews.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            textViews.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            textViews.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
         ])
     }
     
@@ -138,17 +140,17 @@ extension MyCell {
     // FIXME: background color only works for long touches.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        customView.backgroundColor = .lightGray
+        textViews.backgroundColor = .lightGray
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        customView.backgroundColor = .none
+        textViews.backgroundColor = .none
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
-        customView.backgroundColor = .none
+        textViews.backgroundColor = .none
     }
     
     @objc func didLeadingViewTapped(_ sender: UITapGestureRecognizer) {
@@ -170,57 +172,4 @@ extension UIView {
         }
         return nil
     }
-}
-
-class CustomView: UIView {
-    var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textAlignment = .left
-        
-        return label
-    } ()
-    
-    var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textAlignment = .left
-        
-        return label
-    } ()
-    
-    var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layer.cornerRadius = 20
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightGray.cgColor
-
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.isUserInteractionEnabled = true
-
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(descriptionLabel)
-        
-        self.addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            stackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
 }
