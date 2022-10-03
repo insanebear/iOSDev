@@ -163,6 +163,7 @@ extension EditorViewController {
         doneButton.isEnabled = !emojiText.isEmpty && !descriptionText.isEmpty
     }
     
+    /// Update Emoji Information
     @objc func didDoneTapped(_ sender: UIBarButtonItem) {
         if let emojiText = emojiTextField.text,
            let descriptionText = descriptionTextField.text {
@@ -174,8 +175,7 @@ extension EditorViewController {
             emoji.description = descriptionText
             emoji.isFavorite = favoriteSwitch.isOn
             
-            let index = Emoji.sampleEmojis.indexOfEmoji(with: emoji.id)
-            Emoji.sampleEmojis[index] = emoji
+            Emoji.update(emoji: emoji)
         }
 
         dismiss(animated: true) {
@@ -184,13 +184,13 @@ extension EditorViewController {
         }
     }
     
+    /// Insert a New Emoji
     @objc func didSaveTapped(_ sender: UIBarButtonItem) {
         if let emojiText = emojiTextField.text,
            let descriptionText = descriptionTextField.text {
             let newEmoji = Emoji(emoji: emojiText, description: descriptionText, isFavorite: favoriteSwitch.isOn, icon: "c.circle.fill")
             
-            Emoji.sampleEmojis.insert(newEmoji, at: index)
-            print(newEmoji)
+            Emoji.insert(newEmoji, at: index)
         }
         
         dismiss(animated: true) {

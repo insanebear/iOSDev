@@ -148,7 +148,7 @@ extension MyCell {
     
     @objc func didLeadingAddButtonTapped(_ sender: UITapGestureRecognizer) {
         if let emoji = emoji {
-            let index = Emoji.sampleEmojis.indexOfEmoji(with: emoji.id)
+            let index = Emoji.emojis.indexOfEmoji(with: emoji.id)
             let editorVC = EditorViewController(index: index)
             let navVC = UINavigationController(rootViewController: editorVC)
             

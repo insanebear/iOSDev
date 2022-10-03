@@ -8,13 +8,18 @@
 import UIKit
 
 class ViewController: UITableViewController {
+    var dataSource: EmojiDataSource!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = editButtonItem
 
-        tableView.register(MyCell.self, forCellReuseIdentifier: "\(MyCell.self)")
+        // datasource and snapshot
+        configureDataSource()
+        dataSource.update()
+        tableView.dataSource = dataSource
+        
         tableView.separatorStyle = .none
         tableView.allowsSelection = false // to use a custom selecting action
         
@@ -24,31 +29,19 @@ class ViewController: UITableViewController {
 
     // MARK: - DataSource
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Emoji.sampleEmojis.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(MyCell.self)", for: indexPath) as? MyCell else {
-            return UITableViewCell()
-        }
-        let idx = indexPath.row
-        let emoji = Emoji.sampleEmojis[idx]
-        cell.configure(emoji: emoji)
+    func configureDataSource() {
+        // register a cell
+        tableView.register(MyCell.self, forCellReuseIdentifier: "\(MyCell.self)")
         
-        return cell
-    }
+        // set a diffable datasource
+        dataSource = EmojiDataSource(tableView: self.tableView, cellProvider: { tableView, indexPath, itemIdentifier in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(MyCell.self)", for: indexPath) as? MyCell else {
+                return UITableViewCell()
+            }
+            cell.configure(emoji: itemIdentifier)
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            Emoji.sampleEmojis.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movingEmoji = Emoji.sampleEmojis.remove(at: sourceIndexPath.row)
-        Emoji.sampleEmojis.insert(movingEmoji, at: destinationIndexPath.row)
+            return cell
+        })
     }
     
     // MARK: - Delegate
@@ -60,7 +53,6 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
-    
 }
 
 extension ViewController {
@@ -68,7 +60,8 @@ extension ViewController {
     @objc func didDismissEditorViewController(_ notification: Notification) {
         DispatchQueue.main.async {
             // reload data after the editor closed
-            self.tableView.reloadData()
+            guard let dataSource = self.tableView.dataSource as? EmojiDataSource else { return }
+            dataSource.update(animatingDifferences: false)
         }
     }
 }

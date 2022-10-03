@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Emoji: Equatable, Identifiable {
+struct Emoji: Equatable, Identifiable, Hashable {
     var id: String = UUID().uuidString
     
     var emoji: String
@@ -26,7 +26,7 @@ extension Array where Element == Emoji {
 }
 
 extension Emoji {
-    static var sampleEmojis: [Emoji] = [
+    static var emojis: [Emoji] = [
         Emoji(emoji: "🤔", description: "Hmm", isFavorite: false, icon: "face.smiling.fill"),
         Emoji(emoji: "🎉", description: "Tada", isFavorite: true, icon: "f.circle.fill"),
         Emoji(emoji: "🙇‍♂️", description: "Bow", isFavorite: false, icon: "face.smiling.fill"),
@@ -42,4 +42,24 @@ extension Emoji {
         Emoji(emoji: "🏉", description: "Rugbyball", isFavorite: true, icon: "v.circle.fill"),
         Emoji(emoji: "🏐", description: "Volleyball", isFavorite: false, icon: "v.circle.fill"),
     ]
+    
+    static func insert(_ emoji: Emoji, at index: Int) {
+        Emoji.emojis.insert(emoji, at: index)
+    }
+    
+    static func update(emoji: Emoji) {
+        let index = emojis.indexOfEmoji(with: emoji.id)
+        emojis[index] = emoji
+    }
+    
+    static func remove(emoji: Emoji) {
+        let index = emojis.indexOfEmoji(with: emoji.id)
+        emojis.remove(at: index)
+    }
+    
+    static func reorder(emojiToMove: Emoji, emojiAtDestination: Emoji) {
+        let destinationIndex = emojis.firstIndex(of: emojiAtDestination) ?? 0
+        emojis.removeAll(where: {$0.id == emojiToMove.id})
+        emojis.insert(emojiToMove, at: destinationIndex)
+    }
 }
