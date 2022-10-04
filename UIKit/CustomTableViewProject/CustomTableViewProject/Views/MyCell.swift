@@ -55,9 +55,6 @@ class MyCell: UITableViewCell {
         accessoryView = favoriteImageView
         accessoryView?.isHidden = true
         
-        // reorder control
-        self.showsReorderControl = true
-        
         // autolayout alignments
         NSLayoutConstraint.activate([
             
@@ -112,7 +109,6 @@ class MyCell: UITableViewCell {
     
     override func didAddSubview(_ subview: UIView) {
         /// To apply custom edit control and reorder control icons
-        // FIXME: To display all cases (not working for hidden cells at first)
         if let originalIcon = subview.subviews.first as? UIImageView {
             originalIcon.removeFromSuperview()
         }
@@ -127,8 +123,19 @@ class MyCell: UITableViewCell {
             let iconSize = CGSize(width: subviewWidth, height: subviewWidth)
             let origin = CGPoint(x: 0, y: self.frame.height/2 - iconSize.height/2)
             newIconImageView.frame = CGRect(origin: origin, size: iconSize)
+            newIconImageView.translatesAutoresizingMaskIntoConstraints = false
             
             subview.addSubview(newIconImageView)
+            
+            NSLayoutConstraint.activate([
+                newIconImageView.centerXAnchor.constraint(equalTo: subview.centerXAnchor),
+                newIconImageView.centerYAnchor.constraint(equalTo: subview.centerYAnchor),
+            ])
+        }
+        
+        /// To hide unexpectedly appearing separator
+        if subview.description.contains("_UITableViewCellVerticalSeparator") {
+            subview.isHidden = true
         }
     }
 }
