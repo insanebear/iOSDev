@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B6C42E529022BFB00867000 /* SyncTabTableViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6C42E429022BFB00867000 /* SyncTabTableViewController+Layout.swift */; };
 		7B6D2C9828ED32900098CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2C9728ED32900098CA8E /* AppDelegate.swift */; };
 		7B6D2C9A28ED32900098CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2C9928ED32900098CA8E /* SceneDelegate.swift */; };
 		7B6D2C9C28ED32900098CA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2C9B28ED32900098CA8E /* ViewController.swift */; };
@@ -16,9 +17,14 @@
 		7B6D2CAC28ED33030098CA8E /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CAB28ED33030098CA8E /* TableViewController.swift */; };
 		7B6D2CAF28ED3A170098CA8E /* StretchyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CAE28ED3A170098CA8E /* StretchyHeaderView.swift */; };
 		7B6D2CB228ED3ED70098CA8E /* TableViewController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CB128ED3ED70098CA8E /* TableViewController+DataSource.swift */; };
+		7B6D2CD928EDB2380098CA8E /* SyncTabTableViewController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CD828EDB2380098CA8E /* SyncTabTableViewController+DataSource.swift */; };
+		7B6D2CDC28EDB5BB0098CA8E /* SyncTabCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CDB28EDB5BB0098CA8E /* SyncTabCollectionViewController.swift */; };
+		7B6D2CDE28EDB6620098CA8E /* StretchHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6D2CDD28EDB6620098CA8E /* StretchHeaderReusableView.swift */; };
+		7BD2DFE02903C3AC00B762A9 /* SyncTabCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD2DFDF2903C3AC00B762A9 /* SyncTabCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B6C42E429022BFB00867000 /* SyncTabTableViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncTabTableViewController+Layout.swift"; sourceTree = "<group>"; };
 		7B6D2C9428ED32900098CA8E /* SyncTabCollectionViewProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SyncTabCollectionViewProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6D2C9728ED32900098CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6D2C9928ED32900098CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -30,6 +36,10 @@
 		7B6D2CAB28ED33030098CA8E /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7B6D2CAE28ED3A170098CA8E /* StretchyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeaderView.swift; sourceTree = "<group>"; };
 		7B6D2CB128ED3ED70098CA8E /* TableViewController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableViewController+DataSource.swift"; sourceTree = "<group>"; };
+		7B6D2CD828EDB2380098CA8E /* SyncTabTableViewController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncTabTableViewController+DataSource.swift"; sourceTree = "<group>"; };
+		7B6D2CDB28EDB5BB0098CA8E /* SyncTabCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTabCollectionViewController.swift; sourceTree = "<group>"; };
+		7B6D2CDD28EDB6620098CA8E /* StretchHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchHeaderReusableView.swift; sourceTree = "<group>"; };
+		7BD2DFDF2903C3AC00B762A9 /* SyncTabCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncTabCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				7B6D2C9B28ED32900098CA8E /* ViewController.swift */,
-				7B6D2CAB28ED33030098CA8E /* TableViewController.swift */,
-				7B6D2CB128ED3ED70098CA8E /* TableViewController+DataSource.swift */,
+				7B6D2CD528ED8DA60098CA8E /* StretchyHeaderTableView */,
+				7B6D2CDA28EDB5770098CA8E /* SyncTabCollectionView */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -88,8 +98,29 @@
 			isa = PBXGroup;
 			children = (
 				7B6D2CAE28ED3A170098CA8E /* StretchyHeaderView.swift */,
+				7B6D2CDD28EDB6620098CA8E /* StretchHeaderReusableView.swift */,
+				7BD2DFDF2903C3AC00B762A9 /* SyncTabCollectionView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7B6D2CD528ED8DA60098CA8E /* StretchyHeaderTableView */ = {
+			isa = PBXGroup;
+			children = (
+				7B6D2CAB28ED33030098CA8E /* TableViewController.swift */,
+				7B6D2CB128ED3ED70098CA8E /* TableViewController+DataSource.swift */,
+			);
+			path = StretchyHeaderTableView;
+			sourceTree = "<group>";
+		};
+		7B6D2CDA28EDB5770098CA8E /* SyncTabCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				7B6D2CDB28EDB5BB0098CA8E /* SyncTabCollectionViewController.swift */,
+				7B6D2CD828EDB2380098CA8E /* SyncTabTableViewController+DataSource.swift */,
+				7B6C42E429022BFB00867000 /* SyncTabTableViewController+Layout.swift */,
+			);
+			path = SyncTabCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,12 +194,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6C42E529022BFB00867000 /* SyncTabTableViewController+Layout.swift in Sources */,
 				7B6D2CB228ED3ED70098CA8E /* TableViewController+DataSource.swift in Sources */,
+				7B6D2CDC28EDB5BB0098CA8E /* SyncTabCollectionViewController.swift in Sources */,
 				7B6D2CAF28ED3A170098CA8E /* StretchyHeaderView.swift in Sources */,
 				7B6D2C9C28ED32900098CA8E /* ViewController.swift in Sources */,
 				7B6D2C9828ED32900098CA8E /* AppDelegate.swift in Sources */,
 				7B6D2C9A28ED32900098CA8E /* SceneDelegate.swift in Sources */,
 				7B6D2CAC28ED33030098CA8E /* TableViewController.swift in Sources */,
+				7B6D2CD928EDB2380098CA8E /* SyncTabTableViewController+DataSource.swift in Sources */,
+				7BD2DFE02903C3AC00B762A9 /* SyncTabCollectionView.swift in Sources */,
+				7B6D2CDE28EDB6620098CA8E /* StretchHeaderReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

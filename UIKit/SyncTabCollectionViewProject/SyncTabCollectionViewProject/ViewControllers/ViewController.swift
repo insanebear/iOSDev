@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UITableViewController {
     let items: [ExampleItems] = [
         ExampleItems(name: "Table View with Stretchy Header", destination: TableViewController()),
+        ExampleItems(name: "Sync Tab Collection View", destination: SyncTabCollectionViewController()),
     ]
     
     override func viewDidLoad() {
