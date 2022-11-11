@@ -13,6 +13,7 @@
 		7BAB76FA291E20B00038A69D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAB76F8291E20B00038A69D /* Main.storyboard */; };
 		7BAB76FC291E20B10038A69D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BAB76FB291E20B10038A69D /* Assets.xcassets */; };
 		7BAB76FF291E20B10038A69D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BAB76FD291E20B10038A69D /* LaunchScreen.storyboard */; };
+		7BAB7707291E5C250038A69D /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAB7706291E5C250038A69D /* Alerts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		7BAB76FB291E20B10038A69D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7BAB76FE291E20B10038A69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7BAB7700291E20B10038A69D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7BAB7706291E5C250038A69D /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				7BAB76F2291E20B00038A69D /* AppDelegate.swift */,
 				7BAB76F4291E20B00038A69D /* SceneDelegate.swift */,
 				7BAB76F6291E20B00038A69D /* ViewController.swift */,
+				7BAB7706291E5C250038A69D /* Alerts.swift */,
 				7BAB76F8291E20B00038A69D /* Main.storyboard */,
 				7BAB76FB291E20B10038A69D /* Assets.xcassets */,
 				7BAB76FD291E20B10038A69D /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				7BAB76F7291E20B00038A69D /* ViewController.swift in Sources */,
 				7BAB76F3291E20B00038A69D /* AppDelegate.swift in Sources */,
+				7BAB7707291E5C250038A69D /* Alerts.swift in Sources */,
 				7BAB76F5291E20B00038A69D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
