@@ -11,7 +11,8 @@ class ViewController: UITableViewController {
     
     let items: [ExampleItems] = [
         ExampleItems(name: "Time Based Notification", destination: TimeBasedNotificationViewController()),
-        ExampleItems(name: "Location Based Notification", destination: LocationBasedNotificationViewController()),
+        ExampleItems(name: "Location Based Notification w/ Map Update", destination: LocationBasedNotificationViewController()),
+        ExampleItems(name: "Location Based Notification", destination: OnlyLocationNotificationViewController()),
     ]
     
     override func viewDidLoad() {

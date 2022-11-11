@@ -13,6 +13,10 @@
 		7B11709D291CECB200725558 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B11709C291CECB200725558 /* ViewController.swift */; };
 		7B11709F291CED4D00725558 /* TimeBasedNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B11709E291CED4D00725558 /* TimeBasedNotificationViewController.swift */; };
 		7B1170A3291CF24F00725558 /* TimeBasedNotificationViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1170A2291CF24F00725558 /* TimeBasedNotificationViewController+Views.swift */; };
+		7BBBBDBE291DF179006332F1 /* OnlyLocationNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBDBD291DF179006332F1 /* OnlyLocationNotificationViewController.swift */; };
+		7BBBBDC0291DF347006332F1 /* OnlyLocationNotificationViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBDBF291DF347006332F1 /* OnlyLocationNotificationViewController+Views.swift */; };
+		7BBBBDC2291DF35F006332F1 /* OnlyLocationNotificationViewController+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBDC1291DF35F006332F1 /* OnlyLocationNotificationViewController+Map.swift */; };
+		7BBBBDC4291DF36A006332F1 /* OnlyLocationNotificationViewController+Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBDC3291DF36A006332F1 /* OnlyLocationNotificationViewController+Noti.swift */; };
 		7BDAB9BF291B81A300EF6CCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDAB9BE291B81A300EF6CCD /* AppDelegate.swift */; };
 		7BDAB9C1291B81A300EF6CCD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDAB9C0291B81A300EF6CCD /* SceneDelegate.swift */; };
 		7BDAB9C3291B81A300EF6CCD /* LocationBasedNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDAB9C2291B81A300EF6CCD /* LocationBasedNotificationViewController.swift */; };
@@ -30,6 +34,10 @@
 		7B11709C291CECB200725558 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7B11709E291CED4D00725558 /* TimeBasedNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBasedNotificationViewController.swift; sourceTree = "<group>"; };
 		7B1170A2291CF24F00725558 /* TimeBasedNotificationViewController+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeBasedNotificationViewController+Views.swift"; sourceTree = "<group>"; };
+		7BBBBDBD291DF179006332F1 /* OnlyLocationNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlyLocationNotificationViewController.swift; sourceTree = "<group>"; };
+		7BBBBDBF291DF347006332F1 /* OnlyLocationNotificationViewController+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnlyLocationNotificationViewController+Views.swift"; sourceTree = "<group>"; };
+		7BBBBDC1291DF35F006332F1 /* OnlyLocationNotificationViewController+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnlyLocationNotificationViewController+Map.swift"; sourceTree = "<group>"; };
+		7BBBBDC3291DF36A006332F1 /* OnlyLocationNotificationViewController+Noti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnlyLocationNotificationViewController+Noti.swift"; sourceTree = "<group>"; };
 		7BDAB9BB291B81A300EF6CCD /* NotificationsProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotificationsProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BDAB9BE291B81A300EF6CCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BDAB9C0291B81A300EF6CCD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,10 +63,8 @@
 		7B1170A0291CEF8900725558 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				7BDAB9C2291B81A300EF6CCD /* LocationBasedNotificationViewController.swift */,
-				7B11709A291CE8BB00725558 /* LocationBasedNotificationViewController+Views.swift */,
-				7B117094291CAE8500725558 /* LocationBasedNotificationViewController+Map.swift */,
-				7B117092291CAE5A00725558 /* LocationBasedNotificationViewController+Noti.swift */,
+				7BBBBDBC291DF146006332F1 /* WithoutMapUpdate */,
+				7BBBBDBB291DF12F006332F1 /* WithMapUpdate */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -70,6 +76,28 @@
 				7B1170A2291CF24F00725558 /* TimeBasedNotificationViewController+Views.swift */,
 			);
 			path = Time;
+			sourceTree = "<group>";
+		};
+		7BBBBDBB291DF12F006332F1 /* WithMapUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				7BDAB9C2291B81A300EF6CCD /* LocationBasedNotificationViewController.swift */,
+				7B11709A291CE8BB00725558 /* LocationBasedNotificationViewController+Views.swift */,
+				7B117094291CAE8500725558 /* LocationBasedNotificationViewController+Map.swift */,
+				7B117092291CAE5A00725558 /* LocationBasedNotificationViewController+Noti.swift */,
+			);
+			path = WithMapUpdate;
+			sourceTree = "<group>";
+		};
+		7BBBBDBC291DF146006332F1 /* WithoutMapUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				7BBBBDBD291DF179006332F1 /* OnlyLocationNotificationViewController.swift */,
+				7BBBBDBF291DF347006332F1 /* OnlyLocationNotificationViewController+Views.swift */,
+				7BBBBDC1291DF35F006332F1 /* OnlyLocationNotificationViewController+Map.swift */,
+				7BBBBDC3291DF36A006332F1 /* OnlyLocationNotificationViewController+Noti.swift */,
+			);
+			path = WithoutMapUpdate;
 			sourceTree = "<group>";
 		};
 		7BDAB9B2291B81A300EF6CCD = {
@@ -178,13 +206,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBBBDC4291DF36A006332F1 /* OnlyLocationNotificationViewController+Noti.swift in Sources */,
 				7B11709F291CED4D00725558 /* TimeBasedNotificationViewController.swift in Sources */,
+				7BBBBDC0291DF347006332F1 /* OnlyLocationNotificationViewController+Views.swift in Sources */,
 				7B117095291CAE8500725558 /* LocationBasedNotificationViewController+Map.swift in Sources */,
 				7BDAB9C3291B81A300EF6CCD /* LocationBasedNotificationViewController.swift in Sources */,
 				7BDAB9BF291B81A300EF6CCD /* AppDelegate.swift in Sources */,
 				7BDAB9C1291B81A300EF6CCD /* SceneDelegate.swift in Sources */,
 				7B11709D291CECB200725558 /* ViewController.swift in Sources */,
+				7BBBBDBE291DF179006332F1 /* OnlyLocationNotificationViewController.swift in Sources */,
 				7B117093291CAE5A00725558 /* LocationBasedNotificationViewController+Noti.swift in Sources */,
+				7BBBBDC2291DF35F006332F1 /* OnlyLocationNotificationViewController+Map.swift in Sources */,
 				7B1170A3291CF24F00725558 /* TimeBasedNotificationViewController+Views.swift in Sources */,
 				7B11709B291CE8BB00725558 /* LocationBasedNotificationViewController+Views.swift in Sources */,
 			);
