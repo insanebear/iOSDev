@@ -19,33 +19,10 @@ extension LocationBasedNotificationViewController {
                 let region = CLCircularRegion(center: place, radius: 100, identifier: UUID().uuidString)
                 region.notifyOnEntry = true
                 locationManager.startMonitoring(for: region)
-
-                let content = UNMutableNotificationContent()
-                content.title = "Hello from NotificationsProject!"
-                content.body = "You've arrived in the destination region 😌"
-                content.sound = .default
                 
-                let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
-                createNotificationRequest(content: content, trigger: trigger)
+                createNotificationTrigger(region: region)
             }
         }
-    }
-    
-    func createNotificationRequest(content: UNMutableNotificationContent, trigger: UNLocationNotificationTrigger) {
-        let uuidString = UUID().uuidString
-        let request = UNNotificationRequest(identifier: uuidString,
-                                            content: content,
-                                            trigger: trigger)
-
-        // Schedule the request with the system.
-        notificationCenter.add(request) { (error) in
-           if error != nil {
-               // Handle any errors.
-               print("Error: \(String(describing: error))")
-           }
-        }
-        
-        checkPendingNotifications()
     }
 }
 
